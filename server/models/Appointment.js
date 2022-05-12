@@ -1,29 +1,41 @@
-import { Sequelize } from "sequelize";
-
 /**
  *
  * @param {*} sequelize
  * @param {*} DataTypes
+ * @param {*} Model
  * @return {Sequelize.Model}
  */
-export default function (sequelize, DataTypes) {
-  const Appointment = sequelize.define("Appointment", {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
-    },
-    date: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW,
-      allowNull: false,
-    },
-  });
+export default function (sequelize, DataTypes, Model) {
+  class Appointment extends Model {
+    static associate(models) {
+      this.belongsTo(models.Doctor);
+      this.belongsTo(models.Patient);
+    }
 
-  Appointment.associate = function (models) {
-    Appointment.belongsTo(models.Doctor);
-    Appointment.belongsTo(models.Patient);
-  };
+    toJSON() {
+      return { ...this.get(), id: undefined };
+    }
+  }
+
+  Appointment.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      date: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Appointment",
+      timestamps: false,
+    }
+  );
 
   return Appointment;
 }

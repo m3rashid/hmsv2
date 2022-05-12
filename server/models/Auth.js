@@ -1,17 +1,21 @@
-import { Sequelize } from "sequelize";
-
 /**
  *
- * @param {*} sequeliz
+ * @param {*} sequelize
  * @param {*} DataTypes
+ * @param {*} Model
  * @return {Sequelize.Model}
  */
+export default function (sequelize, DataTypes, Model) {
+  class Auth extends Model {
+    toJSON() {
+      return { ...this.get(), id: undefined };
+    }
+  }
 
-export default function (sequelize, DataTypes) {
-  const Auth = sequelize.define("Auth", {
+  Auth = sequelize.define("Auth", {
     id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },

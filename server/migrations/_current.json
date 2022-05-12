@@ -1,0 +1,364 @@
+{
+    "tables": {
+        "Auths": {
+            "tableName": "Auths",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "dob": {
+                    "allowNull": false,
+                    "field": "dob",
+                    "seqType": "Sequelize.DATE"
+                },
+                "email": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "role": {
+                    "defaultValue": {
+                        "value": "OTHER"
+                    },
+                    "allowNull": false,
+                    "field": "role",
+                    "seqType": "Sequelize.ENUM('DOCTOR', 'ADMIN', 'RECEPTIONIST', 'OTHER')"
+                },
+                "password": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "Medicines": {
+            "tableName": "Medicines",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "price": {
+                    "allowNull": false,
+                    "field": "price",
+                    "seqType": "Sequelize.DECIMAL"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "Appointments": {
+            "tableName": "Appointments",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "date": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.NOW"
+                    },
+                    "allowNull": false,
+                    "field": "date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "DoctorId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Doctors",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "DoctorId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "PatientId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Patients",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "PatientId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Doctors": {
+            "tableName": "Doctors",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "availability": {
+                    "allowNull": false,
+                    "field": "availability",
+                    "seqType": "Sequelize.STRING"
+                },
+                "age": {
+                    "allowNull": false,
+                    "field": "age",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "designation": {
+                    "allowNull": false,
+                    "field": "designation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "contact": {
+                    "allowNull": false,
+                    "field": "contact",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "address": {
+                    "allowNull": false,
+                    "field": "address",
+                    "seqType": "Sequelize.STRING"
+                },
+                "AuthId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Auths",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "AuthId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Patients": {
+            "tableName": "Patients",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "age": {
+                    "allowNull": false,
+                    "field": "age",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "lastVisit": {
+                    "allowNull": false,
+                    "field": "lastVisit",
+                    "seqType": "Sequelize.DATE"
+                },
+                "contact": {
+                    "allowNull": false,
+                    "field": "contact",
+                    "seqType": "Sequelize.STRING"
+                },
+                "address": {
+                    "allowNull": false,
+                    "field": "address",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "jamiaId": {
+                    "allowNull": false,
+                    "field": "jamiaId",
+                    "seqType": "Sequelize.STRING"
+                }
+            },
+            "indexes": []
+        },
+        "Prescriptions": {
+            "tableName": "Prescriptions",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "datePrescribed": {
+                    "allowNull": false,
+                    "field": "datePrescribed",
+                    "seqType": "Sequelize.DATE"
+                },
+                "dateExpiring": {
+                    "allowNull": false,
+                    "field": "dateExpiring",
+                    "seqType": "Sequelize.DATE"
+                },
+                "DoctorId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Doctors",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "DoctorId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "PatientId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Patients",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "PatientId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "MedicineId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Medicines",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "MedicineId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Receptionists": {
+            "tableName": "Receptionists",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "email": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "contact": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "contact",
+                    "seqType": "Sequelize.STRING"
+                },
+                "address": {
+                    "allowNull": false,
+                    "field": "address",
+                    "seqType": "Sequelize.STRING"
+                },
+                "AuthId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Auths",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "AuthId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "path": "/home/sarfraz/hmsv2/server/migrations/_current.json",
+    "backupPath": "/home/sarfraz/hmsv2/server/migrations/_current_bak.json",
+    "exists": true,
+    "revision": 4
+}

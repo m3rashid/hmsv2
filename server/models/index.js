@@ -1,48 +1,30 @@
-"use strict";
-import fs from "fs";
-import path from "path";
-import { Sequelize } from "sequelize";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import Sequelize from "sequelize";
+import Appointment from "./Appointment.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import Auth from "./Auth.js";
+import Doctor from "./Doctor.js";
+import Medicine from "./Medicine.js";
+import Patient from "./Patient.js";
+import Prescription from "./Prescription.js";
+import Receptionist from "./Receptionist.js";
 
-const basename = path.basename(__filename);
-let env = process.env.NODE_ENV || "development";
-const db = {};
+const sequelize = new Sequelize({
+  host: "localhost",
+  dialect: "mysql",
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
 
-env = env == "DEV" ? "development" : env;
-
-const config = JSON.parse(fs.readFileSync("./config/config.json"))[env];
-
-let sequelize;
-if (config?.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config?.database,
-    config?.username,
-    config?.password,
-    config
-  );
-}
-
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach(async (file) => {
-    const filePath = path.join(__dirname, file);
-
-    if (filePath.includes("index.js")) return;
-    console.log(filePath);
-    let model = await import(filePath);
-    model = model.default(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+const db = {
+  Auth: Auth(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Medicine: Medicine(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Appointment: Appointment(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Doctor: Doctor(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Patient: Patient(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Prescription: Prescription(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Receptionist: Receptionist(sequelize, Sequelize.DataTypes, Sequelize.Model),
+};
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
@@ -51,6 +33,5 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
 export default db;

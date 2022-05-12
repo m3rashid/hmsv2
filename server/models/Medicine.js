@@ -1,17 +1,20 @@
-import { Sequelize } from "sequelize";
-
 /**
  *
  * @param {*} sequelize
  * @param {*} DataTypes
-
+ * @param {*} Model
  * @return {Sequelize.Model}
  */
-export default function (sequelize, DataTypes) {
-  const Medicine = sequelize.define("Medicine", {
+export default function (sequelize, DataTypes, Model) {
+  class Medicine extends Model {
+    toJSON() {
+      return { ...this.get(), id: undefined };
+    }
+  }
+  Medicine = sequelize.define("Medicine", {
     id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     name: {

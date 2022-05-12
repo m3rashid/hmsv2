@@ -35,10 +35,6 @@ app.use("/api/auth", AuthRoutes);
     await db.sequelize.authenticate({
       logging: process.env.NODE_ENV !== "PROD",
     });
-    db.sequelize.sync({
-      alter: true,
-    });
-    // console.log(models.sequelize.models);
     console.log("Connection has been established successfully");
     app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
   } catch (err) {

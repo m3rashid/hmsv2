@@ -1,37 +1,45 @@
-import { Sequelize } from "sequelize";
-
 /**
  *
  * @param {*} sequelize
  * @param {*} DataTypes
+ * @param {*} Model
  * @return {Sequelize.Model}
  */
-export default function (sequelize, DataTypes) {
-  const Prescription = sequelize.define("Prescription", {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    datePrescribed: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    dateExpiring: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-  });
+export default function (sequelize, DataTypes, Model) {
+  class Prescription extends Model {
+    static associate(models) {
+      this.belongsTo(models.Doctor);
+      this.belongsTo(models.Patient);
+      this.belongsTo(models.Medicine);
+    }
+  }
 
-  Prescription.associate = function (models) {
-    Prescription.belongsTo(models.Patient);
-    Prescription.belongsTo(models.Doctor);
-    Prescription.hasMany(models.Medicine);
-  };
+  Prescription.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      datePrescribed: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      dateExpiring: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Prescription",
+      timestamps: false,
+    }
+  );
 
   return Prescription;
 }

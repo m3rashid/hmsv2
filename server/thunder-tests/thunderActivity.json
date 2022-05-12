@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "be48d312-5cee-4d72-a46e-ddbb817e2b33",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/signup",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-05-12T06:02:07.907Z",
+    "modified": "2022-05-12T06:03:31.246Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\" : \"receptionist\",\n    \"email\" : \"receptionist@jmi.ac.in\",\n    \"password\" : \"receptionist\",\n    \"role\" : \"RECEPTIONIST\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "2fbcdd39-48f8-4088-98b6-4b0eaae6802f",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/login",
+    "url": "http://localhost:5000/api/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-05-12T06:03:45.599Z",
+    "modified": "2022-05-12T06:04:26.591Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@jmi.ac.in\",\n    \"password\" : \"doctor\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

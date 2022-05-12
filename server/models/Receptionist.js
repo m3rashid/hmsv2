@@ -1,41 +1,55 @@
-import { Sequelize } from "sequelize";
 /**
  *
  * @param {*} sequelize
  * @param {*} DataTypes
+ * @param {*} Model
  * @return {Sequelize.Model}
  */
-export default function (sequelize, DataTypes) {
-  const Receptionist = sequelize.define("Receptionist", {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
-      allowNull: false,
+export default function (sequelize, DataTypes, Model) {
+  class Receptionist extends Model {
+    static associate(models) {
+      this.belongsTo(models.Auth);
+    }
+
+    toJSON() {
+      return { ...this.get(), id: undefined };
+    }
+  }
+
+  Receptionist.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      contact: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    contact: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });
-  Receptionist.associate = function (models) {
-    Receptionist.belongsTo(models.Auth);
-  };
+    {
+      sequelize,
+      modelName: "Receptionist",
+      timestamps: false,
+    }
+  );
 
   return Receptionist;
 }
