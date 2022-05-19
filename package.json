@@ -15,7 +15,13 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
+    "*.{js,jsx}": [
+      "eslint",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
   },
   "scripts": {
     "prepare": "husky install",
@@ -23,9 +29,11 @@
     "check:lint": "eslint . --ext .ts --ext .js",
     "format": "prettier --write .",
     "check:all": "yarn check:format && yarn check:lint && cd client && yarn build",
-    "dev" : "concurrently \"cd server && npm run dev\" \"cd client && npm start\""
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
+    "concurrently": "^7.2.0",
     "eslint": "^8.11.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",

@@ -1,11 +1,4 @@
+#!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo '🏗️👷 Styling, testing and building your project before committing'
-npm run format
-
-npm run check:lint || (
-  echo '😤🏀👋😤 ESLint Check Failed ! 😤🏀👋😤 \nMake the required changes listed above, add changes and try to commit again.'
-  false; 
-)
-echo 'Code looks good to me... Trying to build now'
-echo 'Good to commit now\n'
+yarn precommit
