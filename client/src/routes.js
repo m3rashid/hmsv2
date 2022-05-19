@@ -6,7 +6,6 @@ import Appointments from "./pages/appointments";
 import Admin from "./pages/admin";
 
 export const validateRoute = (Auth, route) => {
-  console.log(Auth);
   if (!Auth.isLoggedIn) {
     return false;
   }

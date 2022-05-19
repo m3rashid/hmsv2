@@ -1,15 +1,14 @@
-import db from "../models/index.js";
+import {
+  getDoctorAppointmentsService,
+  getDoctorPatientsService,
+} from "../services/doctor.js";
 
 export const getDoctorAppointments = async (req, res) => {
   try {
     if (!req.user || !req.user.id || req.user.role !== "DOCTOR")
       throw new Error("Unauthorized");
 
-    const appointments = await db.Doctor.findAll({
-      where: { id: req.user.id },
-      include: [{ model: db.Appointment, as: "Appointments" }],
-    });
-    console.log(appointments);
+    const { appointments } = await getDoctorAppointmentsService(req.user.id);
     return res.status(200).json({ appointments });
   } catch (err) {
     console.log(err);
@@ -24,9 +23,7 @@ export const getDoctorPatients = async (req, res) => {
     if (!req.user || !req.user.id || req.user.role !== "DOCTOR")
       throw new Error("Unauthorized");
 
-    const patients = await db.Patients.findAll({
-      where: {},
-    });
+    const { patients } = await getDoctorPatientsService(req.user.id);
     return res.status(200).json({ patients });
   } catch (err) {
     console.log(err);

@@ -8,7 +8,7 @@ import { Server } from "socket.io";
 import models from "./models/index.js";
 import AuthRoutes from "./routes/auth.routes.js";
 import DoctorRoutes from "./routes/doctor.routes.js";
-// import socketHandler from "./routes/index.js";
+import socketHandler from "./routes/sockets/index.js";
 import PatientRoutes from "./routes/patient.routes.js";
 
 // TODO add a production client here after deployment
@@ -27,16 +27,19 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
 io.on("connection", (socket) => socketHandler(io, socket));
 
 app.use(cors({ origin: corsOrigin, optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.send("Hello World"));
-app.use("/api/auth", AuthRoutes);
-app.use("/api/patient", PatientRoutes);
-app.use("/api/doctor", DoctorRoutes);
 
+if (process.env.NODE_ENV !== "production") {
+  app.use("/api/auth", AuthRoutes);
+  app.use("/api/patient", PatientRoutes);
+  app.use("/api/doctor", DoctorRoutes);
+}
 const startServer = async () => {
   try {
     await models.sequelize.authenticate({

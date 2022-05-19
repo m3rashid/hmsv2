@@ -6,14 +6,14 @@ import Home from "./modules/home";
 import Receptionists from "./modules/receptionists";
 import Doctors from "./modules/doctors";
 import Patients from "./modules/patients";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../atoms/auth";
 
 const Admin = () => {
   const [online, setOnline] = React.useState(true);
-  const user = {
-    name: "Super Admin",
-    email: "superadmin@gmail.com",
-    online: online,
-  };
+  const auth = useRecoilValue(authState);
+
+  const user = { ...auth.user, online };
 
   return (
     <div

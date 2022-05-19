@@ -11,13 +11,9 @@ import { useRecoilValue } from "recoil";
 const Doctor = () => {
   const [online, setOnline] = React.useState(true);
   const Auth = useRecoilValue(authState);
-  const user = Auth.user;
+  const user = { ...Auth.user, online };
   return (
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
+    <div style={{ padding: "20px" }}>
       <Header title="Doctor" subTitle="" user={user} />
       <Divider />
 

@@ -1,27 +1,9 @@
-import { v4 as uuidv4 } from "uuid";
-import db from "../models/index.js";
-import bcrypt from "bcrypt";
+import { createUserService } from "../services/createUser.js";
 
 export const createUser = async (req, res) => {
   try {
     const { email, password, role, name } = req.body;
-    if (!email || !password || !role || !name) {
-      throw new Error("No credentials");
-    }
-    const userId = uuidv4();
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await db.Auth.create({
-      id: userId,
-      name,
-      email,
-      password: hashedPassword,
-      role: role,
-    });
-
-    console.log("user created");
-    console.log(user);
-
-    console.log(JSON.stringify(user));
+    const { user } = await createUserService(email, password, role, name);
     return res.status(200).json({
       message: "User creation Successful",
       user,
@@ -29,7 +11,7 @@ export const createUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({
-      message: "Internal Server Error",
+      message: err.message || "Internal Server Error",
       error: err,
     });
   }

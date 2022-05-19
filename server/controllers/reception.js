@@ -1,5 +1,3 @@
-import { createPatientFromReception } from "../utils/chatConstants";
-
 export const createReception = (io, socket) => (patientData) => {
   console.log(patientData);
   //   first create the patient in the database

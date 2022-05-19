@@ -1,27 +1,25 @@
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { Menu, Typography, Divider, Layout } from "antd";
+
 import PageHeader from "../../components/Header";
-import { Checkbox, Menu, Typography, Divider, Layout } from "antd";
 import CreatePatientForm from "../../components/Reception/CreatePatientForm/CreatePatientForm";
 import CreateAppointmentForm from "../../components/Reception/CreateAppointmentForm/CreateAppointmentForm";
+import { authState } from "../../atoms/auth";
+
 const Reception = () => {
   const [online, setOnline] = useState(true);
   const [selectedMenu, setSelectedMenu] = useState("createPatient");
-  const user = {
-    name: "Receptionist",
-    email: "receptionist@gmail.com",
-    online: !online,
-  };
+  const auth = useRecoilValue(authState);
+
+  const user = { ...auth.user, online };
 
   const handleMenuChange = (e) => {
     setSelectedMenu(e.key);
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
+    <div style={{ padding: "20px" }}>
       <PageHeader title="Receptionist" subTitle="" user={user} />
       <Divider />
       <Typography.Title level={4}>Receptionist</Typography.Title>
