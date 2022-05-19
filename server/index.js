@@ -31,7 +31,10 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => socketHandler(io, socket));
+io.on("connection", (socket) => {
+  console.log("Socket connected:", socket.id);
+  return socketHandler(io, socket);
+});
 
 app.use(cors({ origin: corsOrigin, optionsSuccessStatus: 200 }));
 app.use(express.json());
