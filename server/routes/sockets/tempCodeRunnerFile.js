@@ -1,1 +1,1 @@
-disconnect-user
+disconnect - user;

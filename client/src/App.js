@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./styles/theme.less";
 import AppLayout from "./components/Layout/AppLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes, { validateRoute } from "./routes";
 import { useRecoilState } from "recoil";
 import { authState } from "./atoms/auth";
-import { useQuery } from "react-query";
 import { revalidateJWT } from "./api/auth/revalidateJWT";
 import Loading from "./components/Loading/Loading";
 import Home from "./pages/home";
 import UnAuthPage from "./pages/unAuthenticated";
+import { socket } from "./api/socket";
+export const SocketContext = React.createContext();
 
 function App() {
   const [Auth, setAuth] = useRecoilState(authState);
-
-  const { isLoading } = useQuery(["revalidate", setAuth], () =>
+  const [isLoading, setisLoading] = useState(true);
+  const revalidate = useCallback(() => {
     revalidateJWT(setAuth)
-  );
+      .then((res) => {
+        console.log(res);
+        socket.connect();
+      })
+      .finally(() => {
+        setisLoading(false);
+      });
+  }, [setAuth]);
+
+  useEffect(() => {
+    revalidate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
     return <Loading text="App is Loading.." />;

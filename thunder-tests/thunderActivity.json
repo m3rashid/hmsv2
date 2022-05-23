@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "e5729b3f-326d-4b7e-acc8-a363eacc338e",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/signup",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-19T12:28:21.356Z",
+    "modified": "2022-05-19T12:28:25.635Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"doctor\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "35eac2b4-1e63-4c66-9b08-7efcece7187b",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/signup",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-05-19T12:28:28.157Z",
+    "modified": "2022-05-19T12:28:46.524Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"receptionist@gmail.com\",\n    \"password\" : \"receptionist\",\n    \"role\" : \"RECEPTIONIST\",\n    \"name\" : \"receptionist\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

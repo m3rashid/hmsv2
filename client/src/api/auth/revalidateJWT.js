@@ -1,24 +1,30 @@
-import { authDefaultState } from "../../atoms/auth";
 import { instance } from "../instance";
 
-export const revalidateJWT = async (setAuth) => {
+export const revalidateJWT = async (setAuth, setSocket) => {
   const token = localStorage.getItem("refresh_token");
 
-  if (!token) return;
-  const { data } = await instance.post(
-    "/auth/revalidate",
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  try {
+    if (!token) throw Error("No token found");
 
-  console.log(data);
-  setAuth({
-    isLoggedIn: true,
-    user: data.user,
-    token: data.token,
-  });
+    const { data } = await instance.post(
+      "/auth/revalidate",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(data);
+    setAuth({
+      isLoggedIn: true,
+      user: data.user,
+      token: data.token,
+    });
+
+    return data;
+  } catch (err) {
+    throw Error(err);
+  }
 };

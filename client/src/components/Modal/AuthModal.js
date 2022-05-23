@@ -4,6 +4,7 @@ import { Modal, Button, Input, Form, message } from "antd";
 
 import { authState } from "../../atoms/auth";
 import { instance } from "../../api/instance";
+import { socket } from "../../api/socket";
 
 function AuthModal({ handleCancel, isModalVisible, handleOk }) {
   const [, setAuth] = useRecoilState(authState);
@@ -22,6 +23,9 @@ function AuthModal({ handleCancel, isModalVisible, handleOk }) {
       });
 
       localStorage.setItem("refresh_token", data.refreshToken);
+
+      socket.connect();
+
       message.success({
         content: "Login Successful",
         key: "auth/login",
