@@ -1,4 +1,6 @@
-import Sequelize from "sequelize";
+"use strict";
+
+import { Sequelize } from "sequelize";
 import Appointment from "./Appointment.js";
 import Auth from "./Auth.js";
 import Doctor from "./Doctor.js";

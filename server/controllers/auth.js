@@ -8,16 +8,19 @@ export const login = async (req, res) => {
   try {
     console.log(req.body);
     const { email, password } = req.body;
-    const { user, token, refreshToken, expires } = await loginService(
-      email,
-      password
-    );
+
+    const { user, token, refreshToken, expires, userDetails } =
+      await loginService(email, password);
+
     res.status(200).json({
       message: "Login Successful",
       token,
       refreshToken,
       expires,
-      user,
+      user: {
+        ...user.dataValues,
+        [user.role]: userDetails,
+      },
     });
   } catch (err) {
     console.log(err);

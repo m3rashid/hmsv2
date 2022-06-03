@@ -10,6 +10,7 @@ export const socketConstants = {
   getPatientById: "get-patient-by-id",
   searchPatients: "search-patients",
   createReceptionist: "create-receptionist",
+  createAppointment: "create-appointment",
 
   // not handled
   foundDoctorAppointments: "found-doctor-appointments",
@@ -25,6 +26,7 @@ export const socketConstants = {
 };
 
 import {
+  createAppointment,
   createPatient,
   createReceptionist,
   createUser,
@@ -53,6 +55,7 @@ const socketHandler = (io, socket) => {
   socket.on(socketConstants.getPatientById, getPatientById(io, socket));
   socket.on(socketConstants.searchPatients, searchPatients(io, socket));
   socket.on(socketConstants.createReceptionist, createReceptionist(io, socket));
+  socket.on(socketConstants.createAppointment, createAppointment(io, socket));
 };
 
 export default socketHandler;

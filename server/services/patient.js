@@ -23,6 +23,8 @@ export const createPatientService = async (
     email,
     jamiaId,
   });
+
+  console.log(newPatient);
   return { newPatient };
 };
 
@@ -49,7 +51,7 @@ export const getPatientByIdService = async (patientId) => {
   return { patient };
 };
 
-export const searchPatientsService = async (
+export const searchPatientsService = async ({
   name,
   minAge,
   maxAge,
@@ -59,8 +61,8 @@ export const searchPatientsService = async (
   email,
   jamiaId,
   lastVisitedBefore,
-  lastVisitedAfter
-) => {
+  lastVisitedAfter,
+}) => {
   const whereClause = {};
   if (name) {
     whereClause.name = { [Op.like]: `%${name}%` };
@@ -98,20 +100,16 @@ export const searchPatientsService = async (
     };
   }
 
+  console.log(whereClause);
+
   const patients = await db.Patient.findAll({
-    where: whereClause,
-    attributes: [
-      "id",
-      "name",
-      "age",
-      "sex",
-      "contact",
-      "address",
-      "email",
-      "jamiaId",
-      "lastVisit",
-    ],
+    where: {
+      [Op.or]: whereClause,
+    },
     order: [["createdAt", "DESC"]],
+    raw: true,
   });
+
+  console.log(patients);
   return { count: patients.length, patients };
 };

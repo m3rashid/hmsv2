@@ -8,8 +8,18 @@
 export default function (sequelize, DataTypes, Model) {
   class Doctor extends Model {
     static associate(models) {
-      this.belongsTo(models.Auth);
-      this.hasMany(models.Appointment);
+      this.belongsTo(models.Auth, {
+        foreignKey: "AuthId",
+        as: "Auth",
+        name: "AuthId",
+        targetKey: "id",
+      });
+      this.hasMany(models.Appointment, {
+        foreignKey: "DoctorId",
+        as: "Appointments",
+        name: "DoctorId",
+        targetKey: "id",
+      });
     }
 
     toJSON() {

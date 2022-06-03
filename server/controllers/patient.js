@@ -2,6 +2,7 @@ import {
   createPatientService,
   deletePatientService,
   getPatientByIdService,
+  searchPatientsService,
 } from "../services/patient.js";
 
 export const createPatient = async (req, res) => {
@@ -50,12 +51,14 @@ export const getPatientById = async (req, res) => {
 
 export const searchPatients = async (req, res) => {
   try {
-    const { count, patients } = await searchPatientsService(...req.query);
+    console.log(req.query);
+    const { count, patients } = await searchPatientsService(req.query);
     return res.status(200).json({
       message: `${count} patients found`,
       patients,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       message: err.message || "Internal server error",
       err,

@@ -27,5 +27,8 @@
     "socket.io": "^4.4.1",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.1.0"
   }
 }

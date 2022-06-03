@@ -52,6 +52,10 @@ const startServer = async () => {
       auth: false,
     });
 
+    // await models.sequelize.sync({
+    //   alter: true,
+    // });
+
     await models.sequelize.authenticate({
       logging: process.env.NODE_ENV !== "production",
     });

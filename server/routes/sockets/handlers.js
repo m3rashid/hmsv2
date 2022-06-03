@@ -1,4 +1,9 @@
-import { createUserService } from "../../services/index.js";
+import {
+  createPatientService,
+  createUserService,
+  getDoctorAppointmentsService,
+} from "../../services/index.js";
+import { createAppointmentService } from "../../services/reception.js";
 
 export const createUser =
   (io, socket) =>
@@ -62,7 +67,7 @@ export const createPatient =
         email,
         jamiaId
       );
-      io.emit("new-patient-created", { newPatient });
+      io.emit("new-patient-created", { data: newPatient });
     } catch (err) {
       console.log(err);
       io.emit("error", {
@@ -182,6 +187,28 @@ export const pharmacistLeft =
   ({ pharmacistId }) => {
     try {
       io.emit("pharmacist-left", { pharmacistId });
+    } catch (err) {
+      console.log(err);
+      io.emit("error", {
+        message: err.message || "An error occured",
+      });
+    }
+  };
+
+export const createAppointment =
+  (io, socket) =>
+  async ({ patientId, doctorId, date, patient, doctor }) => {
+    try {
+      console.log("New Appointment : ", patientId, doctorId, date);
+      const data = await createAppointmentService({
+        patientId,
+        patient,
+        doctor,
+        doctorId,
+        date,
+      });
+      console.log(data);
+      io.emit("new-appointment-created", data);
     } catch (err) {
       console.log(err);
       io.emit("error", {
