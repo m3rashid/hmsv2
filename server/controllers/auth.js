@@ -1,4 +1,5 @@
 import {
+  createDummyService,
   loginService,
   revalidateService,
   signupService,
@@ -54,12 +55,38 @@ export const logout = (req, res) => {};
 export const revalidate = async (req, res) => {
   try {
     const refreshToken = req.headers["authorization"];
-    const { user, token, expires } = await revalidateService(refreshToken);
+    const { user, userDetails, token, expires } = await revalidateService(
+      refreshToken
+    );
     res.status(200).json({
       message: "Token revalidated",
       token,
       expires,
-      user,
+      user: {
+        ...user.dataValues,
+        [user.role]: userDetails,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message || "Internal Server Error",
+      error: err,
+    });
+  }
+};
+
+export const createDummy = async (req, res) => {
+  const { count } = req.body;
+
+  try {
+    for (let i = 0; i < count; i++) {
+      await createDummyService();
+    }
+
+    return res.status(200).json({
+      message: "Dummy data created",
+      count: count,
     });
   } catch (err) {
     console.log(err);

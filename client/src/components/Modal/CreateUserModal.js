@@ -19,7 +19,7 @@ function CreateUserModal(props) {
 
       console.log(createdUser);
       const { data } = await instance.post("/auth/createUser", createdUser);
-
+      console.log(data);
       message.success({
         content: `${RoleName} created Successfully`,
         key: "auth/createUser",

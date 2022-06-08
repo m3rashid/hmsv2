@@ -10,6 +10,7 @@ import { useRecoilValue } from "recoil";
 import { socket } from "../../api/socket";
 import moment from "moment";
 import { instance } from "../../api/instance";
+import PrescriptionForm from "../../components/Doctor/prescribeMedicine";
 
 export const DoctorContext = React.createContext();
 
@@ -59,24 +60,25 @@ const Doctor = () => {
   }, []);
 
   return (
-    <DoctorContext.Provider value={{ user, AppointmentsData }}>
-      <div style={{ padding: "20px" }}>
-        <Header title="Doctor" subTitle="" user={user.DOCTOR} />
-        <Divider />
+    <div style={{ padding: "20px" }}>
+      <Header title="Doctor" subTitle="" user={user} />
+      <Divider />
 
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="Appointments" key="1">
-            <Appointments />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Patients" key="3">
-            <Patients />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Notifications" key="4">
-            <Notifications />
-          </Tabs.TabPane>
-        </Tabs>
-      </div>
-    </DoctorContext.Provider>
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane tab="Appointments" key="1">
+          <Appointments />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Patients" key="3">
+          <Patients />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Notifications" key="4">
+          <Notifications />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Prescription" key="5">
+          <PrescriptionForm />
+        </Tabs.TabPane>
+      </Tabs>
+    </div>
   );
 };
 

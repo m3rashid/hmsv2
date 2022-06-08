@@ -8,7 +8,12 @@
 export default function (sequelize, DataTypes, Model) {
   class Receptionist extends Model {
     static associate(models) {
-      this.belongsTo(models.Auth);
+      this.belongsTo(models.Auth, {
+        foreignKey: "AuthId",
+        as: "Auth",
+        name: "AuthId",
+        targetKey: "id",
+      });
     }
 
     toJSON() {
