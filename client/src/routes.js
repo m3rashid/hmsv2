@@ -11,7 +11,6 @@ export const validateRoute = (Auth, route) => {
   }
 
   const userType = Auth.user.role;
-  console.log(userType);
   if (userType === "ADMIN") {
     return true;
   } else if (!route.role.includes(userType)) {

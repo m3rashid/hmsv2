@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { socket } from "../../../api/socket";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../../atoms/auth";
 import { Button, Space, Table } from "antd";
+import { DoctorContext } from "..";
 
 function Appointments() {
   const [data, setData] = useState([]);
@@ -14,6 +15,12 @@ function Appointments() {
       doctorId: user.id,
     });
   }, [user.id]);
+
+  const { AppointmentsData } = useContext(DoctorContext);
+
+  useEffect(() => {
+    console.log(AppointmentsData);
+  }, []);
 
   useEffect(() => {
     socket.on("found-doctor-appointments", (data) => {
@@ -28,10 +35,10 @@ function Appointments() {
   }, []);
   const columns = [
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      sorter: (a, b) => a.title.localeCompare(b.title),
+      title: "PatientName",
+      dataIndex: "patientname",
+      key: "patientname",
+      sorter: (a, b) => a.patientname.localeCompare(b.patientname),
     },
     {
       title: "Date/Time",
@@ -58,7 +65,7 @@ function Appointments() {
       }}
     >
       <Table
-        dataSource={data}
+        dataSource={AppointmentsData}
         columns={columns}
         pagination={{
           total: data.length,

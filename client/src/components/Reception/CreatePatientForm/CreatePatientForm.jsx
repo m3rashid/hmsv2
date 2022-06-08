@@ -13,7 +13,7 @@ const CreatePatientForm = () => {
     });
   };
   useEffect(() => {
-    socket.on("new-patient-created", (data) => {
+    socket.on("new-patient-created", ({ data }) => {
       message.success(`Patient ${data.name} created successfully!`);
       setLoading(false);
     });

@@ -24,6 +24,7 @@
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.17.0",
+    "sequelize-auto-migrations": "github:scimonster/sequelize-auto-migrations#a063aa6535a3f580623581bf866cef2d609531ba",
     "socket.io": "^4.4.1",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2"

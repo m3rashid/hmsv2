@@ -1,1 +1,96 @@
-[]
+[
+  {
+    "_id": "e7602f9f-5248-4111-a0eb-129650e5ec53",
+    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
+    "containerId": "",
+    "name": "Create",
+    "url": "http://localhost:5000/api/doctor/dummy",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-06-02T20:05:55.196Z",
+    "modified": "2022-06-02T20:17:23.084Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"count\" : 10\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "dccee344-27f8-4815-ae91-847841474aa2",
+    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
+    "containerId": "",
+    "name": "SignUp",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-06-03T05:58:39.881Z",
+    "modified": "2022-06-03T06:19:58.877Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"Sarfraz Alam\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "0558df98-8e4c-42a2-9da1-c409679300f3",
+    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
+    "containerId": "",
+    "name": "Login",
+    "url": "http://localhost:5000/api/auth/login",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-06-03T06:56:01.749Z",
+    "modified": "2022-06-03T07:00:08.392Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "0b8c69fc-44c7-471f-be9d-cac4fa9cfbc0",
+    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
+    "containerId": "",
+    "name": "GetAppointments",
+    "url": "http://localhost:5000/api/doctor/get-appointments",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-06-03T07:42:28.694Z",
+    "modified": "2022-06-03T07:43:28.056Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxN2JhMmFmNS04ZDg2LTRjNDMtOGYwNC0zZTQ1NDgzZjdmZDAiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDI0MDAwODI0NSwiZXhwIjoxNjU0MjQwMDk0NjQ1fQ.poHNlrtwh0XmkhvwCzyKluRRT5g62RaH759FFSEzzXY"
+    },
+    "tests": []
+  },
+  {
+    "_id": "121d671a-9ce0-43c5-9890-0fc1732d5f55",
+    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
+    "containerId": "",
+    "name": "Dummy",
+    "url": "http://localhost:5000/api/auth/dummy",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-06-03T11:01:12.948Z",
+    "modified": "2022-06-03T11:07:16.627Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"count\" : 50\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

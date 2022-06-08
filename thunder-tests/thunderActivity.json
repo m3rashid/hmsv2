@@ -23,16 +23,153 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:5000/api/auth/signup",
-    "url": "http://localhost:5000/api/auth/signup",
-    "method": "POST",
+    "url": "http://localhost:5000/api/doctor/search?designation=BDS",
+    "method": "GET",
     "sortNum": 0,
     "created": "2022-05-19T12:28:28.157Z",
-    "modified": "2022-05-19T12:28:46.524Z",
+    "modified": "2022-06-02T20:24:36.640Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "S",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "email",
+        "value": "alamsarfraz422",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "maxAge",
+        "value": "29",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "designation",
+        "value": "BDS",
+        "isPath": false
+      }
+    ],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"receptionist@gmail.com\",\n    \"password\" : \"receptionist\",\n    \"role\" : \"RECEPTIONIST\",\n    \"name\" : \"receptionist\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "c36b110b-895b-448c-a230-e9eb0dcd5d92",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/doctor/dummy",
+    "url": "http://localhost:5000/api/doctor/dummy",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-02T20:17:02.573Z",
+    "modified": "2022-06-03T06:22:23.961Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"receptionist@gmail.com\",\n    \"password\" : \"receptionist\",\n    \"role\" : \"RECEPTIONIST\",\n    \"name\" : \"receptionist\"\n}",
+      "raw": "{\n    \"count\" : 10\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "141ace64-1dcf-4eb0-b166-ee584b245972",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/signup",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-03T05:59:00.164Z",
+    "modified": "2022-06-03T07:01:51.242Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"Sarfraz Alam\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "2e6c48c3-0fe3-4a64-abdb-02e9745709d6",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/login",
+    "url": "http://localhost:5000/api/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-03T07:00:08.774Z",
+    "modified": "2022-06-03T07:06:48.252Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "b4c279d6-8047-4067-9c91-d63c7eced42d",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/doctor/get-appointments",
+    "url": "http://localhost:5000/api/doctor/get-appointments",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-06-03T07:43:28.017Z",
+    "modified": "2022-06-03T07:47:17.943Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxN2JhMmFmNS04ZDg2LTRjNDMtOGYwNC0zZTQ1NDgzZjdmZDAiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDI0MDAwODI0NSwiZXhwIjoxNjU0MjQwMDk0NjQ1fQ.poHNlrtwh0XmkhvwCzyKluRRT5g62RaH759FFSEzzXY"
+    },
+    "tests": []
+  },
+  {
+    "_id": "25196d11-4e8c-4ea7-928d-eb5c1bbda87e",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/dummt",
+    "url": "http://localhost:5000/api/auth/dummt",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-03T11:01:30.780Z",
+    "modified": "2022-06-03T11:01:40.370Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"count\" : 10\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "9f1b8548-378a-4820-94fd-baa59e5d2134",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/auth/dummy",
+    "url": "http://localhost:5000/api/auth/dummy",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-03T11:01:43.903Z",
+    "modified": "2022-06-03T11:07:16.629Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"count\" : 50\n}",
       "form": []
     },
     "tests": []

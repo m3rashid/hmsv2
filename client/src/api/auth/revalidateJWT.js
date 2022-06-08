@@ -16,6 +16,8 @@ export const revalidateJWT = async (setAuth, setSocket) => {
       }
     );
 
+    instance.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+
     console.log(data);
     setAuth({
       isLoggedIn: true,
