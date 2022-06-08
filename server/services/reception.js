@@ -47,3 +47,39 @@ export const createAppointmentService = async ({
     return new Error("Internal Server Error");
   }
 };
+
+export const getAppointmentByIdService = async (appointmentId) => {
+  try {
+    const appointment = await db.Appointment.findOne(
+      {
+        where: {
+          id: appointmentId,
+        },
+        include: [
+          {
+            model: db.Patient,
+            as: "Patient",
+          },
+          {
+            model: db.Doctor,
+            as: "Doctor",
+          },
+        ],
+      },
+      {
+        raw: true,
+        plain: true,
+      }
+    );
+
+    console.log(appointment);
+
+    return {
+      Appointment: appointment,
+      id: appointment?.id,
+    };
+  } catch (err) {
+    console.log(err);
+    return new Error("Internal Server Error");
+  }
+};

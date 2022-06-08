@@ -5,6 +5,7 @@ import {
 } from "../services/doctor.js";
 import { faker } from "@faker-js/faker";
 import db from "../models/index.js";
+import { getAppointmentByIdService } from "../services/reception.js";
 
 export const getDoctorAppointments = async (req, res) => {
   try {
@@ -13,6 +14,24 @@ export const getDoctorAppointments = async (req, res) => {
 
     const { appointments } = await getDoctorAppointmentsService(req.user.id);
     return res.status(200).json({ appointments });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message || "Internal Server Error",
+    });
+  }
+};
+
+export const getAppointmentById = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id || req.user.role !== "DOCTOR")
+      throw new Error("Unauthorized");
+
+    // console.log(req.query);
+
+    const data = await getAppointmentByIdService(req.query.id);
+    console.log(data);
+    return res.status(200).json(data);
   } catch (err) {
     console.log(err);
     return res.status(500).json({

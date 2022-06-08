@@ -5,10 +5,12 @@ import {
   getDoctorPatients,
   searchDoctors,
   FillDummy,
+  getAppointmentById,
 } from "../controllers/doctor.js";
 const router = express.Router();
 
 router.get("/get-appointments", checkAuth, getDoctorAppointments);
+router.get("/getappointmentbyId", checkAuth, getAppointmentById);
 router.get("/search", searchDoctors);
 router.post("/dummy", FillDummy);
 

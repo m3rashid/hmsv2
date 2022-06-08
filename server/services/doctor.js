@@ -19,9 +19,11 @@ export const getDoctorAppointmentsService = async (userId) => {
       },
     ],
     order: [["date", "DESC"]],
+    raw: true,
+    nest: true,
   });
 
-  console.log(appointments);
+  console.log(JSON.parse(JSON.stringify(appointments)));
   return { appointments };
 };
 
