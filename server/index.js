@@ -53,7 +53,7 @@ const startServer = async () => {
     });
 
     await models.sequelize.sync({
-      alter: true,
+      // alter: true,
     });
 
     await models.sequelize.authenticate({
