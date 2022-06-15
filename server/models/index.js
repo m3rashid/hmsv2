@@ -7,6 +7,7 @@ import Doctor from "./Doctor.js";
 import Medicine from "./Medicine.js";
 import Patient from "./Patient.js";
 import Prescription from "./Prescription.js";
+import Pharmacist from "./Pharmacist.js";
 import Receptionist from "./Receptionist.js";
 import fs from "fs";
 import path from "path";
@@ -35,6 +36,7 @@ const db = {
   Patient: Patient(sequelize, Sequelize.DataTypes, Sequelize.Model),
   Prescription: Prescription(sequelize, Sequelize.DataTypes, Sequelize.Model),
   Receptionist: Receptionist(sequelize, Sequelize.DataTypes, Sequelize.Model),
+  Pharmacist: Pharmacist(sequelize, Sequelize.DataTypes, Sequelize.Model),
 };
 
 Object.keys(db).forEach((modelName) => {

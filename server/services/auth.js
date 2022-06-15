@@ -110,7 +110,7 @@ export const revalidateService = async (refreshToken) => {
 };
 
 export const createDummyService = async () => {
-  const roles = ["DOCTOR", "RECEPTIONIST", "ADMIN", "PATIENT"];
+  const roles = ["DOCTOR", "RECEPTIONIST", "ADMIN", "PATIENT", "PHARMACIST"];
   const role = roles[Math.floor(Math.random() * roles.length)];
   const sex = ["m", "f", "o"];
   if (role === "PATIENT") {
@@ -174,5 +174,16 @@ export const createDummyService = async () => {
       };
 
       await db.Receptionist.create(receptionistData);
+      break;
+    case "PHARMACIST":
+      const pharmacistData = {
+        email: data.email,
+        contact: faker.phone.phoneNumber("+91 ##### #####"),
+        address: faker.address.city(),
+        AuthId: AuthId,
+      };
+
+      await db.Pharmacist.create(pharmacistData);
+      break;
   }
 };

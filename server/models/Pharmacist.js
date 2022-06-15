@@ -39,11 +39,6 @@ export default function (sequelize, DataTypes, Model) {
         allowNull: false,
         unique: true,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
       address: {
         type: DataTypes.STRING,
         allowNull: false,

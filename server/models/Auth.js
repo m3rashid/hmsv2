@@ -29,7 +29,13 @@ export default function (sequelize, DataTypes, Model) {
       unique: true,
     },
     role: {
-      type: DataTypes.ENUM("DOCTOR", "ADMIN", "RECEPTIONIST", "OTHER"),
+      type: DataTypes.ENUM(
+        "DOCTOR",
+        "ADMIN",
+        "RECEPTIONIST",
+        "PHARMACIST",
+        "OTHER"
+      ),
       defaultValue: "OTHER",
       allowNull: false,
     },
