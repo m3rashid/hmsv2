@@ -89,7 +89,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T05:59:00.164Z",
-    "modified": "2022-06-03T07:01:51.242Z",
+    "modified": "2022-06-08T18:21:13.078Z",
     "headers": [],
     "params": [],
     "body": {
@@ -108,12 +108,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T07:00:08.774Z",
-    "modified": "2022-06-03T07:06:48.252Z",
+    "modified": "2022-06-08T19:23:00.269Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\"\n}",
+      "raw": "{\n    \"email\" : \"Precious_Wiza38@yahoo.com\",\n    \"password\" : \"admin123\"\n}",
       "form": []
     },
     "tests": []
@@ -127,12 +127,12 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-06-03T07:43:28.017Z",
-    "modified": "2022-06-03T07:47:17.943Z",
+    "modified": "2022-06-08T19:38:29.892Z",
     "headers": [],
     "params": [],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxN2JhMmFmNS04ZDg2LTRjNDMtOGYwNC0zZTQ1NDgzZjdmZDAiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDI0MDAwODI0NSwiZXhwIjoxNjU0MjQwMDk0NjQ1fQ.poHNlrtwh0XmkhvwCzyKluRRT5g62RaH759FFSEzzXY"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNjE4MDI2NywiZXhwIjoxNjU0NzE2MjY2NjY3fQ.mneAdB2PFAUF_m8oyqdcptT1mMQ7e6SVSAeQeavtlNY"
     },
     "tests": []
   },
@@ -164,13 +164,61 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T11:01:43.903Z",
-    "modified": "2022-06-03T11:07:16.629Z",
+    "modified": "2022-06-08T18:21:21.930Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
       "raw": "{\n    \"count\" : 50\n}",
       "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "1b04ae7a-5b25-4bdc-92e6-b4b10abbd7ca",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-08T18:54:16.819Z",
+    "modified": "2022-06-08T18:54:16.836Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "id",
+        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+        "isPath": false
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
+    },
+    "tests": []
+  },
+  {
+    "_id": "8e44f7cc-24cb-4782-8731-6421034310a4",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-06-08T18:54:30.664Z",
+    "modified": "2022-06-08T19:17:03.260Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "id",
+        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+        "isPath": false
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
     },
     "tests": []
   }

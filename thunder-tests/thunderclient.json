@@ -46,12 +46,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-06-03T06:56:01.749Z",
-    "modified": "2022-06-03T07:00:08.392Z",
+    "modified": "2022-06-08T18:53:54.950Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\"\n}",
+      "raw": "{\n    \"email\" : \"Precious_Wiza38@yahoo.com\",\n    \"password\" : \"admin123\"\n}",
       "form": []
     },
     "tests": []
@@ -65,12 +65,12 @@
     "method": "GET",
     "sortNum": 20000,
     "created": "2022-06-03T07:42:28.694Z",
-    "modified": "2022-06-03T07:43:28.056Z",
+    "modified": "2022-06-08T19:23:06.448Z",
     "headers": [],
     "params": [],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxN2JhMmFmNS04ZDg2LTRjNDMtOGYwNC0zZTQ1NDgzZjdmZDAiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDI0MDAwODI0NSwiZXhwIjoxNjU0MjQwMDk0NjQ1fQ.poHNlrtwh0XmkhvwCzyKluRRT5g62RaH759FFSEzzXY"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNjE4MDI2NywiZXhwIjoxNjU0NzE2MjY2NjY3fQ.mneAdB2PFAUF_m8oyqdcptT1mMQ7e6SVSAeQeavtlNY"
     },
     "tests": []
   },
@@ -90,6 +90,30 @@
       "type": "json",
       "raw": "{\n    \"count\" : 50\n}",
       "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "fd9566e2-b4a0-4097-95eb-51d8b63d86e8",
+    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
+    "containerId": "",
+    "name": "getAppointmentById",
+    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-06-08T18:52:41.627Z",
+    "modified": "2022-06-08T18:54:30.679Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "id",
+        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+        "isPath": false
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
     },
     "tests": []
   }

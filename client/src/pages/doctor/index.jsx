@@ -60,25 +60,27 @@ const Doctor = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Header title="Doctor" subTitle="" user={user} />
-      <Divider />
+    <DoctorContext.Provider value={{ AppointmentsData }}>
+      <div style={{ padding: "20px" }}>
+        <Header title="Doctor" subTitle="" user={user} />
+        <Divider />
 
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane tab="Appointments" key="1">
-          <Appointments />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Patients" key="3">
-          <Patients />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Notifications" key="4">
-          <Notifications />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Prescription" key="5">
-          <PrescriptionForm />
-        </Tabs.TabPane>
-      </Tabs>
-    </div>
+        <Tabs defaultActiveKey="1">
+          <Tabs.TabPane tab="Appointments" key="1">
+            <Appointments />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Patients" key="3">
+            <Patients />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Notifications" key="4">
+            <Notifications />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Prescription" key="5">
+            <PrescriptionForm />
+          </Tabs.TabPane>
+        </Tabs>
+      </div>
+    </DoctorContext.Provider>
   );
 };
 
