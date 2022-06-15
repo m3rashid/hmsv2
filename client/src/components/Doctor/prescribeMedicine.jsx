@@ -23,6 +23,7 @@ const PrescriptionForm = () => {
   const [AppointmentSearch, setAppSearch] = useState(AppointmentsData);
   const formSubmitHandler = (values) => {
     if (loading) return;
+    console.log(values);
   };
 
   return (
