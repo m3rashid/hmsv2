@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import {
   Form,
   Button,
@@ -7,6 +8,7 @@ import {
   // InputNumber,
   message,
   Select,
+  DatePicker,
   // AutoComplete,
 } from "antd";
 // import { socket } from "../../api/socket";
@@ -26,11 +28,15 @@ const PrescriptionForm = () => {
   const formSubmitHandler = (values) => {
     if (loading) return;
     console.log(values);
-    socket.emit("create-prescription-by-doctor", values);
+    socket.emit("create-prescription-by-doctor", {
+      ...values,
+      datetime: moment().format("YYYY-MM-DD"),
+    });
   };
 
   React.useEffect(() => {
-    socket.on("new-prescription-by-doctor-created", (data) => {
+    socket.on("new-prescription-by-doctor-created", ({ data }) => {
+      console.log({ newPrescription: data });
       message.success(`New Prescription for ${data.id} created successfully!`);
     });
 
@@ -87,7 +93,7 @@ const PrescriptionForm = () => {
           }}
           optionLabelProp="label"
         >
-          <Option value="diclo" label="Diclo">
+          <Option value="Diclo" label="Diclo">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Diclo">
                 💊&nbsp;
@@ -95,7 +101,7 @@ const PrescriptionForm = () => {
               Diclo
             </div>
           </Option>
-          <Option value="aspirin" label="Aspirin">
+          <Option value="Aspirin" label="Aspirin">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Aspirin">
                 💊&nbsp;
@@ -103,7 +109,7 @@ const PrescriptionForm = () => {
               Aspirin
             </div>
           </Option>
-          <Option value="amlokind-5" label="Amlokind-5">
+          <Option value="Amlokind-5" label="Amlokind-5">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Amlokind-5">
                 💊&nbsp;
@@ -111,7 +117,7 @@ const PrescriptionForm = () => {
               Amlokind-5
             </div>
           </Option>
-          <Option value="urimax-500" label="Urimax-500">
+          <Option value="Urimax-500" label="Urimax-500">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Urimax-500">
                 💊&nbsp;

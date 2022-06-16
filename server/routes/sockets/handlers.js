@@ -220,14 +220,22 @@ export const createAppointment =
 
 export const createPrescriptionByDoctor =
   (io, socket) =>
-  async ({ appointment, symptoms, prescription, CustomMedicines }) => {
+  async ({
+    appointment,
+    symptoms,
+    prescription,
+    CustomMedicines,
+    datetime,
+  }) => {
     try {
       const data = await createPrescriptionByDoctorService(
         appointment,
         symptoms,
         prescription,
-        CustomMedicines
+        CustomMedicines,
+        datetime
       );
+
       console.log(data);
       io.emit("new-prescription-by-doctor-created", { data });
     } catch (err) {

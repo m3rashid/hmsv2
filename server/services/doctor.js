@@ -95,14 +95,44 @@ export const createPrescriptionByDoctorService = async (
   appointment,
   symptoms,
   prescription,
-  CustomMedicines
+  CustomMedicines,
+  datetime
 ) => {
-  const newPrescription = await db.Prescription.create({
-    appointment,
-    symptoms,
-    prescription,
-    CustomMedicines,
-    datePrescribed: Date.now(),
-  });
-  return newPrescription;
+  const newPrescription = await db.Prescription.create(
+    {
+      appointmentId: appointment,
+      symptoms,
+      prescription,
+      CustomMedicines,
+      datePrescribed: datetime,
+    },
+    {
+      include: [
+        {
+          model: db.Appointment,
+          as: "appointment",
+        },
+        {
+          model: db.Doctor,
+          as: "Doctor",
+        },
+        {
+          model: db.Patient,
+          as: "Patient",
+        },
+      ],
+      raw: true,
+      plain: true,
+    }
+  );
+
+  const newPresDetails = await newPrescription.getAppointment();
+  const patient = await newPresDetails.getPatient();
+  const doctor = await newPresDetails.getDoctor();
+
+  return {
+    prescription: newPrescription,
+    doctor,
+    patient,
+  };
 };
