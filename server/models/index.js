@@ -9,24 +9,26 @@ import Patient from "./Patient.js";
 import Prescription from "./Prescription.js";
 import Pharmacist from "./Pharmacist.js";
 import Receptionist from "./Receptionist.js";
-import fs from "fs";
-import path from "path";
-const __dirname = path.resolve();
+// import fs from "fs";
+// import path from "path";
+// const __dirname = path.resolve();
 
 // read json from config file
-const config = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `/config/config.json`), "utf8")
-);
+// const config = JSON.parse(
+//   fs.readFileSync(path.join(__dirname, `/config/config.json`), "utf8")
+// );
 
-const useConfig = "development";
+// const useConfig = "development";
 
-const sequelize = new Sequelize({
-  host: config[useConfig]?.host,
-  dialect: config[useConfig]?.dialect,
-  username: config[useConfig]?.username,
-  password: config[useConfig]?.password,
-  database: config[useConfig]?.database,
-});
+// const sequelize = new Sequelize({
+//   host: config[useConfig]?.host,
+//   dialect: config[useConfig]?.dialect,
+//   username: config[useConfig]?.username,
+//   password: config[useConfig]?.password,
+//   database: config[useConfig]?.database,
+// });
+
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 const db = {
   Auth: Auth(sequelize, Sequelize.DataTypes, Sequelize.Model),
