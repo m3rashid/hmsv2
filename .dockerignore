@@ -1,0 +1,10 @@
+./node_modules
+./client/node_modules
+./server/node_modules
+Dockerfile
+.dockerignore
+docker-compose.yml
+./.husky
+./.idea
+./.vscode
+./thunder-tests

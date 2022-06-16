@@ -42,13 +42,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:5000/api/auth/revalidate",
-    "url": "http://localhost:5000/api/auth/revalidate",
+    "url": "http://localhost:5000/api/auth/dummy",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-05-12T17:21:21.967Z",
-    "modified": "2022-05-12T17:24:18.424Z",
+    "modified": "2022-06-16T13:45:37.647Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"count\": 50\n}",
+      "form": []
+    },
     "auth": {
       "type": "bearer",
       "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxZTQ5ZGE3Yi1lZjYwLTRlOGEtYWEzYS01ZmQwZDM2OTNmYTQiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1MjM3NTk4OTcyN30.IS8nSfkHp3LL9Y7EsX8fFrRqbhidl_p-IjgTrOhlmKY"

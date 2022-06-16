@@ -30,10 +30,14 @@
     "format": "prettier --write .",
     "check:all": "yarn check:format && yarn check:lint && cd client && yarn build",
     "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
+    "prod": "concurrently \"cd server && yarn prod\" \"cd client && yarn serve -s build\"",
+    "ci": "yarn install --production",
     "precommit": "lint-staged"
   },
+  "dependencies": {
+    "concurrently": "^7.2.0"
+  },
   "devDependencies": {
-    "concurrently": "^7.2.0",
     "eslint": "^8.11.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",

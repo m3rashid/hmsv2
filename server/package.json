@@ -10,7 +10,8 @@
     "prod": "NODE_ENV='production' node index.js",
     "migrate:init": "mkdir migrations || true",
     "migrate:setup": "npx sequelize-mig migration:make",
-    "migrate": "yarn migrate:init && yarn migrate:setup && sequelize db:migrate"
+    "migrate": "yarn migrate:init && yarn migrate:setup && sequelize db:migrate",
+    "ci": "yarn install --production"
   },
   "dependencies": {
     "@socket.io/admin-ui": "^0.3.0",
@@ -27,9 +28,7 @@
     "sequelize-auto-migrations": "github:scimonster/sequelize-auto-migrations#a063aa6535a3f580623581bf866cef2d609531ba",
     "socket.io": "^4.4.1",
     "sqlite3": "^5.0.2",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
+    "uuid": "^8.3.2",
     "@faker-js/faker": "^7.1.0"
   }
 }

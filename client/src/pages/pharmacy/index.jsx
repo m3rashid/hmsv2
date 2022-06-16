@@ -19,17 +19,19 @@ const Pharmacy = () => {
   React.useEffect(() => {
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
       console.log({ newPrescription: data });
-      message.success(`New Prescription for ${data.id} created successfully!`);
+      message.success(
+        `New Prescription for ${data.prescription.id} created successfully!`
+      );
       setPrescription((prev) => {
         return [
           ...prev,
           {
             id: data.prescription.id,
-            patientname: data.patient.name,
-            doctorname: data.doctor.name,
-            date: data.prescription.datePrescribed,
-            medicine: data.prescription.prescription,
-            CustomMedicines: data.prescription.CustomMedicines.split("\n"),
+            patientname: data.patient?.name,
+            doctorname: data.doctor?.name,
+            date: data.prescription?.datePrescribed,
+            medicine: data.prescription?.prescription,
+            CustomMedicines: data.prescription?.CustomMedicines?.split("\n"),
           },
         ];
       });
@@ -47,7 +49,7 @@ const Pharmacy = () => {
       doctorname: "Dr. Ali",
       date: "2020-01-01",
       medicine: ["Diclo", "Aspirin", "Amlokind-5", "Urimax-500"],
-      CustomMedicines: [],
+      CustomMedicines: [""],
     },
   ]);
 

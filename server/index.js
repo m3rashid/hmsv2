@@ -54,6 +54,7 @@ const startServer = async () => {
 
     await models.sequelize.sync({
       // alter: true,
+      // force: true
     });
 
     await models.sequelize.authenticate({
