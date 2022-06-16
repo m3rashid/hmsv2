@@ -98,11 +98,11 @@ function Prescriptions() {
               </div>
               <div>
                 <strong>Medicines: </strong>
-                {ModalVisible.data?.medicine.join(", ")}
+                {ModalVisible.data?.medicine?.join(", ")}
               </div>
               <div>
                 <strong>Custom Medicines: </strong>
-                {/* {ModalVisible.data?.CustomMedicines.split("/n").join(", ")} */}
+                {ModalVisible.data?.CustomMedicines?.join(", ")}
               </div>
             </Space>
           </div>

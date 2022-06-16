@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   InputNumber,
+  notification,
   // Row,
   Select,
   Space,
@@ -31,6 +32,16 @@ function CreateReceipts() {
     Object.keys(total).forEach((tot) => {
       reduceMedicine(total[tot].name, total[tot].qty);
     });
+
+    notification.open({
+      message: "Reciept Created Successfully",
+      description: `Receipt for ${SelectedPrescription.patientname} has been created`,
+    });
+
+    setTotal({});
+    setSelectedPrescription(null);
+
+    form.resetFields();
   };
 
   function sum(arr) {
