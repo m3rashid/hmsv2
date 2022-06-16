@@ -12,12 +12,6 @@ export const PharmacyContext = createContext();
 
 const Pharmacy = () => {
   const [online, setOnline] = React.useState(true);
-  const user = {
-    name: "Pharmacist",
-    email: "pharmacist@gmail.com",
-    online: online,
-  };
-
   const { Inventory, setInventory, getMedicine, reduceMedicine } =
     usePharmacy();
 
@@ -47,7 +41,7 @@ const Pharmacy = () => {
           padding: "20px",
         }}
       >
-        <Header title="Home" subTitle="" user={user} />
+        <Header online={online} setOnline={setOnline} />
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Prescriptions" key="0">
             <Prescriptions />

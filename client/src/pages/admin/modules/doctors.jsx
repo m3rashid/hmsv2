@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Input, Space, Table } from "antd";
 import CreateUserModal from "../../../components/Modal/CreateUserModal";
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 
 const GenerateData = (count) => {
   const data = [];

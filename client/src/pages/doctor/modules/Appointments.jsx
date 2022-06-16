@@ -4,11 +4,11 @@ import { useRecoilValue } from "recoil";
 import { authState } from "../../../atoms/auth";
 import { Button, Modal, Space, Table } from "antd";
 import { DoctorContext } from "..";
-import { useQuery } from "react-query";
-import { instance } from "../../../api/instance";
+// import { useQuery } from "react-query";
+// import { instance } from "../../../api/instance";
 
 function Appointments() {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { user } = useRecoilValue(authState);
   const [ModalVisible, setModalVisible] = useState({
     visible: false,
@@ -33,6 +33,7 @@ function Appointments() {
 
   useEffect(() => {
     console.log(AppointmentsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect(() => {

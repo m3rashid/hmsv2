@@ -1,17 +1,17 @@
 import faker from "@faker-js/faker";
 import React from "react";
 import {
-  Form,
+  // Form,
   Button,
-  Radio,
-  Input,
-  InputNumber,
+  // Radio,
+  // Input,
+  // InputNumber,
   Space,
   Table,
-  PageHeader,
+  // PageHeader,
 } from "antd";
 import CreateUserModal from "../../../components/Modal/CreateUserModal";
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const GenerateData = (count) => {
   const data = [];
   for (let i = 0; i < count; i++) {

@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+// import faker from "@faker-js/faker";
 import { Button, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { socket } from "../../../api/socket";

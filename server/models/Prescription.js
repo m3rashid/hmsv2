@@ -21,15 +21,21 @@ export default function (sequelize, DataTypes, Model) {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      description: {
-        type: DataTypes.STRING,
+      appointment: {
+        type: DataTypes.UUID,
         allowNull: false,
+      },
+      symptoms: {
+        type: DataTypes.STRING,
+      },
+      prescription: {
+        type: [DataTypes.STRING],
+        allowNull: false,
+      },
+      CustomMedicines: {
+        type: DataTypes.STRING,
       },
       datePrescribed: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      dateExpiring: {
         type: DataTypes.DATE,
         allowNull: false,
       },

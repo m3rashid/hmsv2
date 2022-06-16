@@ -1,16 +1,16 @@
 import {
-  AutoComplete,
+  // AutoComplete,
   Button,
-  Col,
+  // Col,
   Form,
   Input,
   InputNumber,
-  Row,
+  // Row,
   Select,
   Space,
-  Typography,
+  // Typography,
 } from "antd";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import FixedUseContext from "../../Hooks/FixedUseContext";
 import { PharmacyContext } from "../../pages/pharmacy";
 const { TextArea } = Input;

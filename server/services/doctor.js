@@ -90,3 +90,19 @@ export const searchDoctorsService = async ({
   console.log(doctors);
   return { count: doctors.length, doctors };
 };
+
+export const createPrescriptionByDoctorService = async (
+  appointment,
+  symptoms,
+  prescription,
+  CustomMedicines
+) => {
+  const newPrescription = await db.Prescription.create({
+    appointment,
+    symptoms,
+    prescription,
+    CustomMedicines,
+    datePrescribed: Date.now(),
+  });
+  return newPrescription;
+};

@@ -1,15 +1,38 @@
 import React from "react";
 import { PageHeader, Badge, Card, Row, Col } from "antd";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../atoms/auth";
 
-const Header = ({ title, user, subTitle, avatar }) => {
-  const Avatar = `/images/${avatar}.jpg`;
+const findAvatar = (role) => {
+  switch (role) {
+    case "DOCTOR":
+      return "doctor.jpg";
+    case "ADMIN":
+      return "admin.jpeg";
+    case "OTHER":
+      return "logo.jpg";
+    case "RECEPTIONIST":
+      return "reception.jpg";
+    case "PHARMACIST":
+      return "pharmacy";
+    default:
+      return "logo.jpg";
+  }
+};
+
+const Header = ({ online, setOnline }) => {
+  const auth = useRecoilValue(authState);
+
+  const avatar = findAvatar(auth.user.role);
+  const Avatar = `/images/${avatar}`;
+
   return (
     <div className="site-page-header-ghost-wrapper">
       <PageHeader
         ghost={false}
         onBack={() => window.history.back()}
-        title={title}
-        subTitle={subTitle}
+        title={auth.user.role}
+        subTitle={""}
         avatar={{ src: `${Avatar}` }}
         // extra={[
         //   <Button key="3">Operation</Button>,
@@ -21,10 +44,10 @@ const Header = ({ title, user, subTitle, avatar }) => {
       >
         <Row>
           <Col span={12}>
-            {user && (
+            {auth.user && (
               <Badge.Ribbon color="green" text="Online">
-                <Card title={user.name} size="small">
-                  Email: {user.email}
+                <Card title={auth.user.name} size="small">
+                  Email: {auth.user.email}
                 </Card>
               </Badge.Ribbon>
             )}
