@@ -6,14 +6,9 @@ import Home from "./modules/home";
 import Receptionists from "./modules/receptionists";
 import Doctors from "./modules/doctors";
 import Patients from "./modules/patients";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../atoms/auth";
 
 const Admin = () => {
   const [online, setOnline] = React.useState(true);
-  const auth = useRecoilValue(authState);
-
-  const user = { ...auth.user, online };
 
   return (
     <div
@@ -21,7 +16,7 @@ const Admin = () => {
         padding: "20px",
       }}
     >
-      <Header title="Admin" subTitle="" user={user} />
+      <Header online={online} setOnline={setOnline} />
       <Divider />
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Home" key="1">

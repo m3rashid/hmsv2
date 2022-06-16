@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Tabs, Divider, message } from "antd";
+import { Tabs, Divider } from "antd";
 
 import Header from "../../components/Header";
 import Appointments from "./modules/Appointments";
@@ -18,7 +18,6 @@ const Doctor = () => {
   const [online, setOnline] = React.useState(true);
   const [AppointmentsData, setAppointmentsData] = React.useState([]);
   const Auth = useRecoilValue(authState);
-  const user = { ...Auth.user, online };
 
   const getAppointments = useCallback(async () => {
     const res = await instance.get(`/doctor/get-appointments`);
@@ -35,6 +34,7 @@ const Doctor = () => {
 
   useEffect(() => {
     getAppointments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -57,12 +57,13 @@ const Doctor = () => {
     return () => {
       socket.off("new-appointment-created");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <DoctorContext.Provider value={{ AppointmentsData }}>
       <div style={{ padding: "20px" }}>
-        <Header title="Doctor" subTitle="" user={user} />
+        <Header online={online} setOnline={setOnline} />
         <Divider />
 
         <Tabs defaultActiveKey="1">

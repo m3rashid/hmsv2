@@ -39,6 +39,10 @@ export default function (sequelize, DataTypes, Model) {
         defaultValue: DataTypes.NOW,
         allowNull: false,
       },
+      // active: {
+      //   type: DataTypes.BOOLEAN,
+      //   defaultValue: true,
+      // },
     },
     {
       sequelize,

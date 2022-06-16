@@ -1,16 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
 import "./styles/theme.less";
-import AppLayout from "./components/Layout/AppLayout";
-import { Routes, Route, useLocation } from "react-router-dom";
-import routes, { validateRoute } from "./routes";
+import { message } from "antd";
 import { useRecoilState } from "recoil";
+import { Routes, Route, useLocation } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+
+import AppLayout from "./components/Layout/AppLayout";
+import routes, { validateRoute } from "./routes";
 import { authState } from "./atoms/auth";
 import { revalidateJWT } from "./api/auth/revalidateJWT";
 import Loading from "./components/Loading/Loading";
 import Home from "./pages/home";
 import UnAuthPage from "./pages/unAuthenticated";
 import { socket } from "./api/socket";
-import { message } from "antd";
+
 export const SocketContext = React.createContext();
 
 function App() {

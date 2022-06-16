@@ -7,18 +7,14 @@ import Completed from "./modules/completed";
 
 const Appointments = () => {
   const [online, setOnline] = React.useState(true);
-  const user = {
-    name: "Appointment Register",
-    email: "appointmentregister@gmail.com",
-    online: online,
-  };
+
   return (
     <div
       style={{
         padding: "20px",
       }}
     >
-      <Header title="Appointments" subTitle="" user={user} />
+      <Header online={online} setOnline={setOnline} />
       <Divider />
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Active" key="1">

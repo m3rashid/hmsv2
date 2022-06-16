@@ -1,16 +1,16 @@
 import {
-  AutoComplete,
+  // AutoComplete,
   Button,
-  Col,
+  // Col,
   Form,
   Input,
   InputNumber,
-  Row,
+  // Row,
   Select,
   Space,
-  Typography,
+  // Typography,
 } from "antd";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import FixedUseContext from "../../Hooks/FixedUseContext";
 import { PharmacyContext } from "../../pages/pharmacy";
 const { TextArea } = Input;
@@ -113,9 +113,10 @@ function CreateReceipts() {
               </Form.Item>
             ))
           : null}
-        <Form.Item label="Custom Medicines" name="Custom Medicines">
+        {/* <Form.Item label="Custom Medicines" name="Custom Medicines">
           <TextArea type="text" />
-        </Form.Item>
+        </Form.Item> */}
+
         <Form.Item wrapperCol={{ offset: 11 }}>
           <div style={{ fontSize: "20px", fontWeight: "bold" }}>
             Price : ₹&nbsp;

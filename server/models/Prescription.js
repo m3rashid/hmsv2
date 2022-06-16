@@ -10,7 +10,13 @@ export default function (sequelize, DataTypes, Model) {
     static associate(models) {
       this.belongsTo(models.Doctor);
       this.belongsTo(models.Patient);
-      this.belongsTo(models.Medicine);
+      // this.belongsTo(models.Medicine);
+      this.belongsTo(models.Appointment, {
+        foreignKey: "appointmentId",
+        as: "appointment",
+        name: "appointmentId",
+        targetKey: "id",
+      });
     }
   }
 
@@ -21,15 +27,17 @@ export default function (sequelize, DataTypes, Model) {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      description: {
+      symptoms: {
         type: DataTypes.STRING,
+      },
+      prescription: {
+        type: DataTypes.JSON,
         allowNull: false,
+      },
+      CustomMedicines: {
+        type: DataTypes.STRING,
       },
       datePrescribed: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      dateExpiring: {
         type: DataTypes.DATE,
         allowNull: false,
       },

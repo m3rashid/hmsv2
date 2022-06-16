@@ -49,11 +49,7 @@ const Completed = () => {
   const data = GenerateData(10);
 
   return (
-    <div
-      style={{
-        marginTop: "20px",
-      }}
-    >
+    <div style={{ marginTop: "20px" }}>
       <Table
         dataSource={data}
         columns={columns}

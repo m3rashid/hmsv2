@@ -3,18 +3,13 @@ import Header from "../../components/Header";
 
 const Patient = () => {
   const [online, setOnline] = React.useState(true);
-  const user = {
-    name: "Mareez",
-    email: "mareez@gmail.com",
-    online: !online,
-  };
   return (
     <div
       style={{
         padding: "20px",
       }}
     >
-      <Header title="Patient" subTitle="" user={user} />
+      <Header online={online} setOnline={setOnline} />
     </div>
   );
 };

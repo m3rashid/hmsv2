@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import moment from "moment";
 import {
   Form,
   Button,
-  Radio,
+  // Radio,
   Input,
-  InputNumber,
+  // InputNumber,
   message,
   Select,
-  AutoComplete,
+  DatePicker,
+  // AutoComplete,
 } from "antd";
-import { socket } from "../../api/socket";
+// import { socket } from "../../api/socket";
 import FixedUseContext from "../../Hooks/FixedUseContext";
 import { DoctorContext } from "../../pages/doctor";
+import { socket } from "../../api/socket";
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -21,10 +24,26 @@ const PrescriptionForm = () => {
   const { AppointmentsData } = FixedUseContext(DoctorContext);
 
   const [AppointmentSearch, setAppSearch] = useState(AppointmentsData);
+
   const formSubmitHandler = (values) => {
     if (loading) return;
     console.log(values);
+    socket.emit("create-prescription-by-doctor", {
+      ...values,
+      datetime: moment().format("YYYY-MM-DD"),
+    });
   };
+
+  React.useEffect(() => {
+    socket.on("new-prescription-by-doctor-created", ({ data }) => {
+      console.log({ newPrescription: data });
+      message.success(`New Prescription for ${data.id} created successfully!`);
+    });
+
+    return () => {
+      socket.off("new-prescription-by-doctor-created");
+    };
+  }, []);
 
   return (
     <Form
@@ -68,13 +87,13 @@ const PrescriptionForm = () => {
             width: "100%",
           }}
           placeholder="select a medicine"
-          defaultValue={["diclo"]}
+          defaultValue={[]}
           onChange={() => {
             console.log("changed");
           }}
           optionLabelProp="label"
         >
-          <Option value="diclo" label="Diclo">
+          <Option value="Diclo" label="Diclo">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Diclo">
                 💊&nbsp;
@@ -82,7 +101,7 @@ const PrescriptionForm = () => {
               Diclo
             </div>
           </Option>
-          <Option value="aspirin" label="Aspirin">
+          <Option value="Aspirin" label="Aspirin">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Aspirin">
                 💊&nbsp;
@@ -90,7 +109,7 @@ const PrescriptionForm = () => {
               Aspirin
             </div>
           </Option>
-          <Option value="amlokind-5" label="Amlokind-5">
+          <Option value="Amlokind-5" label="Amlokind-5">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Amlokind-5">
                 💊&nbsp;
@@ -98,7 +117,7 @@ const PrescriptionForm = () => {
               Amlokind-5
             </div>
           </Option>
-          <Option value="urimax-500" label="Urimax-500">
+          <Option value="Urimax-500" label="Urimax-500">
             <div className="demo-option-label-item">
               <span role="img" aria-label="Urimax-500">
                 💊&nbsp;
@@ -108,7 +127,7 @@ const PrescriptionForm = () => {
           </Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Custom Medicines" name="Custom Medicines">
+      <Form.Item label="Custom Medicines" name="CustomMedicines">
         <TextArea type="text" />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 3 }}>

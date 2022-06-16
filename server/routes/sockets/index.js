@@ -11,6 +11,7 @@ export const socketConstants = {
   searchPatients: "search-patients",
   createReceptionist: "create-receptionist",
   createAppointment: "create-appointment",
+  createPrescriptionByDoctor: "create-prescription-by-doctor",
 
   // not handled
   foundDoctorAppointments: "found-doctor-appointments",
@@ -38,6 +39,7 @@ import {
   pharmacistLeft,
   receptionistLeft,
   searchPatients,
+  createPrescriptionByDoctor,
 } from "./handlers.js";
 
 const socketHandler = (io, socket) => {
@@ -56,6 +58,10 @@ const socketHandler = (io, socket) => {
   socket.on(socketConstants.searchPatients, searchPatients(io, socket));
   socket.on(socketConstants.createReceptionist, createReceptionist(io, socket));
   socket.on(socketConstants.createAppointment, createAppointment(io, socket));
+  socket.on(
+    socketConstants.createPrescriptionByDoctor,
+    createPrescriptionByDoctor(io, socket)
+  );
 };
 
 export default socketHandler;
