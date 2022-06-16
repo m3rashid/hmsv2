@@ -4,178 +4,43 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
   Row,
   Select,
+  Space,
   Typography,
 } from "antd";
-import axios from "axios";
-import React, { useState } from "react";
-import { instance } from "../../api/instance";
+import React, { useCallback, useState } from "react";
 import FixedUseContext from "../../Hooks/FixedUseContext";
-import { DoctorContext } from "../../pages/doctor";
+import { PharmacyContext } from "../../pages/pharmacy";
 const { TextArea } = Input;
 const { Option } = Select;
 
 function CreateReceipts() {
   const [loading, setLoading] = useState(false);
-  const { AppointmentsData } = FixedUseContext(DoctorContext);
-  const [AppointmentSearch, setAppSearch] = useState(AppointmentsData);
-  const [doctors, setDoctors] = useState({
-    data: [],
-    cancelToken: undefined,
-  });
-  const [patients, setPatients] = useState({
-    data: [],
-    cancelToken: undefined,
-  });
+  const { prescription, getMedicine, reduceMedicine } =
+    FixedUseContext(PharmacyContext);
+  const [SelectedPrescription, setSelectedPrescription] = useState(null);
   const [form] = Form.useForm();
-  const [FormSelected, setFormSelected] = useState({
-    doctor: null,
-    patient: null,
-  });
-  const [total, setTotal] = useState(100);
+
+  const [total, setTotal] = useState({});
   const formSubmitHandler = (values) => {
     if (loading) return;
-    console.log(values);
+    console.log(values, total);
+
+    Object.keys(total).forEach((tot) => {
+      reduceMedicine(total[tot].name, total[tot].qty);
+    });
   };
 
-  const UpdateDoctors = async (value) => {
-    if (doctors.cancelToken) {
-      doctors.cancelToken.cancel();
-    }
-
-    try {
-      const CancelToken = axios.CancelToken.source();
-
-      setDoctors({
-        data: [
-          {
-            value: "",
-            label: "Loading..",
-          },
-        ],
-        cancelToken: CancelToken,
-      });
-
-      const { data } = await instance.get("/doctor/search", {
-        params: {
-          name: value,
-          email: value,
-          designation: value,
-          contact: value,
-        },
-      });
-
-      setDoctors({
-        ...doctors,
-        data: data.doctors.map((doctor) => {
-          return {
-            value: doctor.id,
-            data: doctor,
-            label: (
-              <Col
-                direction="vertical"
-                size={"small"}
-                style={{
-                  fontSize: 12,
-                }}
-              >
-                <Row>
-                  <Typography.Text>{doctor.name}</Typography.Text>
-                  <Typography.Text type="danger">
-                    {"("}
-                    {doctor.designation}
-                    {")"}
-                  </Typography.Text>
-                </Row>
-                <Row>
-                  <Typography.Text disabled>{doctor.email}</Typography.Text>
-                </Row>
-              </Col>
-            ),
-          };
-        }),
-        cancelToken: doctors.cancelToken ? doctors.cancelToken : CancelToken,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const UpdatePatients = async (value) => {
-    console.log(value);
-
-    if (patients.cancelToken) {
-      patients.cancelToken.cancel();
-    }
-
-    try {
-      const CancelToken = axios.CancelToken.source();
-
-      setPatients({
-        data: [
-          {
-            value: "",
-            label: "Loading..",
-          },
-        ],
-        cancelToken: CancelToken,
-      });
-
-      const { data } = await instance.get(
-        "/patient/search",
-        {
-          params: {
-            name: value,
-            email: value,
-            jamiaId: value,
-          },
-        },
-        {
-          cancelToken: CancelToken.token,
-        }
-      );
-      console.log(data);
-
-      setPatients({
-        ...patients,
-        data: data.patients.map((patient) => {
-          return {
-            value: patient.id,
-            data: patient,
-            label: (
-              <Col
-                direction="vertical"
-                size={"small"}
-                style={{
-                  fontSize: 12,
-                }}
-              >
-                <Row>
-                  <Typography.Text>{patient.name}</Typography.Text>
-                  <Typography.Text type="danger">
-                    {"("}
-                    {patient.age} years old
-                    {")"}
-                  </Typography.Text>
-                </Row>
-                <Row>
-                  <Typography.Text disabled>{patient.email}</Typography.Text>
-                </Row>
-              </Col>
-            ),
-          };
-        }),
-        cancelToken: patients.cancelToken ? patients.cancelToken : CancelToken,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  function sum(arr) {
+    return arr.reduce((x, y) => x + y, 0);
+  }
 
   return (
     <div>
       <Form
+        form={form}
         onFinish={formSubmitHandler}
         labelAlign="left"
         labelCol={{ span: 5 }}
@@ -192,12 +57,13 @@ function CreateReceipts() {
             }}
             placeholder="select an Prescription"
             defaultValue={[]}
-            onChange={() => {
-              console.log("changed");
+            onSelect={(id) => {
+              const pres = prescription.find((value) => value.id === id);
+              setSelectedPrescription(pres);
             }}
             optionLabelProp="Appointment"
           >
-            {AppointmentSearch?.map((appointment) => (
+            {prescription?.map((appointment) => (
               <Option key={appointment.id} value={appointment.id}>
                 <span>
                   {appointment.patientname} - {appointment.date}
@@ -207,126 +73,58 @@ function CreateReceipts() {
           </Select>
         </Form.Item>
 
-        <Form.Item
-          label="Patient"
-          name="patient"
-          rules={[{ required: true, message: "Please select a patient!" }]}
-        >
-          <AutoComplete
-            id="patient"
-            placeholder="Patient Name"
-            options={patients.data}
-            onSearch={(value) => UpdatePatients(value)}
-            onSelect={(value) => {
-              form.setFieldsValue({
-                patient: value,
-              });
-              setFormSelected({
-                ...FormSelected,
-                patient: patients.data.find(
-                  (patient) => patient.value === value
-                ),
-              });
-            }}
-          />
+        <h3>Medicine</h3>
+        {SelectedPrescription
+          ? SelectedPrescription?.medicine?.map((item) => (
+              <Form.Item label={`${item}`} value={`${item}`}>
+                <Space>
+                  <InputNumber
+                    placeholder="Qty"
+                    max={getMedicine(item)[0].qty}
+                    min={0}
+                    onChange={(value) => {
+                      console.log(
+                        item,
+                        " : ",
+                        value,
+                        getMedicine(item)[0].price
+                      );
+                      setTotal((tot) => {
+                        const newtot = { ...tot };
 
-          <Typography.Text
-            disabled
-            style={{
-              fontSize: 10,
-            }}
-          >
-            *Search by (name or email or jamia Id)
-          </Typography.Text>
-        </Form.Item>
+                        newtot[item] = {
+                          price: getMedicine(item)[0].price * value,
+                          qty: value,
+                          name: item,
+                        };
 
-        <Form.Item
-          label="Doctor Name"
-          name="doctor"
-          rules={[{ required: true, message: "Please select a doctor!" }]}
-        >
-          <AutoComplete
-            options={doctors.data}
-            id="doctor"
-            placeholder="Doctor Name"
-            onSearch={(value) => UpdateDoctors(value)}
-            onSelect={(value) => {
-              form.setFieldsValue({
-                doctor: value,
-              });
-              setFormSelected({
-                ...FormSelected,
-                doctor: doctors.data.find((doctor) => doctor.value === value),
-              });
-            }}
-          />
-          <Typography.Text
-            disabled
-            style={{
-              fontSize: 10,
-            }}
-          >
-            *Search by (name or designation)
-          </Typography.Text>
-        </Form.Item>
-        <Form.Item label="Medicines" name="Medicines">
-          <Select
-            mode="multiple"
-            style={{
-              width: "100%",
-            }}
-            placeholder="select a medicine"
-            // defaultValue={["diclo"]}
-            onChange={() => {
-              console.log("changed");
-            }}
-            optionLabelProp="label"
-          >
-            <Option value="diclo" label="Diclo">
-              <div className="demo-option-label-item">
-                <span role="img" aria-label="Diclo">
-                  💊&nbsp;
-                </span>
-                Diclo
-              </div>
-            </Option>
-            <Option value="aspirin" label="Aspirin">
-              <div className="demo-option-label-item">
-                <span role="img" aria-label="Aspirin">
-                  💊&nbsp;
-                </span>
-                Aspirin
-              </div>
-            </Option>
-            <Option value="amlokind-5" label="Amlokind-5">
-              <div className="demo-option-label-item">
-                <span role="img" aria-label="Amlokind-5">
-                  💊&nbsp;
-                </span>
-                Amlokind-5
-              </div>
-            </Option>
-            <Option value="urimax-500" label="Urimax-500">
-              <div className="demo-option-label-item">
-                <span role="img" aria-label="Urimax-500">
-                  💊&nbsp;
-                </span>
-                Urimax-500
-              </div>
-            </Option>
-          </Select>
-        </Form.Item>
+                        return newtot;
+                      });
+                    }}
+                  />
+                  <span
+                    style={{
+                      padding: "10",
+                    }}
+                  >
+                    max. {getMedicine(item)[0].qty}
+                  </span>
+                </Space>
+              </Form.Item>
+            ))
+          : null}
         <Form.Item label="Custom Medicines" name="Custom Medicines">
           <TextArea type="text" />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 11 }}>
           <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-            Price : ₹&nbsp;{total}
+            Price : ₹&nbsp;
+            {sum(Object.keys(total).map((val) => parseInt(total[val].price)))}
           </div>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 12 }}>
           <Button loading={loading} type="primary" htmlType="submit">
-            Print
+            Save
           </Button>
         </Form.Item>
       </Form>

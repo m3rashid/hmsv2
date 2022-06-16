@@ -43,7 +43,7 @@ const routes = [
     path: "/pharmacy",
     component: Pharmacy,
     text: "Pharmacy",
-    role: ["PHARMACY"],
+    role: ["PHARMACIST"],
   },
   {
     path: "/reception",
