@@ -231,13 +231,13 @@ const createPrescriptionByDoctor =
     datetime,
   }) => {
     try {
-      const data = await createPrescriptionByDoctorService(
+      const data = await createPrescriptionByDoctorService({
         appointment,
         symptoms,
         prescription,
         CustomMedicines,
-        datetime
-      );
+        datetime,
+      });
 
       console.log(data);
       io.emit("new-prescription-by-doctor-created", { data });

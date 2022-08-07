@@ -42,7 +42,7 @@ model Doctor {
   contact      String         @unique
   address      String
   appointments Appointment[]
-  Prescription Prescription[]
+  // Prescription Prescription[]
   authId    Int      
   auth      Auth     @relation(fields: [authId], references: [id])
   createdAt    DateTime       @default(now())
@@ -76,13 +76,13 @@ model Patient {
   name         String
   age          Int
   sex          Sex
-  lastVisit    DateTime
+  lastVisit    DateTime?       @ignore
   contact      String         @unique
   address      String?
   email        String?
   jamiaId      String?
   Appointment  Appointment[]
-  Prescription Prescription[]
+  // Prescription Prescription[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now())
 }
@@ -103,12 +103,12 @@ model Prescription {
   id              Int         @id @default(sequence())
   symptoms        String
   diagnosis       String // prescription
-  CustomMedicines String
+  customMedicines String
   datePrescribed  DateTime    @default(now())
-  doctorId        Int
-  doctor          Doctor      @relation(fields: [doctorId], references: [id])
-  patientId       Int
-  patient         Patient     @relation(fields: [patientId], references: [id])
+  // doctorId        Int
+  // doctor          Doctor      @relation(fields: [doctorId], references: [id])
+  // patientId       Int
+  // patient         Patient     @relation(fields: [patientId], references: [id])
   appointmentId   Int
   appointment     Appointment @relation(fields: [appointmentId], references: [id])
   createdAt       DateTime    @default(now())

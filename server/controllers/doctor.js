@@ -4,6 +4,7 @@ const {
   getDoctorAppointmentsService,
   getDoctorPatientsService,
   searchDoctorsService,
+  createPrescriptionByDoctorService,
 } = require("../services/doctor.js");
 const { getAppointmentByIdService } = require("../services/reception.js");
 const prisma = require("../utils/prisma");
@@ -103,10 +104,34 @@ const FillDummy = async (req, res) => {
   }
 };
 
+const createPrescriptionByDoctor = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id || req.user.role !== "DOCTOR")
+      throw new Error("Unauthorized");
+    const { appointment, symptoms, diagnosis, customMedicines, datetime } =
+      req.body;
+
+    const { prescription: newPrescription } =
+      await createPrescriptionByDoctorService({
+        appointment,
+        symptoms,
+        diagnosis,
+        customMedicines,
+        datetime,
+      });
+    return res.status(200).json({ newPrescription });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message || "Internal Server Error",
+    });
+  }
+};
 module.exports = {
   getDoctorAppointments,
   getDoctorPatients,
   getAppointmentById,
   searchDoctors,
   FillDummy,
+  createPrescriptionByDoctor,
 };

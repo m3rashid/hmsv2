@@ -13,11 +13,15 @@ const getDoctorAppointmentsService = async (userId) => {
   return { appointments };
 };
 
-// FIX this bad query
+// Hopefully this is the correct query
 const getDoctorPatientsService = async (doctorId) => {
   const patients = await prisma.Patient.findMany({
     where: {
-      doctorId,
+      Appointment: {
+        some: {
+          doctorId: doctorId,
+        },
+      },
     },
   });
   return { patients };
@@ -103,37 +107,38 @@ const searchDoctorsService = async ({
   return { count: doctors.length, doctors };
 };
 
-const createPrescriptionByDoctorService = async (
+const createPrescriptionByDoctorService = async ({
   appointment,
   symptoms,
-  prescription,
-  CustomMedicines,
-  datetime
-) => {
+  diagnosis,
+  customMedicines,
+  datetime,
+}) => {
   // Fix this bad query
+  console.log(appointment, symptoms, diagnosis, customMedicines, datetime);
   const newPrescription = await prisma.Prescription.create({
     data: {
       appointmentId: appointment,
       symptoms,
-      prescription,
-      CustomMedicines,
+      diagnosis,
+      customMedicines,
       datePrescribed: datetime,
     },
     include: {
       appointment: true,
-      doctor: true,
-      patient: true,
+      // doctor: true,
+      // patient: true,
     },
   });
 
-  const newPresDetails = await newPrescription.getAppointment();
-  const patient = await newPresDetails.getPatient();
-  const doctor = await newPresDetails.getDoctor();
+  // const newPresDetails = await newPrescription.getAppointment();
+  // const patient = await newPresDetails.getPatient();
+  // const doctor = await newPresDetails.getDoctor();
 
   return {
     prescription: newPrescription,
-    doctor,
-    patient,
+    // doctor,
+    // patient,
   };
 };
 

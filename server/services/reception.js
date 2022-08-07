@@ -1,18 +1,12 @@
-const createAppointmentService = async ({
-  patientId,
-  doctorId,
-  patient,
-  doctor,
-  date,
-}) => {
+const prisma = require("../utils/prisma");
+const createAppointmentService = async ({ patientId, doctorId, date }) => {
   const appointment = {
-    PatientId: patientId,
-    DoctorId: doctorId,
+    patientId: patientId,
+    doctorId: doctorId,
     date,
   };
 
   try {
-    console.log(appointment);
     const newAppointment = await prisma.Appointment.create({
       data: {
         ...appointment,
@@ -23,14 +17,14 @@ const createAppointmentService = async ({
       },
     });
 
-    const appointmentPatient = await newAppointment.getPatient();
-    const appointmentDoctor = await newAppointment.getDoctor();
+    // const appointmentPatient = await newAppointment?.getPatient();
+    // const appointmentDoctor = await newAppointment?.getDoctor();
 
-    console.log(appointmentPatient);
-    console.log(appointmentDoctor);
+    // console.log(appointmentPatient);
+    // console.log(appointmentDoctor);
 
     return {
-      Appointment: newAppointment,
+      appointment: newAppointment,
       id: newAppointment?.id,
       patient: appointmentPatient,
       doctor: appointmentDoctor,
