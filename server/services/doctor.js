@@ -16,7 +16,9 @@ const getDoctorAppointmentsService = async (userId) => {
 // FIX this bad query
 const getDoctorPatientsService = async (doctorId) => {
   const patients = await prisma.Patient.findMany({
-    where: {},
+    where: {
+      doctorId,
+    },
   });
   return { patients };
 };
@@ -39,29 +41,65 @@ const searchDoctorsService = async ({
   contact,
   email,
   address,
+  availability,
 }) => {
-  // FIX this bad query
   const whereClause = {
-    ...(name && { name: { [Op.like]: `%${name}%` } }),
-    ...(minAge && { age: { [Op.gte]: minAge } }),
-    ...(maxAge && { age: { [Op.lte]: maxAge } }),
-    ...(minAge && { [Op.gte]: minAge }),
-    ...(designation && { [Op.like]: designation }),
-    ...(contact && { [Op.like]: `%${contact}%` }),
-    ...(address && { [Op.like]: `%${address}%` }),
-    ...(email && { [Op.like]: `%${email}%` }),
+    ...(name && {
+      name: {
+        contains: name,
+      },
+    }),
+    ...((minAge || maxAge) && {
+      age: {
+        ...(minAge && {
+          gte: parseInt(minAge),
+        }),
+        ...(maxAge && {
+          lte: parseInt(maxAge),
+        }),
+      },
+    }),
+    ...(designation && {
+      designation: {
+        contains: designation,
+      },
+    }),
+    ...(contact && {
+      contact: {
+        contains: contact,
+      },
+    }),
+    ...(address && {
+      address: {
+        contains: address,
+      },
+    }),
+    ...(availability && {
+      availability: {
+        equals: availability === "true",
+      },
+    }),
+    ...(email && {
+      auth: {
+        email: {
+          contains: email,
+        },
+      },
+    }),
   };
 
-  console.log(whereClause);
-
-  const doctors = await prisma.Doctor.findAll({
+  const doctors = await prisma.Doctor.findMany({
     where: {
-      [Op.or]: whereClause,
+      ...whereClause,
     },
-    raw: true,
+    include: {
+      auth: {
+        select: {
+          email: true,
+        },
+      },
+    },
   });
-
-  console.log(doctors);
   return { count: doctors.length, doctors };
 };
 

@@ -7,7 +7,7 @@ const { instrument } = require("@socket.io/admin-ui");
 
 const { router: AuthRoutes } = require("./routes/auth.routes.js");
 const { router: DoctorRoutes } = require("./routes/doctor.routes.js");
-const { router: socketHandler } = require("./routes/sockets/index.js");
+const { socketHandler } = require("./routes/sockets/index.js");
 const { router: PatientRoutes } = require("./routes/patient.routes.js");
 const prisma = require("./utils/prisma.js");
 

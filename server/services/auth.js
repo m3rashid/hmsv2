@@ -46,18 +46,19 @@ const loginService = async (email, password) => {
   };
 };
 
-const signupService = async (email, password, role, name) => {
-  if (!email || !password || !role || !name) {
+const signupService = async (email, password, role) => {
+  if (!email || !password || !role) {
     throw new Error("No credentials");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log("creating user");
   const user = await prisma.Auth.create({
-    name,
-    email,
-    password: hashedPassword,
-    role: role,
+    data: {
+      email,
+      password: hashedPassword,
+      role: role,
+    },
   });
 
   console.log("user created");
@@ -104,18 +105,17 @@ const createDummyService = async () => {
       email: faker.internet.email(),
     };
 
-    await prisma.Patient.create(patientData);
+    await prisma.Patient.create({ data: patientData });
     return;
   }
 
   const data = {
-    name: faker.name.findName(),
     email: faker.internet.email(),
     password: await bcrypt.hash("admin123", 10),
     role,
   };
 
-  const user = await prisma.Auth.create(data);
+  const user = await prisma.Auth.create({ data });
 
   const AuthId = user.id;
 
@@ -124,41 +124,41 @@ const createDummyService = async () => {
   switch (role) {
     case "DOCTOR":
       const doctorData = {
-        name: data.name,
-        email: data.email,
+        name: faker.name.findName(),
         designation:
           designation[Math.floor(Math.random() * designation.length)],
         age: faker.datatype.number({ min: 18, max: 60 }),
         address: faker.address.city(),
         contact: faker.phone.phoneNumber("+91 ##### #####"),
         availability: faker.datatype.boolean(),
-        AuthId: AuthId,
+        authId: AuthId,
       };
 
-      await prisma.Doctor.create(doctorData, {
-        include: { auth: true },
-      });
+      await prisma.Doctor.create(
+        { data: doctorData },
+        { include: { auth: true } }
+      );
 
       break;
     case "RECEPTIONIST":
       const receptionistData = {
-        email: data.email,
+        name: faker.name.findName(),
         contact: faker.phone.phoneNumber("+91 ##### #####"),
         address: faker.address.city(),
-        AuthId: AuthId,
+        authId: AuthId,
       };
 
-      await prisma.Receptionist.create(receptionistData);
+      await prisma.Receptionist.create({ data: receptionistData });
       break;
     case "PHARMACIST":
       const pharmacistData = {
-        email: data.email,
+        name: faker.name.findName(),
         contact: faker.phone.phoneNumber("+91 ##### #####"),
         address: faker.address.city(),
-        AuthId: AuthId,
+        authId: AuthId,
       };
 
-      await prisma.Pharmacist.create(pharmacistData);
+      await prisma.Pharmacist.create({ data: pharmacistData });
       break;
   }
 };

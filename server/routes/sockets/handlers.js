@@ -15,6 +15,7 @@ const createUser =
       const { user } = await createUserService(email, password, role, name);
       console.log(user);
       // emit that user was  created successfully
+      io.emit("user-created", { user });
     } catch (err) {
       console.log(err);
       io.emit("error", {

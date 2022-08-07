@@ -41,12 +41,12 @@
     "_id": "7c828fe0-dc55-4b82-8d1f-f87b6de46d5d",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:5000/api/auth/revalidate",
+    "name": "dummy",
     "url": "http://localhost:5000/api/auth/dummy",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-05-12T17:21:21.967Z",
-    "modified": "2022-06-16T13:45:37.647Z",
+    "modified": "2022-08-04T04:47:13.430Z",
     "headers": [],
     "params": [],
     "body": {
@@ -333,7 +333,7 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-05-16T21:27:07.399Z",
-    "modified": "2022-05-16T21:27:07.454Z",
+    "modified": "2022-08-04T04:49:52.534Z",
     "headers": [],
     "params": [
       {

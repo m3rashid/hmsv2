@@ -49,34 +49,67 @@ const searchPatientsService = async ({
   lastVisitedBefore,
   lastVisitedAfter,
 }) => {
-  // FIX this bad query
   const whereClause = {
-    ...(name && { [Op.like]: `%${name}%` }),
-    ...(age && { [Op.gte]: minAge }),
-    ...(age && { [Op.lte]: maxAge }),
-    ...(sex && { [Op.eq]: sex }),
-    ...(contact && { [Op.like]: `%${contact}%` }),
-    ...(address && { [Op.like]: `%${address}%` }),
-    ...(email && { [Op.like]: `%${email}%` }),
-    ...(jamiaId && { [Op.like]: `%${jamiaId}%` }),
-    ...(lastVisit && {
-      [Op.lte]: new Date(lastVisitedBefore).toISOString(),
+    ...(name && {
+      name: {
+        contains: name,
+      },
     }),
-    ...(lastVisit && {
-      [Op.gte]: new Date(lastVisitedAfter).toISOString(),
+    ...((minAge || maxAge) && {
+      age: {
+        ...(minAge && {
+          gte: parseInt(minAge),
+        }),
+        ...(maxAge && {
+          lte: parseInt(maxAge),
+        }),
+      },
+    }),
+    ...(sex && {
+      sex: {
+        equals: sex,
+      },
+    }),
+    ...(contact && {
+      contact: {
+        contains: contact,
+      },
+    }),
+    ...(address && {
+      address: {
+        contains: address,
+      },
+    }),
+    ...(email && {
+      email: {
+        contains: email,
+      },
+    }),
+    ...(jamiaId && {
+      jamiaId: {
+        contains: jamiaId,
+      },
+    }),
+    ...((lastVisitedAfter || lastVisitedBefore) && {
+      lastVisit: {
+        ...(lastVisitedBefore && {
+          lte: new Date(lastVisitedBefore).toISOString(),
+        }),
+        ...(lastVisitedAfter && {
+          gte: new Date(lastVisitedAfter).toISOString(),
+        }),
+      },
     }),
   };
-
-  console.log(whereClause);
+  console.log("Query:", whereClause);
 
   const patients = await prisma.Patient.findMany({
-    where: { [Op.or]: whereClause },
+    where: { ...whereClause },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-  console.log(patients);
   return { count: patients.length, patients };
 };
 
