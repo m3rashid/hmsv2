@@ -1,6 +1,6 @@
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcrypt");
-
+const dayjs = require("dayjs");
 const prisma = require("../utils/prisma");
 const { issueJWT, revalidateJWT } = require("../utils/jwt.js");
 
@@ -109,13 +109,13 @@ const createDummyService = async () => {
       name: faker.name.findName(),
       age: faker.datatype.number({ min: 18, max: 60 }),
       sex: sex[Math.floor(Math.random() * sex.length)],
-      lastVisit: faker.date.recent(),
+      lastVisit: dayjs().toDate(),
       contact: faker.phone.phoneNumber("+91 ##### #####"),
       address: faker.address.city(),
       email: faker.internet.email(),
     };
 
-    await prisma.Patient.create({
+    await prisma.patient.create({
       data: patientData,
     });
     return;
@@ -185,7 +185,7 @@ const createDummyService = async () => {
         },
       };
 
-      await prisma.Pharmacist.create({ data: { data: pharmacistData } });
+      await prisma.Pharmacist.create({ data: pharmacistData });
       break;
   }
 };

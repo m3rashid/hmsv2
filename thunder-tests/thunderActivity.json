@@ -145,7 +145,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T11:01:30.780Z",
-    "modified": "2022-08-15T12:49:02.706Z",
+    "modified": "2022-08-15T18:50:45.789Z",
     "headers": [],
     "params": [],
     "body": {
@@ -220,6 +220,79 @@
       "type": "bearer",
       "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
     },
+    "tests": []
+  },
+  {
+    "_id": "8ed25191-606d-443d-ad61-e3a4fc523492",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/inventory/dummy",
+    "url": "http://localhost:5000/api/inventory/dummy",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-15T19:19:59.135Z",
+    "modified": "2022-08-15T19:19:59.174Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"count\" : 20\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "fcc5ee5f-8216-46b4-94e3-bf6647b70b47",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/inventory/dummy",
+    "url": "http://localhost:5000/api/inventory/dummy",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-08-15T19:20:02.082Z",
+    "modified": "2022-08-15T19:22:24.159Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"count\" : 100\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "d622010f-9bad-4dd2-a4e0-6f61a08247e5",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/inventory/dummy Copy",
+    "url": "http://localhost:5000/api/inventory/search",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-15T19:20:02.082Z",
+    "modified": "2022-08-15T19:38:24.526Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "Cipro",
+        "isDisabled": true,
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "e2346705-264a-4149-afb0-15a1506f1803",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://www.thunderclient.com/welcome",
+    "url": "https://www.thunderclient.com/welcome",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-15T19:21:23.438Z",
+    "modified": "2022-08-15T19:21:24.043Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

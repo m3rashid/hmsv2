@@ -1,9 +1,20 @@
-import { Button, Input, Select, Space, Typography } from "antd";
-import React from "react";
+import {
+  AutoComplete,
+  Button,
+  Col,
+  Input,
+  Row,
+  Select,
+  Space,
+  Typography,
+} from "antd";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./medicineinput.module.css";
+import { instance } from "../../api/instance";
+import axios from "axios";
 
-function MedicineInput({ index, medicine, deleteMedicine }) {
+function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
   const dosages = [
     "Once a day",
     "Twice a day",
@@ -19,15 +30,100 @@ function MedicineInput({ index, medicine, deleteMedicine }) {
     "Vitamin D",
   ];
 
+  const [MedicineList, setMedicineList] = useState({
+    list: [],
+    cancelToken: undefined,
+  });
+
   const handleChange = (value, type) => {
     //   Update the medicine object
+    setMedicines((prevState) => {
+      return prevState.map((medicine, i) => {
+        if (i === index) {
+          return {
+            ...medicine,
+            [type]: value,
+          };
+        }
+        return medicine;
+      });
+    });
+  };
+
+  const UpdateMedicineList = async (value) => {
+    if (MedicineList.cancelToken) {
+      MedicineList.cancelToken.cancel();
+    }
+
+    try {
+      const CancelToken = axios.CancelToken.source();
+
+      setMedicineList({
+        data: [
+          {
+            value: "",
+            label: "Loading..",
+          },
+        ],
+        cancelToken: CancelToken,
+      });
+
+      const { data } = await instance.get(
+        "/inventory/search",
+        {
+          params: {
+            name: value,
+          },
+        },
+        {
+          cancelToken: CancelToken.token,
+        }
+      );
+      console.log(data);
+
+      setMedicineList({
+        ...MedicineList,
+        list: data.inventory.map((medicine) => {
+          return {
+            value: medicine.id,
+            data: medicine,
+            label: (
+              <Col
+                direction="vertical"
+                size={"small"}
+                style={{
+                  fontSize: 12,
+                }}
+              >
+                <Row>
+                  <Typography.Text>{medicine.name}</Typography.Text>
+                  <Typography.Text type="danger">
+                    {"("}
+                    {medicine.quantity} Left Only
+                    {")"}
+                  </Typography.Text>
+                </Row>
+                <Row>
+                  <Typography.Text disabled>₹ {medicine.price}</Typography.Text>
+                </Row>
+              </Col>
+            ),
+          };
+        }),
+        cancelToken: MedicineList.cancelToken
+          ? MedicineList.cancelToken
+          : CancelToken,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <Space
       direction="vertical"
       style={{
-        width: "75%",
+        width: "55%",
       }}
       size="middle"
     >
@@ -41,26 +137,32 @@ function MedicineInput({ index, medicine, deleteMedicine }) {
       </div>
 
       <div className={styles.container}>
-        <Select
-          placeholder="Select Medicine"
-          defaultValue={medicine.medicine}
-          className={styles.select}
-          onChange={(value) => handleChange(value, "medicine")}
+        <AutoComplete
+          style={{ width: "100%" }}
+          onSearch={UpdateMedicineList}
+          placeholder="input here"
+          options={MedicineList.list}
+          onChange={(value) => handleChange(value, "name")}
+        />
+        <Space
+          style={{
+            width: "100%",
+            display: "flex",
+          }}
         >
-          {medicines.map((medicine) => (
-            <Select.Option value={medicine}>{medicine}</Select.Option>
-          ))}
-        </Select>
-        <Select
-          placeholder="Select Dosage"
-          defaultValue={medicine.dosage}
-          className={styles.select}
-          onChange={(value) => handleChange(value, "dosage")}
-        >
-          {dosages.map((dosage) => (
-            <Select.Option value={dosage}>{dosage}</Select.Option>
-          ))}
-        </Select>
+          <Typography>Dosage :</Typography>
+          <Select
+            style={{ width: 200, flexGrow: 1 }}
+            placeholder="Select Dosage"
+            defaultValue={medicine.dosage}
+            className={styles.select}
+            onChange={(value) => handleChange(value, "dosage")}
+          >
+            {dosages.map((dosage) => (
+              <Select.Option value={dosage}>{dosage}</Select.Option>
+            ))}
+          </Select>
+        </Space>
         <Space
           style={{
             width: "100%",
@@ -98,6 +200,7 @@ MedicineInput.propTypes = {
   index: PropTypes.number.isRequired,
   medicine: PropTypes.object.isRequired,
   deleteMedicine: PropTypes.func.isRequired,
+  setMedicines: PropTypes.func.isRequired,
 };
 
 export default MedicineInput;

@@ -23,7 +23,6 @@ const PrescriptionForm = () => {
   const [loading] = useState(false);
 
   const { AppointmentsData } = FixedUseContext(DoctorContext);
-
   const [AppointmentSearch] = useState(AppointmentsData);
   const [medicines, setMedicines] = useState([]);
 
@@ -33,6 +32,7 @@ const PrescriptionForm = () => {
     socket.emit("create-prescription-by-doctor", {
       ...values,
       datetime: moment().format("YYYY-MM-DD"),
+      medicines,
     });
   };
 
@@ -49,8 +49,9 @@ const PrescriptionForm = () => {
 
   React.useEffect(() => {
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
-      console.log({ newPrescription: data });
-      message.success(`New Prescription for ${data.id} created successfully!`);
+      message.success(
+        `New Prescription for ${data.prescription.id} created successfully!`
+      );
     });
 
     return () => {
@@ -110,6 +111,7 @@ const PrescriptionForm = () => {
               index={index}
               medicine={medicine}
               deleteMedicine={deleteMedicine}
+              setMedicines={setMedicines}
             />
           </React.Fragment>
         ))}

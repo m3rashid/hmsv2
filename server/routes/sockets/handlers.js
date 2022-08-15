@@ -229,6 +229,7 @@ const createPrescriptionByDoctor =
     prescription,
     CustomMedicines,
     datetime,
+    medicines,
   }) => {
     try {
       const data = await createPrescriptionByDoctorService({
@@ -237,6 +238,7 @@ const createPrescriptionByDoctor =
         prescription,
         CustomMedicines,
         datetime,
+        medicines,
       });
 
       console.log(data);

@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const prisma = require("../utils/prisma");
 
 const getDoctorAppointmentsService = async (userId) => {
@@ -74,21 +75,32 @@ const createPrescriptionByDoctorService = async ({
   appointment,
   symptoms,
   diagnosis,
-  customMedicines,
+  CustomMedicines,
   datetime,
+  medicines,
 }) => {
   // Fix this bad query
   const newPrescription = await prisma.prescription.create({
     data: {
       appointment: {
         connect: {
-          id: appointment.id,
+          id: appointment,
         },
       },
       symptoms,
       diagnosis,
-      customMedicines,
-      datePrescribed: datetime,
+      CustomMedicines,
+      datePrescribed: dayjs(datetime).toDate(),
+      medicines: {
+        createMany: {
+          data: medicines.map((medicine) => ({
+            quantity: parseInt(medicine.quantity),
+            dosage: medicine?.dosage,
+            description: medicine.description,
+            MedicineId: parseInt(medicine.name),
+          })),
+        },
+      },
     },
     include: {
       appointment: true,

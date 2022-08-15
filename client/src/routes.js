@@ -4,6 +4,7 @@ import Pharmacy from "./pages/pharmacy";
 import Reception from "./pages/reception";
 import Appointments from "./pages/appointments";
 import Admin from "./pages/admin";
+import Inventory from "./pages/inventory";
 
 export const validateRoute = (Auth, route) => {
   if (!Auth.isLoggedIn) {
@@ -56,6 +57,12 @@ const routes = [
     component: Appointments,
     text: "Appointments",
     role: ["RECEPTIONIST"],
+  },
+  {
+    path: "/inventory",
+    component: Inventory,
+    text: "Inventory",
+    role: ["PHARMACIST"],
   },
 ];
 

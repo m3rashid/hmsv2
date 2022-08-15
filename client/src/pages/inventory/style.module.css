@@ -1,0 +1,19 @@
+.container {
+    padding: 10px;
+}
+
+.card__title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card__price{
+    display: flex;
+    background-color: rgb(255, 38, 38);
+    color: white;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+}
