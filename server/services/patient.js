@@ -1,14 +1,14 @@
 const prisma = require("../utils/prisma");
 
-const createPatientService = async (
+const createPatientService = async ({
   name,
   age,
   sex,
   contact,
   address,
   email,
-  jamiaId
-) => {
+  jamiaId,
+}) => {
   if (!name || !age || !sex || !contact || !email)
     throw new Error("Missing credentials");
 
@@ -16,7 +16,7 @@ const createPatientService = async (
     data: { name, age, sex, contact, address, email, jamiaId },
   });
 
-  return { newPatient };
+  return { patient: newPatient };
 };
 
 const deletePatientService = async (patientId) => {
@@ -78,7 +78,6 @@ const searchPatientsService = async ({
     },
   });
 
-  console.log(patients);
   return { count: patients.length, patients };
 };
 

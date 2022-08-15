@@ -11,10 +11,16 @@ const getDoctorAppointmentsService = async (userId) => {
   return { appointments };
 };
 
-// FIX this bad query
+// Hopefully this is the correct query
 const getDoctorPatientsService = async (doctorId) => {
   const patients = await prisma.Patient.findMany({
-    where: {},
+    where: {
+      Appointment: {
+        some: {
+          doctorId: doctorId,
+        },
+      },
+    },
   });
   return { patients };
 };
@@ -37,22 +43,9 @@ const searchDoctorsService = async ({
   contact,
   email,
   address,
+  availability,
 }) => {
-  // FIX this bad query
-  // const whereClause = {
-  //   ...(name && { name: { [Op.like]: `%${name}%` } }),
-  //   ...(minAge && { age: { [Op.gte]: minAge } }),
-  //   ...(maxAge && { age: { [Op.lte]: maxAge } }),
-  //   ...(minAge && { [Op.gte]: minAge }),
-  //   ...(designation && { [Op.like]: designation }),
-  //   ...(contact && { [Op.like]: `%${contact}%` }),
-  //   ...(address && { [Op.like]: `%${address}%` }),
-  //   ...(email && { [Op.like]: `%${email}%` }),
-  // };
-
-  // console.log(whereClause);
-
-  const doctors = await prisma.doctor.findMany({
+  const doctors = await prisma.Doctor.findMany({
     where: {
       name: {
         contains: name,
@@ -74,18 +67,16 @@ const searchDoctorsService = async ({
       },
     },
   });
-
-  console.log(doctors);
   return { count: doctors.length, doctors };
 };
 
-const createPrescriptionByDoctorService = async (
+const createPrescriptionByDoctorService = async ({
   appointment,
   symptoms,
-  prescription,
-  CustomMedicines,
-  datetime
-) => {
+  diagnosis,
+  customMedicines,
+  datetime,
+}) => {
   // Fix this bad query
   const newPrescription = await prisma.prescription.create({
     data: {
@@ -95,25 +86,25 @@ const createPrescriptionByDoctorService = async (
         },
       },
       symptoms,
-      prescription,
-      CustomMedicines,
+      diagnosis,
+      customMedicines,
       datePrescribed: datetime,
     },
     include: {
       appointment: true,
-      doctor: true,
-      patient: true,
+      // doctor: true,
+      // patient: true,
     },
   });
 
-  const newPresDetails = await newPrescription.getAppointment();
-  const patient = await newPresDetails.getPatient();
-  const doctor = await newPresDetails.getDoctor();
+  // const newPresDetails = await newPrescription.getAppointment();
+  // const patient = await newPresDetails.getPatient();
+  // const doctor = await newPresDetails.getDoctor();
 
   return {
     prescription: newPrescription,
-    doctor,
-    patient,
+    // doctor,
+    // patient,
   };
 };
 

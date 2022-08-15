@@ -53,18 +53,19 @@ const loginService = async (email, password) => {
   };
 };
 
-const signupService = async (email, password, role, name) => {
-  if (!email || !password || !role || !name) {
+const signupService = async (email, password, role) => {
+  if (!email || !password || !role) {
     throw new Error("No credentials");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log("creating user");
   const user = await prisma.Auth.create({
-    name,
-    email,
-    password: hashedPassword,
-    role: role,
+    data: {
+      email,
+      password: hashedPassword,
+      role: role,
+    },
   });
 
   console.log("user created");
@@ -126,9 +127,7 @@ const createDummyService = async () => {
     role,
   };
 
-  const user = await prisma.Auth.create({
-    data: data,
-  });
+  const user = await prisma.Auth.create({ data });
 
   const AuthId = user.id;
 
@@ -186,7 +185,7 @@ const createDummyService = async () => {
         },
       };
 
-      await prisma.Pharmacist.create({ data: pharmacistData });
+      await prisma.Pharmacist.create({ data: { data: pharmacistData } });
       break;
   }
 };

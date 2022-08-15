@@ -7,7 +7,8 @@ const { instrument } = require("@socket.io/admin-ui");
 
 const { router: AuthRoutes } = require("./routes/auth.routes.js");
 const { router: DoctorRoutes } = require("./routes/doctor.routes.js");
-const { router: socketHandler } = require("./routes/sockets/index.js");
+const { router: ReceptionRoutes } = require("./routes/reception.routes.js");
+const { socketHandler } = require("./routes/sockets/index.js");
 const { router: PatientRoutes } = require("./routes/patient.routes.js");
 const prisma = require("./utils/prisma.js");
 
@@ -41,6 +42,7 @@ app.get("/", (req, res) => res.send("Hello World"));
 app.use("/api/auth", AuthRoutes);
 app.use("/api/patient", PatientRoutes);
 app.use("/api/doctor", DoctorRoutes);
+app.use("/api/reception", ReceptionRoutes);
 
 const PORT = process.env.PORT || 5000;
 

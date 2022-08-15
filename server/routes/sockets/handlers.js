@@ -15,6 +15,7 @@ const createUser =
       const { user } = await createUserService(email, password, role, name);
       console.log(user);
       // emit that user was  created successfully
+      io.emit("user-created", { user });
     } catch (err) {
       console.log(err);
       io.emit("error", {
@@ -230,13 +231,13 @@ const createPrescriptionByDoctor =
     datetime,
   }) => {
     try {
-      const data = await createPrescriptionByDoctorService(
+      const data = await createPrescriptionByDoctorService({
         appointment,
         symptoms,
         prescription,
         CustomMedicines,
-        datetime
-      );
+        datetime,
+      });
 
       console.log(data);
       io.emit("new-prescription-by-doctor-created", { data });

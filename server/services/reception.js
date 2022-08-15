@@ -7,15 +7,8 @@ const createAppointmentService = async ({
   doctor,
   date,
 }) => {
-  const appointment = {
-    patient: patientId,
-    doctor: doctorId,
-    date,
-  };
-
   try {
-    console.log(appointment);
-    const newAppointment = await prisma.appointment.create({
+    const newAppointment = await prisma.Appointment.create({
       data: {
         date,
         patient: {

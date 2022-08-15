@@ -34,8 +34,8 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const { email, password, role, name } = req.body;
-    const user = await signupService(email, password, role, name);
+    const { email, password, role } = req.body;
+    const user = await signupService(email, password, role);
 
     return res.status(200).json({
       message: "Signup Successful",
