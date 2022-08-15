@@ -10,9 +10,13 @@ const UserDetails = async (userId, role) => {
       case "DOCTOR":
         const doctor = await prisma.Doctor.findUnique({
           where: { id: userId },
-          include: { auth: true },
+          include: { auth: false },
         });
-        return doctor;
+        return JSON.parse(
+          JSON.stringify(doctor, (key, value) =>
+            typeof value === "bigint" ? value.toString() : value
+          )
+        );
       case "PATIENT":
         return null;
       default:
@@ -27,18 +31,21 @@ const UserDetails = async (userId, role) => {
 const loginService = async (email, password) => {
   if (!email || !password) throw new Error("No credentials");
 
-  const user = await prisma.Auth.findUnique({
-    where: { email },
-  });
+  console.log(email, password);
+
+  const user = await prisma.auth.findUnique({ where: { email } });
   if (!user) throw new Error("User not found");
   const matched = await bcrypt.compare(password, user.password);
   if (!matched) throw new Error("Wrong Credentials");
 
   const userDetails = await UserDetails(user.id, user.role);
   const { token, refreshToken, expires } = issueJWT(user);
-
+  console.log(user, userDetails);
   return {
-    user,
+    user: {
+      role: user.role,
+      dataValues: user,
+    },
     userDetails,
     token,
     refreshToken,
@@ -82,7 +89,10 @@ const revalidateService = async (refreshToken) => {
 
   const { token, expires } = issueJWT(user);
   return {
-    user,
+    user: {
+      role: user.role,
+      dataValues: user,
+    },
     userDetails,
     token,
     expires,
@@ -104,18 +114,21 @@ const createDummyService = async () => {
       email: faker.internet.email(),
     };
 
-    await prisma.Patient.create(patientData);
+    await prisma.Patient.create({
+      data: patientData,
+    });
     return;
   }
 
   const data = {
-    name: faker.name.findName(),
     email: faker.internet.email(),
     password: await bcrypt.hash("admin123", 10),
     role,
   };
 
-  const user = await prisma.Auth.create(data);
+  const user = await prisma.Auth.create({
+    data: data,
+  });
 
   const AuthId = user.id;
 
@@ -124,46 +137,62 @@ const createDummyService = async () => {
   switch (role) {
     case "DOCTOR":
       const doctorData = {
-        name: data.name,
-        email: data.email,
+        name: faker.name.findName(),
         designation:
           designation[Math.floor(Math.random() * designation.length)],
         age: faker.datatype.number({ min: 18, max: 60 }),
         address: faker.address.city(),
         contact: faker.phone.phoneNumber("+91 ##### #####"),
-        availability: faker.datatype.boolean(),
-        AuthId: AuthId,
+        availability: "Yes",
+        auth: {
+          connect: {
+            id: AuthId,
+          },
+        },
       };
 
-      await prisma.Doctor.create(doctorData, {
-        include: { auth: true },
+      console.log(doctorData);
+
+      await prisma.Doctor.create({
+        data: doctorData,
       });
 
       break;
     case "RECEPTIONIST":
       const receptionistData = {
+        name: faker.name.findName(),
         email: data.email,
         contact: faker.phone.phoneNumber("+91 ##### #####"),
         address: faker.address.city(),
-        AuthId: AuthId,
+        auth: {
+          connect: {
+            id: AuthId,
+          },
+        },
       };
 
-      await prisma.Receptionist.create(receptionistData);
+      await prisma.receptionist.create({ data: receptionistData });
       break;
     case "PHARMACIST":
       const pharmacistData = {
+        name: faker.name.findName(),
         email: data.email,
         contact: faker.phone.phoneNumber("+91 ##### #####"),
         address: faker.address.city(),
-        AuthId: AuthId,
+        auth: {
+          connect: {
+            id: AuthId,
+          },
+        },
       };
 
-      await prisma.Pharmacist.create(pharmacistData);
+      await prisma.Pharmacist.create({ data: pharmacistData });
       break;
   }
 };
 
 module.exports = {
+  UserDetails,
   loginService,
   logoutService,
   signupService,

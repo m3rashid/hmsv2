@@ -14,6 +14,7 @@ const checkAuth = (req, res, next) => {
     });
   }
   req.isAuthenticated = true;
+  console.log(payload);
   req.user = payload.sub;
   next();
 };

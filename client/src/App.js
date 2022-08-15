@@ -41,9 +41,9 @@ function App() {
     socket.on("new-appointment-created", (data) => {
       console.log("Some Appointment Created");
 
-      console.log(data.doctor, Auth);
+      console.log(data, Auth);
 
-      if (data.doctor.AuthId === Auth.user.id) {
+      if (data.doctor?.id === Auth.user.id) {
         console.log(data);
         message.info(`New appointment created`);
       }

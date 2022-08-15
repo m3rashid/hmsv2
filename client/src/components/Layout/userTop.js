@@ -25,7 +25,7 @@ const UserTop = ({ Auth, setAuth }) => {
           <UserOutlined style={{ fontSize: 20 }} />
         )}
         <Typography.Text type="secondary" italic>
-          Welcome, {Auth.user.name}
+          Welcome, {Auth.user.email}
         </Typography.Text>
         <Button type="primary" onClick={() => setIsModalVisible(true)}>
           <LogoutOutlined />

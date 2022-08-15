@@ -26,6 +26,8 @@ const Header = ({ online, setOnline }) => {
   const avatar = findAvatar(auth.user.role);
   const Avatar = `/images/${avatar}`;
 
+  console.log(auth);
+
   return (
     <div className="site-page-header-ghost-wrapper">
       <PageHeader
@@ -46,7 +48,7 @@ const Header = ({ online, setOnline }) => {
           <Col span={12}>
             {auth.user && (
               <Badge.Ribbon color="green" text="Online">
-                <Card title={auth.user.name} size="small">
+                <Card title={auth.user[auth.user.role]?.name} size="small">
                   Email: {auth.user.email}
                 </Card>
               </Badge.Ribbon>

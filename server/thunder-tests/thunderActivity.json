@@ -296,17 +296,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:5000/api/patient/search",
-    "url": "http://localhost:5000/api/patient/search",
+    "url": "http://localhost:5000/api/patient/search?name=k",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-05-16T21:23:50.458Z",
-    "modified": "2022-05-16T21:23:50.505Z",
+    "modified": "2022-08-15T12:41:38.410Z",
     "headers": [],
     "params": [
       {
         "name": "name",
-        "value": "amber",
-        "isDisabled": true,
+        "value": "k",
         "isPath": false
       },
       {

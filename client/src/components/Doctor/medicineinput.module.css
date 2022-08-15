@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+    height: 100%;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.select{
+    width: 100%;
+}
+
+.textarea{
+    height: 100px;
+    resize: none;
+}
+
+.description{
+    display: flex;
+    width: 100%;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}

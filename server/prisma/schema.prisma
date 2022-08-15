@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -22,8 +23,7 @@ enum Sex {
 }
 
 model Auth {
-  id           BigInt         @id @default(autoincrement())
-  name         String
+  id           Int            @id @default(sequence())
   email        String         @unique
   role         Role           @default(OTHER)
   password     String
@@ -35,9 +35,10 @@ model Auth {
 }
 
 model Doctor {
-  id           BigInt         @id @default(autoincrement())
+  id           Int            @id @default(sequence())
+  name         String
   age          Int
-  availability String
+  availability String         @default("Yes")
   designation  String
   contact      String         @unique
   address      String
@@ -49,7 +50,8 @@ model Doctor {
 }
 
 model Pharmacist {
-  id        BigInt   @id @default(autoincrement())
+  id        Int      @id @default(sequence())
+  name      String
   email     String   @unique
   contact   String   @unique
   address   String
@@ -59,7 +61,8 @@ model Pharmacist {
 }
 
 model Receptionist {
-  id        BigInt   @id @default(autoincrement())
+  id        Int      @id @default(sequence())
+  name      String
   email     String   @unique
   contact   String   @unique
   address   String
@@ -69,7 +72,7 @@ model Receptionist {
 }
 
 model Patient {
-  id           BigInt         @id @default(autoincrement())
+  id           Int            @id @default(sequence())
   name         String
   age          Int
   sex          Sex
@@ -85,35 +88,46 @@ model Patient {
 }
 
 model Appointment {
-  id           BigInt         @id @default(autoincrement())
+  id           Int            @id @default(sequence())
   date         DateTime       @default(now())
   Prescription Prescription[]
-  patientId    BigInt
+  patientId    Int
   patient      Patient        @relation(fields: [patientId], references: [id])
-  doctorId     BigInt
+  doctorId     Int
   doctor       Doctor         @relation(fields: [doctorId], references: [id])
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now())
 }
 
 model Prescription {
-  id              BigInt      @id @default(autoincrement())
+  id              Int                  @id @default(sequence())
   symptoms        String
   diagnosis       String // prescription
   CustomMedicines String
-  datePrescribed  DateTime    @default(now())
-  doctorId        BigInt
-  doctor          Doctor      @relation(fields: [doctorId], references: [id])
-  patientId       BigInt
-  patient         Patient     @relation(fields: [patientId], references: [id])
-  appointmentId   BigInt
-  appointment     Appointment @relation(fields: [appointmentId], references: [id])
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @default(now())
+  datePrescribed  DateTime             @default(now())
+  doctorId        Int
+  doctor          Doctor               @relation(fields: [doctorId], references: [id])
+  patientId       Int
+  patient         Patient              @relation(fields: [patientId], references: [id])
+  appointmentId   Int
+  appointment     Appointment          @relation(fields: [appointmentId], references: [id])
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now())
+  medicines       PrescribedMedicine[]
+}
+
+model PrescribedMedicine {
+  id             Int           @id @default(sequence())
+  quantity       Int
+  dosage         String?
+  description    String
+  Medicine       Medicine      @relation(fields: [id], references: [id])
+  Prescription   Prescription? @relation(fields: [prescriptionId], references: [id])
+  prescriptionId Int?
 }
 
 model Inventory {
-  id          BigInt   @id @default(autoincrement())
+  id          Int      @id @default(sequence())
   name        String
   quantity    Int
   price       Decimal
@@ -123,9 +137,10 @@ model Inventory {
 }
 
 model Medicine {
-  id        BigInt   @id @default(autoincrement())
-  name      String
-  price     Decimal
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id                 Int                  @id @default(sequence())
+  name               String
+  price              Decimal
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now())
+  PrescribedMedicine PrescribedMedicine[]
 }

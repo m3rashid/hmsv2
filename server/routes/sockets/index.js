@@ -42,7 +42,7 @@ const {
   createPrescriptionByDoctor,
 } = require("./handlers.js");
 
-const socketHandler = (io, socket) => {
+const router = (io, socket) => {
   socket.on(socketConstants.receptionistLeft, receptionistLeft(io, socket));
   socket.on(socketConstants.doctorLeft, doctorLeft(io, socket));
   socket.on(socketConstants.pharmacistLeft, pharmacistLeft(io, socket));
@@ -65,6 +65,6 @@ const socketHandler = (io, socket) => {
 };
 
 module.exports = {
-  socketHandler,
+  router,
   socketConstants,
 };

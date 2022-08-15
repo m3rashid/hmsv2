@@ -108,12 +108,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T07:00:08.774Z",
-    "modified": "2022-06-08T19:23:00.269Z",
+    "modified": "2022-08-15T13:07:52.457Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"Precious_Wiza38@yahoo.com\",\n    \"password\" : \"admin123\"\n}",
+      "raw": "{\n    \"email\" : \"Samantha54@hotmail.com\",\n    \"password\" : \"admin123\"\n}",
       "form": []
     },
     "tests": []
@@ -127,12 +127,12 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-06-03T07:43:28.017Z",
-    "modified": "2022-06-08T19:38:29.892Z",
+    "modified": "2022-08-15T13:09:26.566Z",
     "headers": [],
     "params": [],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNjE4MDI2NywiZXhwIjoxNjU0NzE2MjY2NjY3fQ.mneAdB2PFAUF_m8oyqdcptT1mMQ7e6SVSAeQeavtlNY"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOjExLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY2MDU2ODg0MjQyNCwiZXhwIjoxNjYwNTY4OTI4ODI0fQ.Z7XDkAojK9mtR8Ki1WBZmpOrpolo9x8KkyAao4OcBWU"
     },
     "tests": []
   },
@@ -145,7 +145,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-06-03T11:01:30.780Z",
-    "modified": "2022-06-16T20:56:59.670Z",
+    "modified": "2022-08-15T12:49:02.706Z",
     "headers": [],
     "params": [],
     "body": {

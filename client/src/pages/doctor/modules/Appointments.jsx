@@ -53,7 +53,7 @@ function Appointments() {
       title: "PatientName",
       dataIndex: "patientname",
       key: "patientname",
-      sorter: (a, b) => a.patientname.localeCompare(b.patientname),
+      sorter: (a, b) => a?.patient?.name?.localeCompare(b.patientname),
     },
     {
       title: "Date/Time",

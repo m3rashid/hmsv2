@@ -1,12 +1,10 @@
-const { UserDetails } = require("./auth.js");
 const prisma = require("../utils/prisma");
 
 const getDoctorAppointmentsService = async (userId) => {
-  const Doc = await UserDetails(userId, "DOCTOR");
-  const appointments = await prisma.Appointment.findMany({
-    where: { doctorId: Doc.id },
+  console.log(userId);
+  const appointments = await prisma.appointment.findMany({
+    where: { doctorId: userId },
     include: { doctor: true, patient: true },
-    orderBy: { date: "desc" },
   });
 
   console.log(appointments);
@@ -41,24 +39,40 @@ const searchDoctorsService = async ({
   address,
 }) => {
   // FIX this bad query
-  const whereClause = {
-    ...(name && { name: { [Op.like]: `%${name}%` } }),
-    ...(minAge && { age: { [Op.gte]: minAge } }),
-    ...(maxAge && { age: { [Op.lte]: maxAge } }),
-    ...(minAge && { [Op.gte]: minAge }),
-    ...(designation && { [Op.like]: designation }),
-    ...(contact && { [Op.like]: `%${contact}%` }),
-    ...(address && { [Op.like]: `%${address}%` }),
-    ...(email && { [Op.like]: `%${email}%` }),
-  };
+  // const whereClause = {
+  //   ...(name && { name: { [Op.like]: `%${name}%` } }),
+  //   ...(minAge && { age: { [Op.gte]: minAge } }),
+  //   ...(maxAge && { age: { [Op.lte]: maxAge } }),
+  //   ...(minAge && { [Op.gte]: minAge }),
+  //   ...(designation && { [Op.like]: designation }),
+  //   ...(contact && { [Op.like]: `%${contact}%` }),
+  //   ...(address && { [Op.like]: `%${address}%` }),
+  //   ...(email && { [Op.like]: `%${email}%` }),
+  // };
 
-  console.log(whereClause);
+  // console.log(whereClause);
 
-  const doctors = await prisma.Doctor.findAll({
+  const doctors = await prisma.doctor.findMany({
     where: {
-      [Op.or]: whereClause,
+      name: {
+        contains: name,
+      },
+      age: {
+        gte: minAge,
+      },
+      age: {
+        lte: maxAge,
+      },
+      designation: {
+        contains: designation,
+      },
+      contact: {
+        contains: contact,
+      },
+      address: {
+        contains: address,
+      },
     },
-    raw: true,
   });
 
   console.log(doctors);
@@ -73,9 +87,13 @@ const createPrescriptionByDoctorService = async (
   datetime
 ) => {
   // Fix this bad query
-  const newPrescription = await prisma.Prescription.create({
+  const newPrescription = await prisma.prescription.create({
     data: {
-      appointmentId: appointment,
+      appointment: {
+        connect: {
+          id: appointment.id,
+        },
+      },
       symptoms,
       prescription,
       CustomMedicines,

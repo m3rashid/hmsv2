@@ -1,3 +1,5 @@
+const prisma = require("../utils/prisma");
+
 const createAppointmentService = async ({
   patientId,
   doctorId,
@@ -6,16 +8,26 @@ const createAppointmentService = async ({
   date,
 }) => {
   const appointment = {
-    PatientId: patientId,
-    DoctorId: doctorId,
+    patient: patientId,
+    doctor: doctorId,
     date,
   };
 
   try {
     console.log(appointment);
-    const newAppointment = await prisma.Appointment.create({
+    const newAppointment = await prisma.appointment.create({
       data: {
-        ...appointment,
+        date,
+        patient: {
+          connect: {
+            id: patientId,
+          },
+        },
+        doctor: {
+          connect: {
+            id: doctorId,
+          },
+        },
       },
       include: {
         patient: true,
@@ -23,18 +35,7 @@ const createAppointmentService = async ({
       },
     });
 
-    const appointmentPatient = await newAppointment.getPatient();
-    const appointmentDoctor = await newAppointment.getDoctor();
-
-    console.log(appointmentPatient);
-    console.log(appointmentDoctor);
-
-    return {
-      Appointment: newAppointment,
-      id: newAppointment?.id,
-      patient: appointmentPatient,
-      doctor: appointmentDoctor,
-    };
+    return newAppointment;
   } catch (err) {
     console.log(err);
     return new Error("Internal Server Error");

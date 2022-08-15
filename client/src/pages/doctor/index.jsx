@@ -27,7 +27,7 @@ const Doctor = () => {
         ...appointment,
 
         date: moment(appointment.date).format("MMMM Do YYYY, h:mm:ss a"),
-        patientname: appointment.Patient.name,
+        patientname: appointment.patient.name,
       }));
     });
   }, []);
@@ -36,6 +36,8 @@ const Doctor = () => {
     getAppointments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(AppointmentsData);
 
   useEffect(() => {
     socket.on("new-appointment-created", (data) => {
