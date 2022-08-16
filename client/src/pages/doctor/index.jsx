@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Tabs, Divider } from "antd";
+import { Tabs, Divider, Badge } from "antd";
 
 import Header from "../../components/Header";
 import Appointments from "./modules/Appointments";
@@ -11,12 +11,14 @@ import { socket } from "../../api/socket";
 import moment from "moment";
 import { instance } from "../../api/instance";
 import PrescriptionForm from "../../components/Doctor/prescribeMedicine";
+import useNotifications from "../../Hooks/useNotifications";
 
 export const DoctorContext = React.createContext();
 
 const Doctor = () => {
   const [online, setOnline] = React.useState(true);
   const [AppointmentsData, setAppointmentsData] = React.useState([]);
+  const {notifications, markAllAsSeen} = useNotifications()
   const Auth = useRecoilValue(authState);
 
   const getAppointments = useCallback(async () => {
@@ -75,7 +77,13 @@ const Doctor = () => {
           <Tabs.TabPane tab="Patients" key="3">
             <Patients />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Notifications" key="4">
+          <Tabs.TabPane tab={
+            <div onClick={()=>markAllAsSeen()}>
+          <Badge  count={notifications.unseen} showZero={false}  offset={[5,-5]}>
+          Notifications
+          </Badge> 
+          </div>
+      } key="4" >
             <Notifications />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Prescription" key="5">

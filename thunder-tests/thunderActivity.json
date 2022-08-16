@@ -1,280 +1,322 @@
 [
   {
-    "_id": "e5729b3f-326d-4b7e-acc8-a363eacc338e",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/auth/signup",
-    "url": "http://localhost:5000/api/auth/signup",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-05-19T12:28:21.356Z",
-    "modified": "2022-05-19T12:28:25.635Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"doctor\"\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "35eac2b4-1e63-4c66-9b08-7efcece7187b",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/auth/signup",
-    "url": "http://localhost:5000/api/doctor/search?designation=BDS",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-05-19T12:28:28.157Z",
-    "modified": "2022-06-02T20:24:36.640Z",
-    "headers": [],
-    "params": [
-      {
-        "name": "name",
-        "value": "S",
-        "isDisabled": true,
-        "isPath": false
-      },
-      {
-        "name": "email",
-        "value": "alamsarfraz422",
-        "isDisabled": true,
-        "isPath": false
-      },
-      {
-        "name": "maxAge",
-        "value": "29",
-        "isDisabled": true,
-        "isPath": false
-      },
-      {
-        "name": "designation",
-        "value": "BDS",
-        "isPath": false
-      }
-    ],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"email\" : \"receptionist@gmail.com\",\n    \"password\" : \"receptionist\",\n    \"role\" : \"RECEPTIONIST\",\n    \"name\" : \"receptionist\"\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "c36b110b-895b-448c-a230-e9eb0dcd5d92",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/doctor/dummy",
-    "url": "http://localhost:5000/api/doctor/dummy",
-    "method": "POST",
-    "sortNum": 0,
-    "created": "2022-06-02T20:17:02.573Z",
-    "modified": "2022-06-03T06:22:23.961Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"count\" : 10\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "141ace64-1dcf-4eb0-b166-ee584b245972",
+    "_id": "be48d312-5cee-4d72-a46e-ddbb817e2b33",
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:5000/api/auth/signup",
     "url": "http://localhost:5000/api/auth/signup",
     "method": "POST",
     "sortNum": 0,
-    "created": "2022-06-03T05:59:00.164Z",
-    "modified": "2022-06-08T18:21:13.078Z",
+    "created": "2022-05-12T06:02:07.907Z",
+    "modified": "2022-05-12T15:16:04.283Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"Sarfraz Alam\"\n}",
+      "raw": "{\n    \"name\" : \"doctor\",\n    \"email\" : \"doctor@jmi.ac.in\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\"\n}",
       "form": []
     },
     "tests": []
   },
   {
-    "_id": "2e6c48c3-0fe3-4a64-abdb-02e9745709d6",
+    "_id": "2fbcdd39-48f8-4088-98b6-4b0eaae6802f",
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:5000/api/auth/login",
     "url": "http://localhost:5000/api/auth/login",
     "method": "POST",
     "sortNum": 0,
-    "created": "2022-06-03T07:00:08.774Z",
-    "modified": "2022-08-15T13:07:52.457Z",
+    "created": "2022-05-12T06:03:45.599Z",
+    "modified": "2022-05-12T17:19:49.733Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"Samantha54@hotmail.com\",\n    \"password\" : \"admin123\"\n}",
+      "raw": "{\n    \"email\" : \"doctor@jmi.ac.in\",\n    \"password\" : \"doctor\"\n}",
       "form": []
     },
     "tests": []
   },
   {
-    "_id": "b4c279d6-8047-4067-9c91-d63c7eced42d",
+    "_id": "7c828fe0-dc55-4b82-8d1f-f87b6de46d5d",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:5000/api/doctor/get-appointments",
-    "url": "http://localhost:5000/api/doctor/get-appointments",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-06-03T07:43:28.017Z",
-    "modified": "2022-08-15T13:09:26.566Z",
-    "headers": [],
-    "params": [],
-    "auth": {
-      "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOjExLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY2MDU2ODg0MjQyNCwiZXhwIjoxNjYwNTY4OTI4ODI0fQ.Z7XDkAojK9mtR8Ki1WBZmpOrpolo9x8KkyAao4OcBWU"
-    },
-    "tests": []
-  },
-  {
-    "_id": "25196d11-4e8c-4ea7-928d-eb5c1bbda87e",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/auth/dummt",
+    "name": "dummy",
     "url": "http://localhost:5000/api/auth/dummy",
     "method": "POST",
     "sortNum": 0,
-    "created": "2022-06-03T11:01:30.780Z",
-    "modified": "2022-08-16T17:31:08.235Z",
+    "created": "2022-05-12T17:21:21.967Z",
+    "modified": "2022-08-04T04:47:13.430Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"count\" : 20\n}",
+      "raw": "{\n    \"count\": 50\n}",
       "form": []
     },
-    "tests": []
-  },
-  {
-    "_id": "9f1b8548-378a-4820-94fd-baa59e5d2134",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/auth/dummy",
-    "url": "http://localhost:5000/api/auth/dummy",
-    "method": "POST",
-    "sortNum": 0,
-    "created": "2022-06-03T11:01:43.903Z",
-    "modified": "2022-06-08T18:21:21.930Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"count\" : 50\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "1b04ae7a-5b25-4bdc-92e6-b4b10abbd7ca",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-    "method": "POST",
-    "sortNum": 0,
-    "created": "2022-06-08T18:54:16.819Z",
-    "modified": "2022-06-08T18:54:16.836Z",
-    "headers": [],
-    "params": [
-      {
-        "name": "id",
-        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-        "isPath": false
-      }
-    ],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxZTQ5ZGE3Yi1lZjYwLTRlOGEtYWEzYS01ZmQwZDM2OTNmYTQiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1MjM3NTk4OTcyN30.IS8nSfkHp3LL9Y7EsX8fFrRqbhidl_p-IjgTrOhlmKY"
     },
     "tests": []
   },
   {
-    "_id": "8e44f7cc-24cb-4782-8731-6421034310a4",
+    "_id": "39f9d2e1-be93-4a49-b5ef-63baf6f597bb",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-06-08T18:54:30.664Z",
-    "modified": "2022-06-08T19:17:03.260Z",
-    "headers": [],
-    "params": [
-      {
-        "name": "id",
-        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
-        "isPath": false
-      }
-    ],
-    "auth": {
-      "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
-    },
-    "tests": []
-  },
-  {
-    "_id": "8ed25191-606d-443d-ad61-e3a4fc523492",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/inventory/dummy",
-    "url": "http://localhost:5000/api/inventory/dummy",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2022-08-15T19:19:59.135Z",
-    "modified": "2022-08-15T19:19:59.174Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"count\" : 20\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "fcc5ee5f-8216-46b4-94e3-bf6647b70b47",
-    "colId": "history",
-    "containerId": "",
-    "name": "http://localhost:5000/api/inventory/dummy",
-    "url": "http://localhost:5000/api/inventory/dummy",
+    "name": "http://localhost:5000/api/patient/create",
+    "url": "http://localhost:5000/api/patient/create",
     "method": "POST",
     "sortNum": 0,
-    "created": "2022-08-15T19:20:02.082Z",
-    "modified": "2022-08-15T19:22:24.159Z",
+    "created": "2022-05-16T21:00:07.694Z",
+    "modified": "2022-05-16T21:17:54.405Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"count\" : 100\n}",
+      "raw": "{\n    \"name\":\"Sarfraz Alam\",\n    \"age\":69,\n    \"sex\":\"o\",\n    \"contact\":\"+912134141414\",\n    \"address\":\"jamia nagar, new delhi\",\n    \"email\": \"unheard@bye.com\"\n}",
       "form": []
     },
     "tests": []
   },
   {
-    "_id": "d622010f-9bad-4dd2-a4e0-6f61a08247e5",
+    "_id": "a7a68efb-716b-4341-b576-8e20941958b7",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:5000/api/inventory/dummy Copy",
-    "url": "http://localhost:5000/api/inventory/search",
+    "name": "http://localhost:5000/api/patient/9e99bb2a-d814-4d0c-8e10-7a164d19a2d0",
+    "url": "http://localhost:5000/api/patient/9e99bb2a-d814-4d0c-8e10-7a164d19a2d0",
     "method": "GET",
     "sortNum": 0,
-    "created": "2022-08-15T19:20:02.082Z",
-    "modified": "2022-08-15T19:38:24.526Z",
+    "created": "2022-05-16T21:04:21.091Z",
+    "modified": "2022-05-16T21:20:58.787Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "cd683be5-31b1-4596-81ec-340c31c30427",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient?name=amber&minAge=50",
+    "url": "http://localhost:5000/api/patient?name=amber&minAge=50",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:13:24.781Z",
+    "modified": "2022-05-16T21:13:24.807Z",
     "headers": [],
     "params": [
       {
         "name": "name",
-        "value": "Cipro",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "50",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "3953229c-bf7d-44b2-9231-30d281065435",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=50",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=50",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:13:36.873Z",
+    "modified": "2022-05-16T21:13:36.907Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "50",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "53fa0ed6-d227-46db-8e12-09ef55ef3823",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=50&sex=m",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=50&sex=m",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:13:44.746Z",
+    "modified": "2022-05-16T21:14:39.617Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "50",
+        "isPath": false
+      },
+      {
+        "name": "sex",
+        "value": "m",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "e8498bb7-c105-4532-b468-3c31df82e18a",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=50&sex=f",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=50&sex=f",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:14:46.472Z",
+    "modified": "2022-05-16T21:14:46.492Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "50",
+        "isPath": false
+      },
+      {
+        "name": "sex",
+        "value": "f",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "9683f56a-33d2-4ff5-8f7a-b6eec0e059b1",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=80&sex=f",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=80&sex=f",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:14:51.395Z",
+    "modified": "2022-05-16T21:19:18.381Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "80",
+        "isPath": false
+      },
+      {
+        "name": "sex",
+        "value": "f",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "d7d2c929-2542-46e3-8043-1676ba1ecc7d",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=60&sex=f",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=60&sex=f",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:19:25.992Z",
+    "modified": "2022-05-16T21:19:26.046Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "60",
+        "isPath": false
+      },
+      {
+        "name": "sex",
+        "value": "f",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "a146ff45-0d7b-4554-82c4-cfb1de013f3a",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/055569e5-d9d3-4814-ad35-5bf0bd6e8f35",
+    "url": "http://localhost:5000/api/patient/055569e5-d9d3-4814-ad35-5bf0bd6e8f35",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:21:22.172Z",
+    "modified": "2022-05-16T21:21:22.235Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "52dd2610-9c4e-4e2a-afd8-cefe8a641ae7",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/9064344a-4d1d-48ab-9824-049378b718c2",
+    "url": "http://localhost:5000/api/patient/9064344a-4d1d-48ab-9824-049378b718c2",
+    "method": "DELETE",
+    "sortNum": 0,
+    "created": "2022-05-16T21:23:36.173Z",
+    "modified": "2022-05-16T21:23:36.218Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "13592c0b-c1c4-4ca0-80e5-e5d1d3388138",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/patient/search",
+    "url": "http://localhost:5000/api/patient/search?name=k",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-05-16T21:23:50.458Z",
+    "modified": "2022-08-15T12:41:38.410Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "k",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "60",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "sex",
+        "value": "f",
         "isDisabled": true,
         "isPath": false
       }
@@ -282,17 +324,58 @@
     "tests": []
   },
   {
-    "_id": "e2346705-264a-4149-afb0-15a1506f1803",
+    "_id": "8e0f3a06-70cb-4c72-8d1d-37c80d5bac0a",
     "colId": "history",
     "containerId": "",
-    "name": "https://www.thunderclient.com/welcome",
-    "url": "https://www.thunderclient.com/welcome",
+    "name": "http://localhost:5000/api/patient/search?name=amber&minAge=18&maxAge=75&contact&address&email&lastVisitedBefore&lastVisitedAfter",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=18&maxAge=75&contact&address&email&lastVisitedBefore&lastVisitedAfter",
     "method": "GET",
     "sortNum": 0,
-    "created": "2022-08-15T19:21:23.438Z",
-    "modified": "2022-08-15T19:21:24.043Z",
+    "created": "2022-05-16T21:27:07.399Z",
+    "modified": "2022-08-04T04:49:52.534Z",
     "headers": [],
-    "params": [],
+    "params": [
+      {
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "18",
+        "isPath": false
+      },
+      {
+        "name": "maxAge",
+        "value": "75",
+        "isPath": false
+      },
+      {
+        "name": "contact",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "address",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "email",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "lastVisitedBefore",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "lastVisitedAfter",
+        "value": "",
+        "isPath": false
+      }
+    ],
     "tests": []
   }
 ]

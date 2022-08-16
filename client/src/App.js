@@ -12,11 +12,13 @@ import Loading from "./components/Loading/Loading";
 import Home from "./pages/home";
 import UnAuthPage from "./pages/unAuthenticated";
 import { socket } from "./api/socket";
+import useNotifications from "./Hooks/useNotifications";
 
 export const SocketContext = React.createContext();
 
 function App() {
   const [Auth, setAuth] = useRecoilState(authState);
+  const {addNotification} = useNotifications()
   const [isLoading, setisLoading] = useState(true);
   const location = useLocation();
   const revalidate = useCallback(() => {
@@ -39,13 +41,26 @@ function App() {
     console.log("Auth Socket", Auth);
     if (!Auth.isLoggedIn) return;
     socket.on("new-appointment-created", (data) => {
+ 
       console.log("Some Appointment Created");
+
 
       console.log(data, Auth);
 
       if (data.doctor?.id === Auth.user.id) {
         console.log(data);
         message.info(`New appointment created`);
+        addNotification({
+        type: "success",
+        title: "New Appointment",
+        message: `${data.patient.name} has a new appointment`,
+        action: {
+          label: "View",
+          callback: () => {
+            console.log("View Appointment");
+          }
+        }
+      })
       }
     });
     return () => {

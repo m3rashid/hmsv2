@@ -1,4 +1,4 @@
-import { message, Tabs } from "antd";
+import { message, Tabs,Badge } from "antd";
 import React, { createContext } from "react";
 import Header from "../../components/Header";
 import CreateReceipts from "../../components/Pharmacy/CreateReceipts";
@@ -8,6 +8,7 @@ import Notifications from "../doctor/modules/notifications";
 import { faker } from "@faker-js/faker";
 import usePharmacy from "../../components/Pharmacy/usePharmacy";
 import { socket } from "../../api/socket";
+import useNotifications from "../../Hooks/useNotifications";
 
 export const PharmacyContext = createContext();
 
@@ -16,12 +17,21 @@ const Pharmacy = () => {
   const { Inventory, setInventory, getMedicine, reduceMedicine } =
     usePharmacy();
 
+    const {notifications, addNotification, markAllAsSeen} = useNotifications()
+
+
   React.useEffect(() => {
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
       console.log({ newPrescription: data });
       message.success(
         `New Prescription for ${data.prescription.id} created successfully!`
       );
+      addNotification({
+        type: "success",
+        message: `New Prescription for ${data.prescription.id} created successfully!`,
+        title: "New Prescription",
+      });
+
       setPrescription((prev) => {
         return [
           ...prev,
@@ -73,7 +83,11 @@ const Pharmacy = () => {
           <Tabs.TabPane tab="Create Receipts" key="1">
             <CreateReceipts />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Notifications" key="2">
+          <Tabs.TabPane  tab={
+             <div onClick={()=>markAllAsSeen()}>
+          <Badge count={notifications.unseen} showZero={false}  offset={[5,-5]}>
+          Notifications
+          </Badge>  </div> } key="2">
             <Notifications />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Inventory" key="3">

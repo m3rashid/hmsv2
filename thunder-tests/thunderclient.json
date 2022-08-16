@@ -1,120 +1,160 @@
 [
   {
-    "_id": "e7602f9f-5248-4111-a0eb-129650e5ec53",
-    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
-    "containerId": "",
-    "name": "Create",
-    "url": "http://localhost:5000/api/doctor/dummy",
-    "method": "POST",
-    "sortNum": 10000,
-    "created": "2022-06-02T20:05:55.196Z",
-    "modified": "2022-06-02T20:17:23.084Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"count\" : 10\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "dccee344-27f8-4815-ae91-847841474aa2",
-    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
-    "containerId": "",
-    "name": "SignUp",
-    "url": "http://localhost:5000/api/auth/signup",
-    "method": "POST",
-    "sortNum": 10000,
-    "created": "2022-06-03T05:58:39.881Z",
-    "modified": "2022-06-03T06:19:58.877Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n    \"email\" : \"doctor@gmail.com\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\",\n    \"name\" : \"Sarfraz Alam\"\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "0558df98-8e4c-42a2-9da1-c409679300f3",
-    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
+    "_id": "d3bfec74-8640-47c8-9b46-08854080fee1",
+    "colId": "883715a5-f4ab-480f-80d8-e5100fb7c6b1",
     "containerId": "",
     "name": "Login",
     "url": "http://localhost:5000/api/auth/login",
     "method": "POST",
-    "sortNum": 20000,
-    "created": "2022-06-03T06:56:01.749Z",
-    "modified": "2022-06-08T18:53:54.950Z",
+    "sortNum": 10000,
+    "created": "2022-05-12T06:00:55.111Z",
+    "modified": "2022-05-12T06:03:44.005Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"email\" : \"Precious_Wiza38@yahoo.com\",\n    \"password\" : \"admin123\"\n}",
+      "raw": "{\n    \"email\" : \"doctor@jmi.ac.in\",\n    \"password\" : \"doctor\"\n}",
       "form": []
     },
     "tests": []
   },
   {
-    "_id": "0b8c69fc-44c7-471f-be9d-cac4fa9cfbc0",
-    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
+    "_id": "94e984af-de6a-4835-8682-117b423493a0",
+    "colId": "883715a5-f4ab-480f-80d8-e5100fb7c6b1",
     "containerId": "",
-    "name": "GetAppointments",
-    "url": "http://localhost:5000/api/doctor/get-appointments",
-    "method": "GET",
+    "name": "Signup",
+    "url": "http://localhost:5000/api/auth/signup",
+    "method": "POST",
     "sortNum": 20000,
-    "created": "2022-06-03T07:42:28.694Z",
-    "modified": "2022-06-08T19:23:06.448Z",
+    "created": "2022-05-12T06:02:47.117Z",
+    "modified": "2022-05-12T15:14:47.986Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\" : \"doctor\",\n    \"email\" : \"doctor@jmi.ac.in\",\n    \"password\" : \"doctor\",\n    \"role\" : \"DOCTOR\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "38cd5a49-b1ff-4865-b04e-9866cf02b3b6",
+    "colId": "883715a5-f4ab-480f-80d8-e5100fb7c6b1",
+    "containerId": "",
+    "name": "revalidateJWT",
+    "url": "http://localhost:5000/api/auth/revalidate",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-05-12T17:19:44.409Z",
+    "modified": "2022-05-12T17:21:21.988Z",
     "headers": [],
     "params": [],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNjE4MDI2NywiZXhwIjoxNjU0NzE2MjY2NjY3fQ.mneAdB2PFAUF_m8oyqdcptT1mMQ7e6SVSAeQeavtlNY"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIxZTQ5ZGE3Yi1lZjYwLTRlOGEtYWEzYS01ZmQwZDM2OTNmYTQiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1MjM3NTk4OTcyN30.IS8nSfkHp3LL9Y7EsX8fFrRqbhidl_p-IjgTrOhlmKY"
     },
     "tests": []
   },
   {
-    "_id": "121d671a-9ce0-43c5-9890-0fc1732d5f55",
-    "colId": "b0873d4c-2daf-4446-b095-ea94de1db714",
+    "_id": "b5319de6-a09b-439b-b564-269f4ec0f9e9",
+    "colId": "d1a2e790-5dd2-4d22-8a83-8905fd84f263",
     "containerId": "",
-    "name": "Dummy",
-    "url": "http://localhost:5000/api/auth/dummy",
+    "name": "Create Patient",
+    "url": "http://localhost:5000/api/patient/create",
     "method": "POST",
-    "sortNum": 30000,
-    "created": "2022-06-03T11:01:12.948Z",
-    "modified": "2022-06-03T11:07:16.627Z",
+    "sortNum": 10000,
+    "created": "2022-05-16T20:56:53.462Z",
+    "modified": "2022-05-16T21:17:54.402Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"count\" : 50\n}",
+      "raw": "{\n    \"name\":\"Sarfraz Alam\",\n    \"age\":69,\n    \"sex\":\"o\",\n    \"contact\":\"+912134141414\",\n    \"address\":\"jamia nagar, new delhi\",\n    \"email\": \"unheard@bye.com\"\n}",
       "form": []
     },
     "tests": []
   },
   {
-    "_id": "fd9566e2-b4a0-4097-95eb-51d8b63d86e8",
-    "colId": "feb032c9-775a-4b20-9a0b-1e1e03e92e28",
+    "_id": "7134b5d4-11c4-4a0c-bbb5-ba868dcb95e0",
+    "colId": "d1a2e790-5dd2-4d22-8a83-8905fd84f263",
     "containerId": "",
-    "name": "getAppointmentById",
-    "url": "http://localhost:5000/api/doctor/getappointmentbyId?id=8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+    "name": "Get By Id",
+    "url": "http://localhost:5000/api/patient/055569e5-d9d3-4814-ad35-5bf0bd6e8f35",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-05-16T21:03:02.740Z",
+    "modified": "2022-05-16T21:21:22.233Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "b3096c99-a91a-4064-9c1b-2a39fcee36a6",
+    "colId": "d1a2e790-5dd2-4d22-8a83-8905fd84f263",
+    "containerId": "",
+    "name": "Search",
+    "url": "http://localhost:5000/api/patient/search?name=amber&minAge=18&maxAge=75&contact&address&email&lastVisitedBefore&lastVisitedAfter",
     "method": "GET",
     "sortNum": 30000,
-    "created": "2022-06-08T18:52:41.627Z",
-    "modified": "2022-06-08T18:54:30.679Z",
+    "created": "2022-05-16T21:04:42.831Z",
+    "modified": "2022-05-16T21:27:07.453Z",
     "headers": [],
     "params": [
       {
-        "name": "id",
-        "value": "8f80fb91-7d90-484c-9cdd-d6fae5f305c8",
+        "name": "name",
+        "value": "amber",
+        "isPath": false
+      },
+      {
+        "name": "minAge",
+        "value": "18",
+        "isPath": false
+      },
+      {
+        "name": "maxAge",
+        "value": "75",
+        "isPath": false
+      },
+      {
+        "name": "contact",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "address",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "email",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "lastVisitedBefore",
+        "value": "",
+        "isPath": false
+      },
+      {
+        "name": "lastVisitedAfter",
+        "value": "",
         "isPath": false
       }
     ],
-    "auth": {
-      "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiIwNzk4NWUxNC0zZTlhLTRkNzYtOGY1MC0yYzczZTdiM2MxOTEiLCJyb2xlIjoiRE9DVE9SIn0sImlhdCI6MTY1NDcxNDQzNDk0NCwiZXhwIjoxNjU0NzE0NTIxMzQ0fQ.teZ2-ut7qrkQB4cpJ_Xu-oPKEtWKnFzU4DWlvGonUBs"
-    },
+    "tests": []
+  },
+  {
+    "_id": "826352a6-0392-446e-baf4-2641f5c0f0e9",
+    "colId": "d1a2e790-5dd2-4d22-8a83-8905fd84f263",
+    "containerId": "",
+    "name": "Delete",
+    "url": "http://localhost:5000/api/patient/9064344a-4d1d-48ab-9824-049378b718c2",
+    "method": "DELETE",
+    "sortNum": 40000,
+    "created": "2022-05-16T21:23:03.308Z",
+    "modified": "2022-05-16T21:23:36.216Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]
