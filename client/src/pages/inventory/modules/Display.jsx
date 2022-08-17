@@ -17,9 +17,7 @@ function Display() {
     ["inventory", SearchQuery],
     async () =>
       await instance.get("/inventory/search", {
-        params: {
-          name: SearchQuery,
-        },
+        params: { name: SearchQuery },
       })
   );
   console.log(data, isLoading, isError);
@@ -38,7 +36,7 @@ function Display() {
         }}
       />
       {!isLoading && (
-        <List>
+        <List bordered>
           <VirtualList
             data={data.data?.inventory}
             height={370}
@@ -49,20 +47,11 @@ function Display() {
               <List.Item
                 key={item.id}
                 onClick={() => {
-                  setIsModalVisible({
-                    open: true,
-                    data: item,
-                  });
+                  setIsModalVisible({ open: true, data: item });
                 }}
-                style={{
-                  cursor: "pointer",
-                }}
+                style={{ cursor: "pointer" }}
               >
-                <Row
-                  style={{
-                    width: "100%",
-                  }}
-                >
+                <Row style={{ width: "100%" }}>
                   <Col
                     span={1}
                     style={{
@@ -74,10 +63,7 @@ function Display() {
                     }}
                   >
                     <Typography.Text
-                      style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
-                      }}
+                      style={{ alignSelf: "center", fontWeight: "bold" }}
                     >
                       {item.id}
                     </Typography.Text>
@@ -87,11 +73,7 @@ function Display() {
                       <Typography.Text className={styles.card__title}>
                         {item.name}
                       </Typography.Text>
-                      <Typography.Text
-                        style={{
-                          opacity: 0.5,
-                        }}
-                      >
+                      <Typography.Text style={{ opacity: 0.5 }}>
                         {item.description}
                       </Typography.Text>
                     </Space>
@@ -103,18 +85,12 @@ function Display() {
                       </Typography.Text>
                       <div className={styles.card__price}>
                         <Typography
-                          style={{
-                            color: "white",
-                            paddingRight: "3px",
-                          }}
+                          style={{ color: "white", paddingRight: "3px" }}
                         >
                           ₹
                         </Typography>
                         <Typography
-                          style={{
-                            fontWeight: "bold",
-                            color: "white",
-                          }}
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           {item.price}
                         </Typography>

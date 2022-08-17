@@ -1,14 +1,20 @@
-import { message, Tabs,Badge } from "antd";
-import React, { createContext } from "react";
-import Header from "../../components/Header";
-import CreateReceipts from "../../components/Pharmacy/CreateReceipts";
-import InventoryTable from "../../components/Pharmacy/InventoryTable";
-import Prescriptions from "../../components/Pharmacy/Prescriptions";
-import Notifications from "../doctor/modules/notifications";
+
+import { message, Tabs, Badge } from "antd";
 import { faker } from "@faker-js/faker";
+import React, { createContext } from "react";
+
+import { socket } from "../../api/socket";
+import Header from "../../components/Header";
+import Notifications from "../doctor/modules/notifications";
 import usePharmacy from "../../components/Pharmacy/usePharmacy";
+
 import { socket } from "../../api/socket";
 import useNotifications from "../../Hooks/useNotifications";
+
+import Prescriptions from "../../components/Pharmacy/Prescriptions";
+import InventoryTable from "../../components/Pharmacy/InventoryTable";
+import CreateReceipts from "../../components/Pharmacy/CreateReceipts";
+
 
 export const PharmacyContext = createContext();
 
