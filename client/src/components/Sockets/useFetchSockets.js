@@ -9,11 +9,17 @@ import { instance } from "../../api/instance";
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-export default function useFetchDoctor() {
+// Used for all on socket events
+export default function useFetchSockets() {
   const auth = useRecoilValue(authState);
   const [DoctorData, setDoctorData] = useRecoilState(doctorState);
   const { addNotification } = useNotifications();
 
+  /** Socket events for Pharmacy Roles */
+
+  /** Socket events for Doctor Roles */
+
+  /**Load Doctor Appointments */
   const loadDoctorAppointment = useCallback(async () => {
     const res = await instance.get(`/doctor/get-appointments`);
     console.log(res.data);
@@ -23,12 +29,16 @@ export default function useFetchDoctor() {
     });
   }, [DoctorData, setDoctorData]);
 
+  /**
+   * @description : Load Doctor Patients
+   */
   useEffect(() => {
     if (
       auth.isLoggedIn &&
       auth.user.permissions.includes(permissions.DOCTOR_APPOINTMENTS)
     ) {
       loadDoctorAppointment();
+      loadMedicine();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,6 +46,9 @@ export default function useFetchDoctor() {
 
   const loadMedicine = useCallback(async () => {}, []);
 
+  /**
+   * Add Appointment in Doctor Appointments
+   */
   const addAppointment = useCallback(
     async (data) => {
       console.log(DoctorData, data);
@@ -49,6 +62,9 @@ export default function useFetchDoctor() {
     [DoctorData, setDoctorData]
   );
 
+  /**
+   * On Doctor Create New Prescription
+   */
   useEffect(() => {
     console.log("Checking Access for Doctor Prescriptions");
     if (
@@ -69,6 +85,9 @@ export default function useFetchDoctor() {
     };
   }, [auth]);
 
+  /**
+   * Notify Doctor on New Appointment Created
+   */
   useEffect(() => {
     if (
       !auth.isLoggedIn ||

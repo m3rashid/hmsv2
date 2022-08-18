@@ -23,7 +23,7 @@ import MedicineInput from "../../components/Doctor/MedicineInput";
 import { useRecoilValue } from "recoil";
 import { doctorState } from "../../atoms/doctor";
 import Header from "../../components/Header";
-import useFetchDoctor from "../../components/Doctor/useFetchDoctor";
+import useFetchSockets from "../../components/Sockets/useFetchSockets";
 import dayjs from "dayjs";
 
 const { TextArea } = Input;

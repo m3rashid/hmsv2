@@ -12,13 +12,12 @@ import Loading from "./components/Loading/Loading";
 import Home from "./pages/home";
 import UnAuthPage from "./pages/unAuthenticated";
 import { socket } from "./api/socket";
-import useNotifications from "./Hooks/useNotifications";
-import useFetchDoctor from "./components/Doctor/useFetchDoctor";
+import useFetchSockets from "./components/Sockets/useFetchSockets";
 
 export const SocketContext = React.createContext();
 
 function App() {
-  useFetchDoctor();
+  useFetchSockets();
   const [Auth, setAuth] = useRecoilState(authState);
   const [isLoading, setisLoading] = useState(true);
   const location = useLocation();
