@@ -8,8 +8,9 @@ import CreateReceipts from "./pages/pharmacy/CreateReceipts";
 import CreateAppointmentForm from "./pages/reception/CreateAppointmentForm";
 import InventoryDisplay from "./pages/inventory/Display";
 import AddNewInventory from "./pages/inventory/AddNew";
+import CreatePatientForm from "./pages/reception/CreatePatientForm";
 
-export const validateRoute = (Auth, route) => {
+export const checkAccess = (Auth, route) => {
   if (!Auth.isLoggedIn) {
     return false;
   }
@@ -20,7 +21,7 @@ export const validateRoute = (Auth, route) => {
   return contains;
 };
 
-const permissions = {
+export const permissions = {
   // all access to this special role admin
   ADMIN: "ADMIN",
   DOCTOR_APPOINTMENTS: "DOCTOR_APPOINTMENTS",
@@ -78,8 +79,8 @@ const routes = [
   },
   {
     path: "/appointment/create-patient",
-    component: Appointments,
-    text: "Appointments",
+    component: CreatePatientForm,
+    text: "Create Patient",
     role: [permissions.RECEPTION_CREATE_PATIENT],
   },
   {

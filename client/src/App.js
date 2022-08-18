@@ -5,7 +5,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useCallback, useEffect, useState } from "react";
 
 import AppLayout from "./components/Layout/AppLayout";
-import routes, { validateRoute } from "./routes";
+import routes, { checkAccess } from "./routes";
 import { authState } from "./atoms/auth";
 import { revalidateJWT } from "./api/auth/revalidateJWT";
 import Loading from "./components/Loading/Loading";
@@ -13,19 +13,21 @@ import Home from "./pages/home";
 import UnAuthPage from "./pages/unAuthenticated";
 import { socket } from "./api/socket";
 import useNotifications from "./Hooks/useNotifications";
+import useFetchDoctor from "./components/Doctor/useFetchDoctor";
 
 export const SocketContext = React.createContext();
 
 function App() {
+  useFetchDoctor();
   const [Auth, setAuth] = useRecoilState(authState);
-  const {addNotification} = useNotifications()
   const [isLoading, setisLoading] = useState(true);
   const location = useLocation();
   const revalidate = useCallback(() => {
     revalidateJWT(setAuth)
       .then((res) => {
         console.log(res);
-        socket.connect();
+        socket.io.opts.auth.token = res.token;
+        socket.disconnect().connect();
       })
       .finally(() => {
         setisLoading(false);
@@ -37,37 +39,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log("Auth Socket", Auth);
-    if (!Auth.isLoggedIn) return;
-    socket.on("new-appointment-created", (data) => {
- 
-      console.log("Some Appointment Created");
-
-
-      console.log(data, Auth);
-
-      if (data.doctor?.id === Auth.user.id) {
-        console.log(data);
-        message.info(`New appointment created`);
-        addNotification({
-        type: "success",
-        title: "New Appointment",
-        message: `${data.patient.name} has a new appointment`,
-        action: {
-          label: "View",
-          callback: () => {
-            console.log("View Appointment");
-          }
-        }
-      })
-      }
-    });
-    return () => {
-      socket.off("new-appointment-created");
-    };
-  }, [Auth, location]);
-
   if (isLoading) {
     return <Loading text="App is Loading.." />;
   }
@@ -78,7 +49,7 @@ function App() {
         <div style={{ height: "100vh" }}>
           <Routes>
             {routes.map((route, index) => {
-              const validated = validateRoute(Auth, route);
+              const validated = checkAccess(Auth, route);
               if (!validated) {
                 return <Route path="*" element={<UnAuthPage />} />;
               }

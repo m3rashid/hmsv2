@@ -123,7 +123,8 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
     <Space
       direction="vertical"
       style={{
-        width: "55%",
+        width: "90%",
+        marginLeft: 20,
       }}
       size="middle"
     >

@@ -24,7 +24,7 @@ function AuthModal({ handleCancel, isModalVisible, handleOk }) {
 
       localStorage.setItem("refresh_token", data.refreshToken);
       socket.io.opts.auth.token = data.token;
-      socket.connect();
+      socket.disconnect().connect();
 
       message.success({
         content: "Login Successful",

@@ -3,23 +3,22 @@ import { socket } from "../../api/socket";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atoms/auth";
 import { doctorState } from "../../atoms/doctor";
-import { Button, Modal, Space, Table, Typography } from "antd";
+import { Button, Divider, Modal, Space, Table, Typography } from "antd";
+import Header from "../../components/Header";
+import dayjs from "dayjs";
+
 // import { useQuery } from "react-query";
 // import { instance } from "../../../api/instance";
 
 function DoctorAppointments() {
   // const [loading, setLoading] = useState(true);
-  const [doctorData, setDoctorData] = useRecoilState(doctorState);
   const { user } = useRecoilValue(authState);
+  const [doctorData, setDoctorData] = useRecoilState(doctorState);
   const [ModalVisible, setModalVisible] = useState({
     visible: false,
     id: null,
     data: {},
   });
-
-  const loadInitialData = useCallback(() => {}, []);
-
-  useEffect(() => {}, []);
 
   const ToggleModal = () => {
     setModalVisible({
@@ -37,15 +36,20 @@ function DoctorAppointments() {
   const columns = [
     {
       title: "PatientName",
-      dataIndex: "patientname",
-      key: "patientname",
+      dataIndex: "patient",
+      key: "patient",
       sorter: (a, b) => a?.patient?.name?.localeCompare(b.patientname),
+      render: (item) => {
+        console.log(item);
+        return <Typography.Text>{item?.name}</Typography.Text>;
+      },
     },
     {
       title: "Date/Time",
       dataIndex: "date",
       key: "date",
       sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      render: (item) => dayjs(item).format("MMMM DD YYYY, h:mm:ss a"),
     },
     {
       title: "Actions",
@@ -77,6 +81,8 @@ function DoctorAppointments() {
         marginTop: "20px",
       }}
     >
+      <Header />
+      <Divider />
       <Typography.Title
         level={4}
         style={{
@@ -123,15 +129,15 @@ function DoctorAppointments() {
             >
               <div>
                 <strong>Name: </strong>
-                {ModalVisible.data?.patientname}
+                {ModalVisible.data?.patient?.name}
               </div>
               <div>
                 <strong>Age: </strong>
-                {ModalVisible.data?.Patient?.age}
+                {ModalVisible.data?.patient?.age}
               </div>
               <div>
                 <strong>Email:</strong>
-                {ModalVisible.data?.Patient?.email}
+                {ModalVisible.data?.patient?.email}
               </div>
             </Space>
           </div>

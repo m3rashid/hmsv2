@@ -6,6 +6,7 @@ const express = require("express");
 const JWT = require("jsonwebtoken");
 const { Server } = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
+const morgan = require("morgan");
 
 const prisma = require("./utils/prisma.js");
 const { router: AuthRoutes } = require("./routes/auth.routes.js");
@@ -41,12 +42,7 @@ io.use((socket, next) => {
     const payload = JWT.verify(token, keys.ACCESS_SECRET);
 
     socket.user = payload.sub;
-    console.log({ socketUser: socket.user });
 
-    io.on("connection", (socket) => {
-      console.log("Socket connected:", socket.id);
-      return socketHandler(io, socket);
-    });
     return next();
   } catch (err) {
     console.log({ socketErr: err });
@@ -54,9 +50,18 @@ io.use((socket, next) => {
   }
 });
 
+io.on("connection", (socket) => {
+  console.log("socket connected : ", socket.id, socket.user.id);
+  socket.on("connect", () => {
+    console.log("connected : ", socket.id, socket.user.id);
+  });
+  return socketHandler(io, socket);
+});
+
 app.use(cors({ origin: corsOrigin, optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 app.get("/", (req, res) => res.send("Hello World"));
 
 app.use("/api/auth", AuthRoutes);

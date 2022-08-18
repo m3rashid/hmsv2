@@ -11,8 +11,7 @@ const prisma = require("../utils/prisma");
 
 const getDoctorAppointments = async (req, res) => {
   try {
-    if (!req.user || !req.user.id || req.user.role !== "DOCTOR")
-      throw new Error("Unauthorized");
+    if (!req.user || !req.user.id) throw new Error("Unauthorized");
     console.log(req.user);
     const { appointments } = await getDoctorAppointmentsService(req.user.id);
     return res.status(200).json({ appointments });

@@ -7,6 +7,7 @@ import {
   InputNumber,
   message,
   Divider,
+  Typography,
 } from "antd";
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
@@ -34,11 +35,12 @@ const CreatePatientForm = () => {
     <React.Fragment>
       <Header />
       <Divider />
+      <Typography.Title level={2}>Create Patient</Typography.Title>
       <Form
         onFinish={formSubmitHandler}
         labelAlign="left"
-        labelCol={{ span: 2 }}
-        wrapperCol={{ span: 8 }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 12 }}
       >
         <Form.Item
           label="Name"

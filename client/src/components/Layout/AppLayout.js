@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Layout, Typography, Col, Menu } from "antd";
 
 import styles from "./layout.module.less";
-import routes, { validateRoute } from "../../routes";
+import routes, { checkAccess } from "../../routes";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atoms/auth";
 import UserTop from "./userTop";
@@ -45,7 +45,7 @@ function Index(props) {
               <Link to="/">Home</Link>
             </Menu.Item>
             {routes.map((route, index) => {
-              if (!validateRoute(Auth, route)) return null;
+              if (!checkAccess(Auth, route)) return null;
               return (
                 <Menu.Item key={`${index} ${route.path}`}>
                   <Link to={route.path}>{route.text}</Link>
