@@ -1,7 +1,11 @@
 import "./styles/theme.less";
-import { message } from "antd";
+// import { message } from "antd";
 import { useRecoilState } from "recoil";
-import { Routes, Route, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  // useLocation
+} from "react-router-dom";
 import React, { useCallback, useEffect, useState } from "react";
 
 import AppLayout from "./components/Layout/AppLayout";
@@ -20,7 +24,7 @@ function App() {
   useFetchSockets();
   const [Auth, setAuth] = useRecoilState(authState);
   const [isLoading, setisLoading] = useState(true);
-  const location = useLocation();
+  // const location = useLocation();
   const revalidate = useCallback(() => {
     revalidateJWT(setAuth)
       .then((res) => {

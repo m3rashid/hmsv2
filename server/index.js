@@ -9,6 +9,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const morgan = require("morgan");
 
 const prisma = require("./utils/prisma.js");
+const { router: AdminRoutes } = require("./routes/admin.routes");
 const { router: AuthRoutes } = require("./routes/auth.routes.js");
 const { router: DoctorRoutes } = require("./routes/doctor.routes.js");
 const { router: socketHandler } = require("./routes/sockets/index.js");
@@ -65,8 +66,9 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => res.send("Hello World"));
 
 app.use("/api/auth", AuthRoutes);
-app.use("/api/patient", PatientRoutes);
+app.use("/api/admin", AdminRoutes);
 app.use("/api/doctor", DoctorRoutes);
+app.use("/api/patient", PatientRoutes);
 app.use("/api/reception", ReceptionRoutes);
 app.use("/api/inventory", InventoryRoutes);
 

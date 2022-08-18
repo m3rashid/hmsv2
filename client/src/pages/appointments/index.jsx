@@ -1,19 +1,15 @@
-import { Divider, Tabs } from "antd";
 import React from "react";
-import Header from "../../components/Header";
+import { Divider, Tabs } from "antd";
 
 import Active from "./modules/active";
 import Completed from "./modules/completed";
+import Header from "../../components/Header";
 
 const Appointments = () => {
   const [online, setOnline] = React.useState(true);
 
   return (
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
+    <div style={{ padding: "20px" }}>
       <Header online={online} setOnline={setOnline} />
       <Divider />
       <Tabs defaultActiveKey="1">

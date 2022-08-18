@@ -1,6 +1,6 @@
+import React from "react";
 import faker from "@faker-js/faker";
 import { Button, Space, Table } from "antd";
-import React from "react";
 
 const GenerateData = (count) => {
   const data = [];

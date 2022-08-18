@@ -82,6 +82,7 @@ model Profile {
   room_number    Int?
   authority_name String?
   category       Category?
+  role           Role
   origin         String?       @default("JMI")
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @default(now())

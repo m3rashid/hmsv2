@@ -1,5 +1,5 @@
 import Patient from "./pages/patient";
-import Appointments from "./pages/appointments";
+// import Appointments from "./pages/appointments";
 import Admin from "./pages/admin";
 import DoctorAppointments from "./pages/doctor/Appointments";
 import PrescriptionForm from "./pages/doctor/prescribeMedicine";

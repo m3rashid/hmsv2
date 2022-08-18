@@ -41,6 +41,7 @@ CREATE TABLE "Profile" (
     "room_number" INT4,
     "authority_name" STRING,
     "category" "Category",
+    "role" "Role" NOT NULL,
     "origin" STRING DEFAULT 'JMI',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -1,69 +1,39 @@
-import faker from "@faker-js/faker";
 import React from "react";
-import {
-  // Form,
-  Button,
-  // Radio,
-  // Input,
-  // InputNumber,
-  Space,
-  Table,
-  // PageHeader,
-} from "antd";
+import { useRecoilState } from "recoil";
+import { Button, Table } from "antd";
+
+import { instance } from "../../../api/instance";
+import { adminState } from "../../../atoms/admin";
 import CreateUserModal from "../../../components/Modal/CreateUserModal";
-// const { TextArea } = Input;
-const GenerateData = (count) => {
-  const data = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      name: faker.name.findName(),
-      joined: faker.date.past().toDateString(),
-      deskNumber: faker.random.number(),
-    });
-  }
-  return data;
-};
+import { columns, formatForTable } from "./table.helpers";
 
 const Receptionists = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.title.localeCompare(b.title),
-    },
-    {
-      title: "Joined",
-      dataIndex: "joined",
-      key: "joined",
-      sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    },
-    {
-      title: "Desk Number",
-      dataIndex: "deskNumber",
-      key: "deskNumber",
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      key: "actions",
-      render: (text, record) => (
-        <Space>
-          <Button> Details </Button>
-        </Space>
-      ),
-    },
-  ];
+  const [adminData, setAdminData] = useRecoilState(adminState);
 
-  const data = GenerateData(10);
+  const getAllReceptionists = async () => {
+    try {
+      if (adminData.receptionists.length !== 0) return;
+
+      const res = await instance.post("/admin/all", {
+        userRole: "RECEPTIONIST",
+      });
+
+      const users = formatForTable(res.data.users);
+      console.table(users);
+      setAdminData((prev) => ({ ...prev, receptionists: users }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  React.useEffect(() => {
+    getAllReceptionists().then().catch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div
-      style={{
-        marginTop: "10px",
-      }}
-    >
+    <div style={{ marginTop: "10px" }}>
       <div>
         <Button
           style={{ marginBottom: "20px" }}
@@ -74,21 +44,17 @@ const Receptionists = () => {
 
         <CreateUserModal
           isModalVisible={isModalVisible}
-          handleOk={() => {
-            setIsModalVisible(true);
-          }}
-          handleCancel={() => {
-            setIsModalVisible(false);
-          }}
+          handleOk={() => setIsModalVisible(true)}
+          handleCancel={() => setIsModalVisible(false)}
           role="RECEPTIONIST"
         />
       </div>
 
       <Table
-        dataSource={data}
+        dataSource={adminData.receptionists}
         columns={columns}
         pagination={{
-          total: data.length,
+          total: adminData.receptionists.length,
           defaultPageSize: 5,
         }}
       />

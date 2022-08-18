@@ -1,63 +1,39 @@
-import faker from "@faker-js/faker";
 import React from "react";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Table } from "antd";
+import { useRecoilState } from "recoil";
+
+import { instance } from "../../../api/instance";
+import { adminState } from "../../../atoms/admin";
+import { columns, formatForTable } from "./table.helpers";
 import CreateUserModal from "../../../components/Modal/CreateUserModal";
-
-// const { TextArea } = Input;
-
-const GenerateData = (count) => {
-  const data = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      name: faker.name.findName(),
-      designation: faker.name.jobTitle(),
-      joined: faker.date.past().toDateString(),
-    });
-  }
-  return data;
-};
 
 const Doctors = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.title.localeCompare(b.title),
-    },
-    {
-      title: "Designation",
-      dataIndex: "designation",
-      key: "designation",
-    },
-    {
-      title: "Joined",
-      dataIndex: "joined",
-      key: "joined",
-      sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      key: "actions",
-      render: (text, record) => (
-        <Space>
-          <Button> Details </Button>
-        </Space>
-      ),
-    },
-  ];
+  const [adminData, setAdminData] = useRecoilState(adminState);
 
-  const data = GenerateData(10);
+  const getAllDoctors = async () => {
+    try {
+      if (adminData.doctors.length !== 0) return;
+
+      const res = await instance.post("/admin/all", {
+        userRole: "DOCTOR",
+      });
+
+      const users = formatForTable(res.data.users);
+      console.table(users);
+      setAdminData((prev) => ({ ...prev, doctors: users }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  React.useEffect(() => {
+    getAllDoctors().then().catch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div
-      style={{
-        marginTop: "10px",
-        marginLeft: "0px",
-      }}
-    >
+    <div style={{ marginTop: "10px", marginLeft: "0px" }}>
       <div>
         <Button
           style={{ marginBottom: "20px" }}
@@ -85,10 +61,10 @@ const Doctors = () => {
         />
       </div>
       <Table
-        dataSource={data}
+        dataSource={adminData.doctors}
         columns={columns}
         pagination={{
-          total: data.length,
+          total: adminData.doctors.length,
           defaultPageSize: 5,
         }}
       />

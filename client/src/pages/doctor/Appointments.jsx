@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { socket } from "../../api/socket";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atoms/auth";
@@ -85,10 +85,7 @@ function DoctorAppointments() {
       <Divider />
       <Typography.Title
         level={4}
-        style={{
-          width: "100%",
-          textAlign: "center",
-        }}
+        style={{ width: "100%", textAlign: "center" }}
       >
         Doctor Appointments
       </Typography.Title>
@@ -120,13 +117,7 @@ function DoctorAppointments() {
             <h4>
               <strong>Patient Info </strong>
             </h4>
-            <Space
-              direction="vertical"
-              size={3}
-              style={{
-                padding: "10px",
-              }}
-            >
+            <Space direction="vertical" size={3} style={{ padding: "10px" }}>
               <div>
                 <strong>Name: </strong>
                 {ModalVisible.data?.patient?.name}

@@ -1,8 +1,19 @@
 const bcrypt = require("bcrypt");
 const { faker } = require("@faker-js/faker");
+
 const prisma = require("../utils/prisma");
 const { permissions } = require("../utils/auth.helpers");
 const { issueJWT, revalidateJWT } = require("../utils/jwt.js");
+
+const allowedRoles = [
+  "DOCTOR",
+  "ADMIN",
+  "RECEPTIONIST",
+  "PHARMACIST",
+  "INVENTORY_MANAGER",
+  "CO_ADMIN",
+  "OTHER",
+];
 
 const addActions = (role) => {
   let allowedActions = [];
@@ -120,6 +131,7 @@ const signupService = async (
 
   if (!email || !password || !name || !role) throw new Error("No credentials");
 
+  if (!allowedRoles.includes(role)) throw new Error("Invalid role");
   const allowedActions = addActions(role);
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -132,6 +144,7 @@ const signupService = async (
       bio,
       sex,
       availability,
+      role: role,
       available_days: availableDays,
       room_number: roomNumber,
       authority_name: authorityName,
@@ -226,4 +239,5 @@ module.exports = {
   signupService,
   revalidateService,
   createDummyService,
+  allowedRoles,
 };
