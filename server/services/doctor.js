@@ -3,11 +3,10 @@ const dayjs = require("dayjs");
 const prisma = require("../utils/prisma");
 const { permissions } = require("../utils/auth.helpers");
 
-const getDoctorAppointmentsService = async (userId, {
-  limit,
-  offset,
-  pending,
-} = {}) => {
+const getDoctorAppointmentsService = async (
+  userId,
+  { limit, offset, pending } = {}
+) => {
   console.log({ userId });
   const query = {
     where: {
@@ -92,9 +91,8 @@ const createPrescriptionService = async ({
   datetime,
   medicines,
 }) => {
-
   // hopefully works
-
+  console.log(medicines);
   const newPrescription = await prisma.prescription.create({
     data: {
       appointment: {
@@ -107,16 +105,21 @@ const createPrescriptionService = async ({
       datePrescribed: dayjs(datetime).toDate(),
       medicines: {
         createMany: {
-          data: medicines.map((medicine) => ({
-            MedicineId: parseInt(medicine.MedicineId),
+          data: medicines.map((medicine) => {
+            console.log(medicine);
+            return {
+              MedicineId: parseInt(medicine.medicine.id),
 
-            duration: parseInt(medicine.duration),
-            dosage: medicine.dosage,
-            ...(medicine.medType === "SYRUP" ? {
-              quantityPerDose: parseInt(medicine.quantityPerDose),
-            } : {}),
-            description: medicine.description,
-          })),
+              duration: parseInt(medicine.duration),
+              dosage: medicine.dosage,
+              ...(medicine.medType === "SYRUP"
+                ? {
+                    quantityPerDose: parseInt(medicine.quantityPerDose),
+                  }
+                : {}),
+              description: medicine.description,
+            };
+          }),
         },
       },
     },
@@ -137,12 +140,10 @@ const createPrescriptionService = async ({
                 },
               },
               designation: true,
-
             },
           },
         },
-      }
-
+      },
     },
   });
   await prisma.appointment.update({
@@ -151,11 +152,8 @@ const createPrescriptionService = async ({
     },
     data: {
       pending: false,
-
     },
   });
-
-
 
   // const newPresDetails = await newPrescription.getAppointment();
   // const patient = await newPresDetails.getPatient();
@@ -187,11 +185,11 @@ const updateAppointmentService = async ({
   return {
     appointment: updatedAppointment,
   };
-}
+};
 module.exports = {
   getDoctorAppointmentsService,
   getDoctorPatientsService,
   searchDoctorsService,
   createPrescriptionService,
-  updateAppointmentService
+  updateAppointmentService,
 };
