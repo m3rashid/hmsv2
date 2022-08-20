@@ -10,12 +10,14 @@ import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { inventoryState } from "../../atoms/inventory";
 import { InventoryTypes } from "../../utils/inventoryTypes";
+import { pharmacyState } from "../../atoms/pharmacy";
 
 // Used for all on socket events
 export default function useFetchSockets() {
   const auth = useRecoilValue(authState);
   const [DoctorData, setDoctorData] = useRecoilState(doctorState);
   const [InventoryData, setInventoryData] = useRecoilState(inventoryState);
+  const [pharmacyData, setPharmacyData] = useRecoilState(pharmacyState);
   const { addNotification } = useNotifications();
 
   /** Socket Events for Inventory Roles */
@@ -65,6 +67,38 @@ export default function useFetchSockets() {
   }, [auth, loadInventoryItems]);
 
   /** Socket events for Pharmacy Roles */
+  const loadPharmacyPrescriptions = useCallback(async () => {
+    const { data } = await instance.get(`/pharmacy/prescriptions`);
+    console.log(data);
+
+    setPharmacyData(prev => ({
+      ...prev,
+      prescriptions: data.prescriptions,
+    }));
+  }, [setPharmacyData]);
+  useEffect(() => {
+    if (
+      !auth.isLoggedIn ||
+      !(auth.user.permissions.includes(permissions.PHARMACY_PRESCRIPTIONS))
+    ) return;
+    loadPharmacyPrescriptions()
+    socket.on("new-prescription-by-doctor-created", ({ data }) => {
+      console.log(data);
+      setPharmacyData(prevData=>({
+        ...prevData,
+        prescriptions: [...prevData.prescriptions, data.prescription],
+      }))
+      message.info(
+        `New Prescription for ${data.prescription.id}!`
+      );
+
+    });
+
+    return () => {
+      socket.off("new-prescription-by-doctor-created");
+    };
+  }, [auth, loadPharmacyPrescriptions]);
+
 
   /** Socket events for Doctor Roles */
 
@@ -115,6 +149,8 @@ export default function useFetchSockets() {
       setDoctorData(prev => ({ ...prev, appointments: prev.appointments.map(apt => apt.id === id ? { ...apt, pending } : apt) }));
     }, [setDoctorData]
   );
+
+
   /**
    * On Doctor Create New Prescription
    */

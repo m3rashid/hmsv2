@@ -16,6 +16,7 @@ const { router: socketHandler } = require("./routes/sockets/index.js");
 const { router: PatientRoutes } = require("./routes/patient.routes.js");
 const { router: InventoryRoutes } = require("./routes/inventory.routes");
 const { router: ReceptionRoutes } = require("./routes/reception.routes.js");
+const { router: PharmacyRoutes } = require("./routes/pharmacy.routes.js");
 
 const keys = JSON.parse(fs.readFileSync(__dirname + "/utils/keys/keys.json"));
 
@@ -71,6 +72,7 @@ app.use("/api/doctor", DoctorRoutes);
 app.use("/api/patient", PatientRoutes);
 app.use("/api/reception", ReceptionRoutes);
 app.use("/api/inventory", InventoryRoutes);
+app.use("/api/pharmacy", PharmacyRoutes);
 
 const PORT = process.env.PORT || 5000;
 

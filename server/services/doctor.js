@@ -7,14 +7,14 @@ const getDoctorAppointmentsService = async (userId, {
   limit,
   offset,
   pending,
-}={}) => {
+} = {}) => {
   console.log({ userId });
   const query = {
     where: {
       doctor: {
         id: userId,
       },
-      ...(pending ? { pending: true }:{}),
+      ...(pending ? { pending: true } : {}),
     },
     include: {
       patient: true,
@@ -110,21 +110,42 @@ const createPrescriptionService = async ({
           data: medicines.map((medicine) => ({
             MedicineId: parseInt(medicine.MedicineId),
 
-            duration : parseInt(medicine.duration),
+            duration: parseInt(medicine.duration),
             dosage: medicine.dosage,
-            ...(medicine.type==="fluid" ? {
+            ...(medicine.type === "fluid" ? {
               quantityPerDose: parseInt(medicine.quantityPerDose),
-            }:{}),
+            } : {}),
             description: medicine.description,
           })),
         },
       },
     },
     include: {
-      appointment: true,
+      appointment: {
+        select: {
+          patient: {
+            select: {
+              name: true,
+              contact: true,
+            },
+          },
+          doctor: {
+            select: {
+              Auth: {
+                select: {
+                  name: true,
+                },
+              },
+              designation: true,
+
+            },
+          },
+        },
+      }
+
     },
   });
-   await prisma.appointment.update({
+  await prisma.appointment.update({
     where: {
       id: appointment,
     },
@@ -133,7 +154,7 @@ const createPrescriptionService = async ({
 
     },
   });
-   
+
 
 
   // const newPresDetails = await newPrescription.getAppointment();

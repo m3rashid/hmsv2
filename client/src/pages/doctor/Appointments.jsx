@@ -76,14 +76,12 @@ function DoctorAppointments() {
           <Popconfirm
             title="Create a prescription for this appointment?"
             onConfirm={() => {
-              console.log(record);
               navigate(`/doctor/prescribe-medicine?appointmentId=${record.id}`);
             }}
 
             okText="Yes"
             cancelText="Cancel"
           >
-
             <Button>
               {" "}
               Precribe{" "}

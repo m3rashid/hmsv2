@@ -84,7 +84,6 @@ const PrescriptionForm = () => {
 
 
   const handleAppointmentSelect = useCallback((appointment_id) => {
-    console.log(medicines)
     appointment_id = parseInt(appointment_id);
     const selectedAppointment = doctorData.appointments.find(
       (appointment) => appointment.id === appointment_id

@@ -53,17 +53,10 @@ const Pharmacy = () => {
     return () => {
       socket.off("new-prescription-by-doctor-created");
     };
-  }, []);
+  }, [addNotification]);
 
   const [prescription, setPrescription] = React.useState([
-    {
-      id: faker.datatype.uuid(),
-      patientname: "Sarfraz Alam",
-      doctorname: "Dr. Ali",
-      date: "2020-01-01",
-      medicine: ["Diclo", "Aspirin", "Amlokind-5", "Urimax-500"],
-      CustomMedicines: [""],
-    },
+  
   ]);
 
   return (
