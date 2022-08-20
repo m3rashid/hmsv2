@@ -13,6 +13,7 @@ import {
   Row,
   Col,
   Card,
+  Divider,
   // AutoComplete,
 } from "antd";
 // import { socket } from "../../api/socket";
@@ -25,7 +26,9 @@ import { doctorState } from "../../atoms/doctor";
 import Header from "../../components/Header";
 import useFetchSockets from "../../components/Sockets/useFetchSockets";
 import dayjs from "dayjs";
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { quantityCalculator } from "../../components/Doctor/quantityCalculator";
+import GeneratePdf from "../../components/generatePdf.jsx";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -37,11 +40,11 @@ const PrescriptionForm = () => {
   const doctorData = useRecoilValue(doctorState);
   const [formData, setFormData] = useState({});
   const [medicines, setMedicines] = useState([]);
+  const [prescription, setPrescription] = useState([]);
   const [form] = Form.useForm();
   
 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     socket.on("new-prescription-by-doctor-created", (data) => {
@@ -54,9 +57,8 @@ const PrescriptionForm = () => {
   }, [navigate]);
 
   const formSubmitHandler = (values) => {
-
     if (loading) return;
-  
+
     const data = {
       appointment: formData.appointmentInfo.id,
       symptoms: values.symptoms,
@@ -117,10 +119,8 @@ const PrescriptionForm = () => {
   useEffect(() => {
     // return;
     if (appointmentId !== null && doctorData.appointments.length > 0) {
-
       handleAppointmentSelect(appointmentId);
     }
-
   }, [appointmentId, doctorData.appointments.length, handleAppointmentSelect]);
 
   console.log(form.getFieldsValue(true));
@@ -153,19 +153,15 @@ const PrescriptionForm = () => {
                 ]}
               >
                 <Select
-
                   style={{
                     width: "100%",
                   }}
-
                   placeholder="Select an appointment"
                   allowClear
-
                   onChange={(value) => {
                     console.log("changed", value);
                     handleAppointmentSelect(value);
                   }}
-
                   optionLabelProp="Appointment"
                 >
                   {doctorData.appointments.map((appointment) => (
@@ -220,7 +216,17 @@ const PrescriptionForm = () => {
               </Space>
 
               <Form.Item label="Custom Medicines" name="CustomMedicines">
-                <TextArea type="text" />
+                <TextArea
+                  type="text"
+                  placeholder="Enter custom medicines"
+                  allowClear
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      CustomMedicines: e.target.value,
+                    });
+                  }}
+                />
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 3 }}>
                 <Button loading={loading} type="primary" htmlType="submit">
@@ -270,8 +276,88 @@ const PrescriptionForm = () => {
               <Typography.Text type="success">Symptoms:</Typography.Text>
               <Typography.Text>{formData?.symptoms}</Typography.Text>
             </Space>
+
+            <Card
+              title="Medicines"
+              style={{
+                background: "transparent",
+              }}
+            >
+              <Space direction="vertical" size={"large"}>
+                {medicines.map((medicine, index) => (
+                  <Space
+                    direction="vertical"
+                    key={index}
+                    style={{
+                      marginLeft: 20,
+                    }}
+                  >
+                    <Space>
+                      <Typography.Text
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {medicine?.medicine?.name}
+                      </Typography.Text>
+                      <Typography.Text
+                        style={{
+                          padding: "5px 10px",
+                          borderRadius: 5,
+                          fontSize: "12px",
+                          backgroundColor: "#ff4d4f",
+                          color: "#fff",
+                        }}
+                      >
+                        # {medicine?.medicine?.id}
+                      </Typography.Text>
+                    </Space>
+                    <Space
+                      direction="vertical"
+                      style={{
+                        padding: "10px",
+                      }}
+                    >
+                      <Typography.Text>
+                        Duration : <strong>{medicine?.duration} Days</strong>
+                      </Typography.Text>
+                      <Typography.Text>
+                        Dosage : <strong>{medicine?.dosage?.label}</strong>
+                      </Typography.Text>
+                      <Typography.Text>
+                        Quantity Required :{" "}
+                        <strong>
+                          {quantityCalculator(
+                            medicine?.duration,
+                            medicine?.dosage?.value
+                          )}
+                        </strong>
+                      </Typography.Text>
+                      <Typography.Text>{medicine?.description}</Typography.Text>
+                    </Space>
+                  </Space>
+                ))}
+              </Space>
+            </Card>
+            <Card
+              title="Custom Medicines"
+              style={{
+                background: "transparent",
+              }}
+            >
+              {formData?.CustomMedicines}
+            </Card>
           </Col>
         </Row>
+        <GeneratePdf
+          data={[
+            {
+              ...formData,
+              medicines: medicines,
+              date: dayjs().format("MMMM DD YYYY HH:mm A"),
+            },
+          ]}
+        />
       </div>
     </React.Fragment>
   );

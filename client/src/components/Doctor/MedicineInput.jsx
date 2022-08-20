@@ -7,42 +7,56 @@ import {
   Select,
   Space,
   Typography,
-
 } from "antd";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./medicineinput.module.css";
 import { instance } from "../../api/instance";
 import axios from "axios";
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue } from "recoil";
 import { inventoryState } from "../../atoms/inventory";
 const { Option, OptGroup } = Select;
 
 function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
   const dosages = [
-    "OD", "BD", "TD", "QD", "OW", "BW", "TW"
+    {
+      value: "OD",
+      label: "Once a day",
+    },
+    {
+      value: "BD",
+      label: "Twice a day",
+    },
+    {
+      value: "TD",
+      label: "Three times a day",
+    },
+    {
+      value: "QD",
+      label: "Four times a day",
+    },
+    {
+      value: "OW",
+      label: "Once a week",
+    },
+    {
+      value: "BW",
+      label: "Twice a week",
+    },
+    {
+      value: "TW",
+      label: "Three times a week",
+    },
   ];
 
   const medicineDB = useRecoilValue(inventoryState);
-  console.log(medicineDB);
-
-  // const medicines = [
-  //   "Paracetamol",
-  //   "Crocin",
-  //   "Ibuprofen",
-  //   "Vitamin C",
-  //   "Vitamin D",
-  // ];
-
-  // const [MedicineList, setMedicineList] = useState({
-  //   list: [],
-  //   cancelToken: undefined,
-  // });
+  console.log(medicine);
 
   const handleChange = (value, type) => {
     console.log(`${type} ${value}`);
+
     //   Update the medicine object
-    
+
     setMedicines((prevState) => {
       return prevState.map((medicine, i) => {
         if (i === index) {
@@ -55,77 +69,6 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
       });
     });
   };
-
-  // const UpdateMedicineList = async (value) => {
-  //   if (MedicineList.cancelToken) {
-  //     MedicineList.cancelToken.cancel();
-  //   }
-
-  //   try {
-  //     const CancelToken = axios.CancelToken.source();
-
-  //     setMedicineList({
-  //       data: [
-  //         {
-  //           value: "",
-  //           label: "Loading..",
-  //         },
-  //       ],
-  //       cancelToken: CancelToken,
-  //     });
-
-  //     const { data } = await instance.get(
-  //       "/inventory/search",
-  //       {
-  //         params: {
-  //           name: value,
-  //         },
-  //       },
-  //       {
-  //         cancelToken: CancelToken.token,
-  //       }
-  //     );
-  //     console.log(data);
-
-  //     setMedicineList({
-  //       ...MedicineList,
-  //       list: data.inventory.map((medicine) => {
-  //         return {
-  //           value: medicine.id,
-  //           data: medicine,
-  //           label: (
-  //             <Col
-  //               direction="vertical"
-  //               size={"small"}
-  //               style={{
-  //                 fontSize: 12,
-  //               }}
-  //             >
-  //               <Row>
-  //                 <Typography.Text>{medicine.name}</Typography.Text>
-  //                 <Typography.Text type="danger">
-  //                   {"("}
-  //                   {medicine.quantity} Left Only
-  //                   {")"}
-  //                 </Typography.Text>
-  //               </Row>
-  //               <Row>
-  //                 <Typography.Text disabled>₹ {medicine.price}</Typography.Text>
-  //               </Row>
-  //             </Col>
-  //           ),
-  //         };
-  //       }),
-  //       cancelToken: MedicineList.cancelToken
-  //         ? MedicineList.cancelToken
-  //         : CancelToken,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-
 
   return (
     <Space
@@ -146,35 +89,44 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
       </div>
 
       <div className={styles.container}>
-        <Select
+        <Space
+          size={"middle"}
           style={{
-            width: 200,
+            width: "100%",
           }}
-          showSearch
-          optionFilterProp="children"
-          filterOption={(input, option) => option.children?.includes(input)}
-          filterSort={(optionA, optionB) =>
-            optionA.children?.toLowerCase().localeCompare(optionB.children.toLowerCase())
-          }
-          onChange={(value) => handleChange(value, "MedicineId")}
         >
+          <Typography.Text>Meidcine :</Typography.Text>
+          <Select
+            style={{
+              width: 300,
+            }}
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) => option.children?.includes(input)}
+            filterSort={(optionA, optionB) =>
+              optionA.children
+                ?.toLowerCase()
+                .localeCompare(optionB.children.toLowerCase())
+            }
+            placeholder="Select medicine"
+            onChange={(value) => {
+              const Item = medicineDB?.Medicine?.inventory.find(
+                (item) => item.id === value
+              );
+              handleChange(Item, "medicine");
+            }}
+          >
           <OptGroup label="Tablets">
-            {medicineDB.Medicine?.inventory.filter(m=>m.medType==="TABLET").map((medicine) => {
-              return (
-                <Option value={medicine.id}>{medicine.name}</Option>
-              );
-            }
-            )}
-          </OptGroup>
+              {medicineDB.Medicine?.inventory.filter(m=>m.medType==="TABLET").map((medicine) => {
+                return <Option value={medicine.id}>{medicine.name}</Option>;
+              })}
+            </OptGroup>
             <OptGroup label="Syrups">
-            {medicineDB.Medicine?.inventory.filter(m=>m.medType==="SYRUP").map((medicine) => {
-              return (
-                <Option value={medicine.id}>{medicine.name}</Option>
-              );
-            }
-            )}
-          </OptGroup>
-          {/* <OptGroup label="Non Medicine">
+              {medicineDB.Medicine?.inventory.filter(m=>m.medType==="SYRUP").map((medicine) => {
+                return <Option value={medicine.id}>{medicine.name}</Option>;
+              })}
+            </OptGroup>
+            {/* <OptGroup label="Non Medicine">
             {medicineDB.NonMedicine?.inventory.map((item) => {
               return (
                 <Option value={item.id}>{item.name}</Option>
@@ -182,7 +134,11 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
             }
             )}
           </OptGroup> */}
-        </Select>
+          </Select>
+          <Typography.Text type="danger">
+            {medicine?.medicine?.quantity} left!
+          </Typography.Text>
+        </Space>
         <Space
           style={{
             width: "100%",
@@ -195,13 +151,15 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
             placeholder="Select Dosage"
             defaultValue={medicine.dosage}
             className={styles.select}
-            onChange={(value) => handleChange(value, "dosage")}
+            onChange={(value) => {
+              const Item = dosages.find((item) => item.value === value);
+              handleChange(Item, "dosage");
+            }}
           >
             {dosages.map((dosage) => (
-              <Select.Option value={dosage}>{dosage}</Select.Option>
+              <Select.Option value={dosage.value}>{dosage.label}</Select.Option>
             ))}
           </Select>
-
         </Space>
         {
           medicine.medType === 'SYRUP' &&
@@ -212,13 +170,15 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
             }}
           >
             <Typography>Dosage Amount :</Typography>
-            <Input type='number' min={0} onChange={(e) => handleChange(e.target.value, "dosageAmount")} value={medicine.dosageAmount} addonAfter={"ml"} />
+            <Input
+              type="number"
+              min={0}
+              onChange={(e) => handleChange(e.target.value, "dosageAmount")}
+              value={medicine.dosageAmount}
+              addonAfter={"ml"}
+            />
           </Space>
-
         }
-
-
-
 
         <Space
           style={{

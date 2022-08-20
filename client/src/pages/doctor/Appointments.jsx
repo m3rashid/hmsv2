@@ -3,10 +3,19 @@ import { socket } from "../../api/socket";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atoms/auth";
 import { doctorState } from "../../atoms/doctor";
-import { Button, Divider, Modal, Space, Table, Typography, Popconfirm, Tabs } from "antd";
+import {
+  Button,
+  Divider,
+  Modal,
+  Space,
+  Table,
+  Typography,
+  Popconfirm,
+  Tabs,
+} from "antd";
 import Header from "../../components/Header";
 import dayjs from "dayjs";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const { TabPane } = Tabs;
 
 // import { useQuery } from "react-query";
@@ -22,6 +31,8 @@ function DoctorAppointments() {
     id: null,
     data: {},
   });
+
+  console.log(doctorData);
 
   const ToggleModal = () => {
     setModalVisible({
@@ -78,20 +89,15 @@ function DoctorAppointments() {
             onConfirm={() => {
               navigate(`/doctor/prescribe-medicine?appointmentId=${record.id}`);
             }}
-
             okText="Yes"
             cancelText="Cancel"
           >
-            <Button>
-              {" "}
-              Precribe{" "}
-            </Button>
+            <Button> Precribe </Button>
           </Popconfirm>
         </Space>
       ),
     },
   ];
-
 
   const columnsPrevious = [
     {
@@ -111,11 +117,13 @@ function DoctorAppointments() {
       sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       render: (item) => dayjs(item).format("MMMM DD YYYY, h:mm:ss a"),
     },
-      {
+    {
       title: "Remarks",
       dataIndex: "remarks",
       key: "remarks",
-      render: (item) => <Typography.Text ellipsis={true}>{item}</Typography.Text>,
+      render: (item) => (
+        <Typography.Text ellipsis={true}>{item}</Typography.Text>
+      ),
     },
     {
       title: "Actions",
@@ -136,17 +144,11 @@ function DoctorAppointments() {
             {" "}
             View Form{" "}
           </Button>
-            <Button>
-              {" "}
-              View Prescription{" "}
-            </Button>
+          <Button> View Prescription </Button>
         </Space>
       ),
     },
   ];
-
-
-
 
   return (
     <div
@@ -163,11 +165,10 @@ function DoctorAppointments() {
         Appointments
       </Typography.Title>
 
-
       <Tabs defaultActiveKey="1" centered>
         <TabPane tab="Pending" key="1">
           <Table
-            dataSource={doctorData.appointments.filter(apt => apt.pending)}
+            dataSource={doctorData.appointments.filter((apt) => apt.pending)}
             columns={columnsPending}
             pagination={{
               total: doctorData.appointments.length,
@@ -177,7 +178,7 @@ function DoctorAppointments() {
         </TabPane>
         <TabPane tab="Past" key="2">
           <Table
-            dataSource={doctorData.appointments.filter(apt => !apt.pending)}
+            dataSource={doctorData.appointments.filter((apt) => !apt.pending)}
             columns={columnsPrevious}
             pagination={{
               total: doctorData.appointments.length,
@@ -186,7 +187,6 @@ function DoctorAppointments() {
           />
         </TabPane>
       </Tabs>
-
 
       <Modal
         visible={ModalVisible.visible}
