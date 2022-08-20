@@ -27,7 +27,7 @@ export const permissions = {
   DOCTOR_APPOINTMENTS: "DOCTOR_APPOINTMENTS",
   DOCTOR_PRESCRIBE_MEDICINE: "DOCTOR_PRESCRIBE_MEDICINE",
   PHARMACY_PRESCRIPTIONS: "PHARMACY_PRESCRIPTIONS",
-  PHARMACY_RECIEPT: "PHARMACY_RECIEPT",
+  PHARMACY_RECEIPT: "PHARMACY_RECEIPT",
   RECEPTION_ADD_APPOINTMENT: "RECEPTION_ADD_APPOINTMENT",
   RECEPTION_CREATE_PATIENT: "RECEPTION_CREATE_PATIENT",
   INVENTORY_VIEW: "INVENTORY_VIEW",
@@ -66,10 +66,10 @@ const routes = [
     role: [permissions.PHARMACY_PRESCRIPTIONS],
   },
   {
-    path: "/pharmacy/reciept",
+    path: "/pharmacy/receipt",
     component: CreateReceipts,
-    text: "Create Reciepts",
-    role: [permissions.PHARMACY_RECIEPT],
+    text: "Create receipts",
+    role: [permissions.PHARMACY_RECEIPT],
   },
   {
     path: "/reception/add-appointment",

@@ -1,48 +1,84 @@
 import {
-  // AutoComplete,
-  Button,
-  // Col,
-  Form,
-  // Input,
-  InputNumber,
-  notification,
-  // Row,
-  Select,
-  Space,
-  // Typography,
+  Button, Form, InputNumber, message, notification, Select, Space, Spin
 } from "antd";
-import React, { useState } from "react";
-import FixedUseContext from "../../Hooks/FixedUseContext";
-import { PharmacyContext } from ".";
+import React, { useState, useEffect, useCallback } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { pharmacyState } from "../../atoms/pharmacy";
+import dayjs from "dayjs";
+import { instance } from "../../api/instance";
+import MedicineTable from "../../components/Pharmacy/MedicineTable";
 // const { TextArea } = Input;
 const { Option } = Select;
 
 function CreateReceipts() {
   const loading = false;
-  // const [loading, setLoading] = useState(false);
-  const { prescription, getMedicine, reduceMedicine } =
-    FixedUseContext(PharmacyContext);
-  const [SelectedPrescription, setSelectedPrescription] = useState(null);
+  const navigate = useNavigate();
+  const pharmacyData = useRecoilValue(pharmacyState);
+  const [selectedMedicines, setSelectedMedicines] = useState([]);
+
+  const [selectedPrescription, setSelectedPrescription] = useState(null);
+  const [selectedPrescriptionData, setSelectedPrescriptionData] = useState({
+    loading: false,
+    data: {},
+  });
+
   const [form] = Form.useForm();
 
+  const [searchParams] = useSearchParams();
+
+  const prescriptionId = searchParams.get("prescriptionId");
+
+
+  const handlePrescriptionSelect = useCallback(async (prescription_id) => {
+    prescription_id = parseInt(prescription_id);
+    const prescription = pharmacyData.prescriptions.find(
+      (prescription) => prescription.id === prescription_id
+    );
+    console.log(prescription);
+    if (prescription) {
+      setSelectedPrescriptionData(prev => ({ ...prev, loading: true }))
+      setSelectedPrescription(prescription);
+      form.setFieldValue(
+        "prescription",
+        `${prescription.appointment.patient.name}, ${dayjs(
+          prescription.datePrescribed
+        ).format("DD MMM, hh:mm A")}`
+      );
+      const { data } = await instance.get(`/pharmacy/prescriptions/${prescription.id}`)
+      // console.log(data);
+      setSelectedPrescriptionData(prev => ({ ...prev, loading: false, data: data.prescription }))
+
+    }
+  }, [form, pharmacyData.prescriptions])
+
+
+
+  useEffect(() => {
+    console.log(prescriptionId);
+    if (prescriptionId !== null && pharmacyData.prescriptions.length > 0) {
+
+      handlePrescriptionSelect(prescriptionId);
+    }
+  }, [handlePrescriptionSelect, pharmacyData.prescriptions.length, prescriptionId])
+
+
   const [total, setTotal] = useState({});
-  const formSubmitHandler = (values) => {
+  const formSubmitHandler = async (values) => {
     if (loading) return;
-    console.log(values, total);
+    console.log(selectedPrescription, selectedMedicines);
+    const resp = await instance.post(`/pharmacy/dispense`, {
+      prescriptionId: selectedPrescription.id,
+      medicines: selectedMedicines,
+    })
 
-    Object.keys(total).forEach((tot) => {
-      reduceMedicine(total[tot].name, total[tot].qty);
-    });
-
-    notification.open({
-      message: "Reciept Created Successfully",
-      description: `Receipt for ${SelectedPrescription.patientname} has been created`,
-    });
+    message.success(`Receipt for ${selectedPrescription.appointment.patient.name} has been created`);
 
     setTotal({});
     setSelectedPrescription(null);
-
+    setSelectedPrescriptionData({data:[]});
     form.resetFields();
+    navigate('/pharmacy/prescriptions');
   };
 
   function sum(arr) {
@@ -60,7 +96,7 @@ function CreateReceipts() {
       >
         <Form.Item
           label="Choose Prescription"
-          name="appointment"
+          name="prescription"
           rules={[{ required: true, message: "Please Enter patient name!" }]}
         >
           <Select
@@ -68,74 +104,32 @@ function CreateReceipts() {
               width: "100%",
             }}
             placeholder="select an Prescription"
-            defaultValue={[]}
             onSelect={(id) => {
-              const pres = prescription.find((value) => value.id === id);
-              setSelectedPrescription(pres);
+              handlePrescriptionSelect(id);
             }}
             optionLabelProp="Appointment"
           >
-            {prescription?.map((appointment) => (
-              <Option key={appointment.id} value={appointment.id}>
+            {pharmacyData.prescriptions?.map((presp) => (
+              <Option key={presp.id} value={presp.id}>
                 <span>
-                  {appointment.patientname} - {appointment.date}
+                  {presp.appointment.patient.name} - {dayjs(presp.datePrescribed).format("DD MMM YY,  HH:mm A")}
                 </span>
               </Option>
             ))}
           </Select>
         </Form.Item>
 
-        <h3>Medicine</h3>
-        {SelectedPrescription
-          ? SelectedPrescription?.medicine?.map((item) => (
-              <Form.Item label={`${item}`} value={`${item}`}>
-                <Space>
-                  <InputNumber
-                    placeholder="Qty"
-                    max={getMedicine(item)[0].qty}
-                    min={0}
-                    onChange={(value) => {
-                      console.log(
-                        item,
-                        " : ",
-                        value,
-                        getMedicine(item)[0].price
-                      );
-                      setTotal((tot) => {
-                        const newtot = { ...tot };
+        <Spin spinning={selectedPrescriptionData.loading}>
+        <MedicineTable medicines={selectedPrescriptionData.data?.medicines || []} setSelectedMedicines={setSelectedMedicines} selectedMedicine={selectedMedicines} />
+          <Form.Item wrapperCol={{ offset: 12 }}>
+            <Button loading={loading} type="primary" htmlType="submit">
+              Save
+            </Button>
+          </Form.Item>
+        </Spin>
 
-                        newtot[item] = {
-                          price: getMedicine(item)[0].price * value,
-                          qty: value,
-                          name: item,
-                        };
 
-                        return newtot;
-                      });
-                    }}
-                  />
-                  <span style={{ padding: "10" }}>
-                    max. {getMedicine(item)[0].qty}
-                  </span>
-                </Space>
-              </Form.Item>
-            ))
-          : null}
-        {/* <Form.Item label="Custom Medicines" name="Custom Medicines">
-          <TextArea type="text" />
-        </Form.Item> */}
 
-        <Form.Item wrapperCol={{ offset: 11 }}>
-          <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-            Price : ₹&nbsp;
-            {sum(Object.keys(total).map((val) => parseInt(total[val].price)))}
-          </div>
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 12 }}>
-          <Button loading={loading} type="primary" htmlType="submit">
-            Save
-          </Button>
-        </Form.Item>
       </Form>
     </div>
   );

@@ -42,6 +42,7 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
   const handleChange = (value, type) => {
     console.log(`${type} ${value}`);
     //   Update the medicine object
+    
     setMedicines((prevState) => {
       return prevState.map((medicine, i) => {
         if (i === index) {
@@ -157,8 +158,16 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
           }
           onChange={(value) => handleChange(value, "MedicineId")}
         >
-          <OptGroup label="Medicine">
-            {medicineDB.Medicine?.inventory.map((medicine) => {
+          <OptGroup label="Tablets">
+            {medicineDB.Medicine?.inventory.filter(m=>m.medType==="TABLET").map((medicine) => {
+              return (
+                <Option value={medicine.id}>{medicine.name}</Option>
+              );
+            }
+            )}
+          </OptGroup>
+            <OptGroup label="Syrups">
+            {medicineDB.Medicine?.inventory.filter(m=>m.medType==="SYRUP").map((medicine) => {
               return (
                 <Option value={medicine.id}>{medicine.name}</Option>
               );
@@ -195,7 +204,7 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
 
         </Space>
         {
-          medicine.type === 'fluid' &&
+          medicine.medType === 'SYRUP' &&
           <Space
             style={{
               width: "100%",

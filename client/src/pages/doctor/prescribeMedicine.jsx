@@ -32,12 +32,13 @@ const { Option } = Select;
 
 const PrescriptionForm = () => {
   const [loading, setLoading] = useState(false);
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const doctorData = useRecoilValue(doctorState);
   const [formData, setFormData] = useState({});
   const [medicines, setMedicines] = useState([]);
   const [form] = Form.useForm();
+  
 
   const navigate = useNavigate();
 
@@ -99,7 +100,7 @@ const PrescriptionForm = () => {
         "appointment",
         `${selectedAppointment.patient.name}-${dayjs(
           selectedAppointment.date
-        ).format("MMMM DD YYYY HH:mm A")}`
+        ).format("MMMM DD YYYY hh:mm A")}`
       );
     } else {
       setFormData(formData => ({

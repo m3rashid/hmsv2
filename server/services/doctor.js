@@ -112,7 +112,7 @@ const createPrescriptionService = async ({
 
             duration: parseInt(medicine.duration),
             dosage: medicine.dosage,
-            ...(medicine.type === "fluid" ? {
+            ...(medicine.medType === "SYRUP" ? {
               quantityPerDose: parseInt(medicine.quantityPerDose),
             } : {}),
             description: medicine.description,

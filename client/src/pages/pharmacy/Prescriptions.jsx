@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 const { TabPane } = Tabs;
 
+
 function Prescriptions() {
   const pharmacyData = useRecoilValue(pharmacyState);
   const navigate = useNavigate();
@@ -74,10 +75,10 @@ function Prescriptions() {
           >
             View Prescriptions{" "}
           </Button>
-             <Popconfirm
+          <Popconfirm
             title="Create a prescription for this appointment?"
             onConfirm={() => {
-              navigate(`/pharmacy/reciept?prescription=${record.id}`);
+              navigate(`/pharmacy/receipt?prescriptionId=${record.id}`);
             }}
 
             okText="Yes"
@@ -95,7 +96,7 @@ function Prescriptions() {
   ];
 
 
-    const processedColumns = [
+  const processedColumns = [
     {
       title: "PatientName",
       dataIndex: "appointment.patient.name",
@@ -146,15 +147,10 @@ function Prescriptions() {
           >
             View Prescription
           </Button>
-             <Popconfirm
-            title="Create a prescription for this appointment?"
-            okText="Yes"
-            cancelText="Cancel"
-          >
-            <Button>
-              Show Receipt
-            </Button>
-          </Popconfirm>
+          <Button>
+            Show Receipt
+          </Button>
+
         </Space>
       ),
     },
@@ -168,10 +164,10 @@ function Prescriptions() {
 
       <Tabs defaultActiveKey="1" centered>
         <TabPane tab="Pending" key="1">
-          <Table dataSource={pharmacyData.prescriptions.filter(prsp=>prsp.pending)} columns={pendingColumns} />
+          <Table dataSource={pharmacyData.prescriptions.filter(prsp => prsp.pending)} columns={pendingColumns} />
         </TabPane>
         <TabPane tab="Processed" key="2">
-          <Table dataSource={pharmacyData.prescriptions.filter(prsp=>!prsp.pending)} columns={processedColumns} />
+          <Table dataSource={pharmacyData.prescriptions.filter(prsp => !prsp.pending)} columns={processedColumns} />
         </TabPane>
       </Tabs>
 

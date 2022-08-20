@@ -41,7 +41,7 @@ const getAllPrescriptionsService = async ({ limit, from, to, offset }) => {
 
 
 const getPrescriptionByIdService = async (prescriptionId) => {
-  const prescription = await prisma.prescription.findOne({
+  const prescription = await prisma.prescription.findFirst({
     where: {
       id: prescriptionId
     },
@@ -78,22 +78,20 @@ const getPrescriptionByIdService = async (prescriptionId) => {
   return { prescription };
 }
 
-const dispensePrescriptionService = async (prescriptionId) => {
-  const prescription = await prisma.prescription.findOne({
+const dispensePrescriptionService = async ({prescriptionId, medicines}) => {
+
+  const updatePrescription = await prisma.prescription.update({
     where: {
       id: prescriptionId
     },
-    include: {
-      medicines: {
-        include: {
-          Medicine: true
-        }
-      },
+    data: {
+      pending: false,
     }
   })
-  console.log(prescription);
 
-  return { prescription, receipt: {} };
+  console.log(updatePrescription);
+
+  return { prescription:updatePrescription, receipt: {} };
 
 };
 
