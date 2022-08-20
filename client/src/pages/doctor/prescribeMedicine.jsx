@@ -42,6 +42,7 @@ const PrescriptionForm = () => {
   const [medicines, setMedicines] = useState([]);
   const [prescription, setPrescription] = useState([]);
   const [form] = Form.useForm();
+  
 
   const navigate = useNavigate();
 
@@ -88,14 +89,38 @@ const PrescriptionForm = () => {
     setMedicines([...medicines.slice(0, index), ...medicines.slice(index + 1)]);
   };
 
-  const appointmentId = searchParams.get("appointmentId");
+  const appointmentId = searchParams.get('appointmentId');
 
-  const handleAppointmentSelect = useCallback(
-    (appointment_id) => {
-      appointment_id = parseInt(appointment_id);
-      const selectedAppointment = doctorData.appointments.find(
-        (appointment) => appointment.id === appointment_id
+
+
+  const handleAppointmentSelect = useCallback((appointment_id) => {
+    appointment_id = parseInt(appointment_id);
+    const selectedAppointment = doctorData.appointments.find(
+      (appointment) => appointment.id === appointment_id
+    );
+
+    if (selectedAppointment) {
+      setFormData(formData => ({
+        ...formData,
+        appointment: `${selectedAppointment.patient.name}-${selectedAppointment.date}`,
+        appointmentInfo: selectedAppointment,
+      }));
+      form.setFieldValue(
+        "appointment",
+        `${selectedAppointment.patient.name}-${dayjs(
+          selectedAppointment.date
+        ).format("MMMM DD YYYY hh:mm A")}`
       );
+    } else {
+      setFormData(formData => ({
+        ...formData,
+        appointment: "",
+        appointmentInfo: {},
+      }));
+      form.setFieldValue("appointment", "");
+    }
+  }, [doctorData.appointments, form])
+
 
       if (selectedAppointment) {
         setFormData((formData) => ({
