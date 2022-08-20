@@ -12,19 +12,26 @@ import {
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
 import { showGender } from "../../components/utils/strings";
+import { useRecoilState } from "recoil";
+import { Loadingatom } from "../../atoms/loading";
 const { TextArea } = Input;
 
 const CreatePatientForm = () => {
-  const [loading, setLoading] = useState(false);
+  const [LoadingData, setLoadingData] = useRecoilState(Loadingatom);
   const formSubmitHandler = (values) => {
-    if (loading) return;
-    setLoading(true);
+    if (LoadingData?.CreatePatientForm) return;
+    setLoadingData({
+      CreatePatientForm: true,
+    });
     socket.emit("create-patient", { ...values });
   };
+
   useEffect(() => {
     socket.on("new-patient-created", ({ data }) => {
       message.success(`Patient ${data.name} created successfully!`);
-      setLoading(false);
+      setLoadingData({
+        CreatePatientForm: false,
+      });
     });
 
     return () => {
@@ -36,12 +43,22 @@ const CreatePatientForm = () => {
     <React.Fragment>
       <Header />
       <Divider />
-      <Typography.Title level={2}>Create Patient</Typography.Title>
+      <Typography.Title
+        level={2}
+        style={{
+          paddingLeft: 45,
+        }}
+      >
+        Create Patient
+      </Typography.Title>
       <Form
         onFinish={formSubmitHandler}
         labelAlign="left"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 12 }}
+        style={{
+          paddingLeft: 20,
+        }}
       >
         <Form.Item
           label="Name"
@@ -81,7 +98,11 @@ const CreatePatientForm = () => {
           <Input type="text" />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 2 }}>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button
+            loading={LoadingData?.CreatePatientForm}
+            type="primary"
+            htmlType="submit"
+          >
             Register Patient
           </Button>
         </Form.Item>

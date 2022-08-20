@@ -6,19 +6,32 @@ import { authState } from "../../atoms/auth";
 import { doctorState } from "../../atoms/doctor";
 
 import { instance } from "../../api/instance";
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { inventoryState } from "../../atoms/inventory";
 import { InventoryTypes } from "../../utils/inventoryTypes";
 import { pharmacyState } from "../../atoms/pharmacy";
+import { Loadingatom } from "../../atoms/loading";
 
 // Used for all on socket events
 export default function useFetchSockets() {
   const auth = useRecoilValue(authState);
   const [DoctorData, setDoctorData] = useRecoilState(doctorState);
-  const [InventoryData, setInventoryData] = useRecoilState(inventoryState);
-  const [pharmacyData, setPharmacyData] = useRecoilState(pharmacyState);
+  const [, setInventoryData] = useRecoilState(inventoryState);
+  const [, setPharmacyData] = useRecoilState(pharmacyState);
+  const [, setLoadingData] = useRecoilState(Loadingatom);
   const { addNotification } = useNotifications();
+
+  useEffect(() => {
+    socket.on("error", (data) => {
+      message.error(data.message);
+      setLoadingData({});
+    });
+
+    return () => {
+      socket.off("error");
+    };
+  }, []);
 
   /** Socket Events for Inventory Roles */
   const loadInventoryItems = useCallback(async () => {
@@ -43,7 +56,6 @@ export default function useFetchSockets() {
         },
       });
 
-
       setInventoryData({
         [InventoryTypes.Medicine]: MedicineInventory.data,
         [InventoryTypes.NonMedicine]: NonMedicineInventory.data,
@@ -55,7 +67,7 @@ export default function useFetchSockets() {
   }, [setInventoryData]);
 
   useEffect(() => {
-    console.log(auth)
+    console.log(auth);
     if (
       auth.isLoggedIn &&
       (auth.user.permissions.includes(permissions.INVENTORY_VIEW) ||
@@ -71,7 +83,7 @@ export default function useFetchSockets() {
     const { data } = await instance.get(`/pharmacy/prescriptions`);
     console.log(data);
 
-    setPharmacyData(prev => ({
+    setPharmacyData((prev) => ({
       ...prev,
       prescriptions: data.prescriptions,
     }));
@@ -79,26 +91,23 @@ export default function useFetchSockets() {
   useEffect(() => {
     if (
       !auth.isLoggedIn ||
-      !(auth.user.permissions.includes(permissions.PHARMACY_PRESCRIPTIONS))
-    ) return;
-    loadPharmacyPrescriptions()
+      !auth.user.permissions.includes(permissions.PHARMACY_PRESCRIPTIONS)
+    )
+      return;
+    loadPharmacyPrescriptions();
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
       console.log(data);
-      setPharmacyData(prevData=>({
+      setPharmacyData((prevData) => ({
         ...prevData,
         prescriptions: [...prevData.prescriptions, data.prescription],
-      }))
-      message.info(
-        `New Prescription for ${data.prescription.id}!`
-      );
-
+      }));
+      message.info(`New Prescription for ${data.prescription.id}!`);
     });
 
     return () => {
       socket.off("new-prescription-by-doctor-created");
     };
   }, [auth, loadPharmacyPrescriptions]);
-
 
   /** Socket events for Doctor Roles */
 
@@ -127,14 +136,13 @@ export default function useFetchSockets() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
-  const loadMedicine = useCallback(async () => { }, []);
+  const loadMedicine = useCallback(async () => {}, []);
 
   /**
    * Add Appointment in Doctor Appointments
    */
   const addAppointment = useCallback(
     async (data) => {
-
       setDoctorData((prev) => {
         return {
           ...prev,
@@ -146,10 +154,15 @@ export default function useFetchSockets() {
   );
   const setAppointmentPendingStatus = useCallback(
     async (id, pending) => {
-      setDoctorData(prev => ({ ...prev, appointments: prev.appointments.map(apt => apt.id === id ? { ...apt, pending } : apt) }));
-    }, [setDoctorData]
+      setDoctorData((prev) => ({
+        ...prev,
+        appointments: prev.appointments.map((apt) =>
+          apt.id === id ? { ...apt, pending } : apt
+        ),
+      }));
+    },
+    [setDoctorData]
   );
-
 
   /**
    * On Doctor Create New Prescription
@@ -168,7 +181,6 @@ export default function useFetchSockets() {
       message.success(
         `New Prescription for ${data.prescription.id} created successfully!`
       );
-
     });
 
     return () => {
