@@ -2,6 +2,7 @@ const dayjs = require("dayjs");
 
 const prisma = require("../utils/prisma");
 const { permissions } = require("../utils/constants");
+const { quantityCalculator } = require("../utils/medecine.helpers");
 
 const getDoctorAppointmentsService = async (
   userId,
@@ -133,6 +134,36 @@ const updateAppointmentService = async ({
 
 const referAnotherDoctorAppointmentService = async ({}) => {};
 
+const checkMedAvailabilityService = async ({
+  medicineId,
+  dosage,
+  duration,
+}) => {
+  try {
+    const medicine = await prisma.medicine.findFirst({
+      where: { id: medicineId },
+    });
+    const quantityRequired = quantityCalculator(duration, dosage);
+
+    if (medicine.quantity >= quantityRequired) {
+      return {
+        available: true,
+        medicine,
+        quantityRequired,
+      };
+    } else {
+      return {
+        available: false,
+        medicine,
+        quantityRequired,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   searchDoctorsService,
   getDoctorPatientsService,
@@ -141,4 +172,5 @@ module.exports = {
   updateAppointmentService,
   getDoctorAppointmentsService,
   referAnotherDoctorAppointmentService,
+  checkMedAvailabilityService,
 };

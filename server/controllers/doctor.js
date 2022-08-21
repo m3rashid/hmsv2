@@ -6,6 +6,7 @@ const {
   searchDoctorsService,
   createPrescriptionByDoctorService,
   referAnotherDoctorAppointmentService,
+  checkMedAvailabilityService,
 } = require("../services/doctor.js");
 const prisma = require("../utils/prisma");
 const { getAppointmentByIdService } = require("../services/reception.js");
@@ -144,6 +145,26 @@ const referAnotherDoctor = async (req, res) => {
   }
 };
 
+const checkMedAvailability = async (req, res) => {
+  try {
+    const { dosage, medicineId, duration } = req.body;
+
+    const data = await checkMedAvailabilityService({
+      dosage,
+      medicineId,
+      duration,
+    });
+
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message || "Internal Server Error",
+    });
+  }
+};
+
 module.exports = {
   FillDummy,
   searchDoctors,
@@ -152,4 +173,5 @@ module.exports = {
   getAppointmentById,
   getDoctorAppointments,
   createPrescriptionByDoctor,
+  checkMedAvailability,
 };

@@ -1,10 +1,11 @@
 import dayjs from "dayjs";
 import { Form } from "antd";
-import { useRecoilValue } from "recoil";
-import { useCallback, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useCallback, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { doctorState } from "../../../atoms/doctor";
+import { Loadingatom } from "../../../atoms/loading";
 
 const usePrescribeMedicines = (socket) => {
   const [form] = Form.useForm();
@@ -12,16 +13,19 @@ const usePrescribeMedicines = (socket) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useRecoilState(Loadingatom);
   const doctorData = useRecoilValue(doctorState);
   const [formData, setFormData] = useState({});
   const [medicines, setMedicines] = useState([]);
   const [print, setPrint] = useState(false);
   const [referToAnotherDoctor, setReferToAnotherDoctor] = useState(false);
+  const PrintButtonRef = useRef(null);
+  const [CreatePrescriptionModalVisible, setCreatePrescriptionModalVisible] =
+    useState(false);
   // const [prescription, setPrescription] = useState([]);
 
   const formSubmitHandler = (values) => {
-    if (loading) return;
+    if (loading?.PrescribeMedicines) return;
     const data = {
       appointment: formData.appointmentInfo.id,
       symptoms: values.symptoms,
@@ -36,8 +40,10 @@ const usePrescribeMedicines = (socket) => {
         };
       }),
     };
-    if (loading) return;
-    setLoading(true);
+    if (loading?.PrescribeMedicines) return;
+    setLoading({
+      PrescribeMedicines: true,
+    });
     socket.emit("create-prescription-by-doctor", data);
   };
 
@@ -101,12 +107,15 @@ const usePrescribeMedicines = (socket) => {
       navigate,
       form,
       print,
+      PrintButtonRef,
+      CreatePrescriptionModalVisible,
     },
     actions: {
       setPrint,
       setLoading,
       setFormData,
       setMedicines,
+      setCreatePrescriptionModalVisible,
       setReferToAnotherDoctor,
       formSubmitHandler,
       addEmptyMedicine,

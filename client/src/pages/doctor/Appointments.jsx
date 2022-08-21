@@ -63,6 +63,7 @@ function DoctorAppointments() {
       key: "date",
       sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       render: (item) => dayjs(item).format("MMMM DD YYYY, h:mm:ss a"),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Actions",
@@ -115,6 +116,7 @@ function DoctorAppointments() {
       key: "date",
       sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       render: (item) => dayjs(item).format("MMMM DD YYYY, h:mm:ss a"),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Remarks",

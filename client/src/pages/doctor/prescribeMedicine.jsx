@@ -9,6 +9,8 @@ import {
   Col,
   Card,
   Collapse,
+  Modal,
+  message,
 } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -20,6 +22,7 @@ import MedicineInput from "../../components/Doctor/MedicineInput";
 
 import usePrescribeMedicines from "./helpers/prescribeMeds.hook";
 import SingleMedicine from "./helpers/singleMedicine";
+import DisplayMedicine from "./helpers/DisplayMedicine";
 
 const PrescriptionForm = () => {
   const {
@@ -33,6 +36,8 @@ const PrescriptionForm = () => {
       // referToAnotherDoctor,
       navigate,
       form,
+      PrintButtonRef,
+      CreatePrescriptionModalVisible,
     },
     actions: {
       setPrint,
@@ -45,13 +50,16 @@ const PrescriptionForm = () => {
       deleteMedicine,
       handleReferPatientModalShow,
       handleAppointmentSelect,
+      setCreatePrescriptionModalVisible,
     },
   } = usePrescribeMedicines(socket);
 
   useEffect(() => {
     socket.on("new-prescription-by-doctor-created", (data) => {
-      setLoading(false);
-      navigate("/doctor/appointments");
+      setLoading({
+        PrescribeMedicines: false,
+      });
+      PrintButtonRef.current.click();
     });
     return () => {
       socket.off("new-prescription-by-doctor-created");
@@ -64,8 +72,6 @@ const PrescriptionForm = () => {
       handleAppointmentSelect(appointmentId);
     }
   }, [appointmentId, doctorData.appointments.length, handleAppointmentSelect]);
-
-  console.log(form.getFieldsValue(true));
 
   return (
     <React.Fragment>
@@ -159,64 +165,24 @@ const PrescriptionForm = () => {
               <Form.Item
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <Button loading={loading} type="primary" htmlType="submit">
+                <Button
+                  loading={loading.PrescribeMedicines}
+                  type="primary"
+                  htmlType="button"
+                  onClick={() => setCreatePrescriptionModalVisible(true)}
+                >
                   Confirm Create Prescription
                 </Button>
               </Form.Item>
             </Form>
           </Col>
-          <Col span={12} style={{ padding: "10px" }}>
-            <Typography.Title level={4}>Prescription Preview</Typography.Title>
-            <Card
-              title="Appointment Details"
-              style={{ background: "transparent" }}
-            >
-              <Space direction="vertical">
-                <Typography.Text>
-                  Appointment ID: {formData?.appointmentInfo?.id}
-                </Typography.Text>
-                <Typography.Text>
-                  Patient Name: {formData?.appointmentInfo?.patient.name}
-                </Typography.Text>
-                <Typography.Text>
-                  Date:{" "}
-                  {dayjs(formData?.appointmentInfo?.date).format(
-                    "MMMM DD YYYY HH:mm A"
-                  )}
-                </Typography.Text>
-              </Space>
-            </Card>
-            <Space
-              direction="vertical"
-              style={{
-                marginLeft: 20,
-                padding: 20,
-                width: "75%",
-                borderRadius: 15,
-                backgroundColor: "#fff",
-              }}
-            >
-              <Typography.Text type="success">Symptoms:</Typography.Text>
-              <Typography.Text>{formData?.symptoms}</Typography.Text>
-            </Space>
-
-            <Card title="Medicines" style={{ background: "transparent" }}>
-              <Space direction="vertical" size={"large"}>
-                {medicines.map((medicine, index) => (
-                  <SingleMedicine
-                    key={index}
-                    index={index}
-                    medicine={medicine}
-                  />
-                ))}
-              </Space>
-            </Card>
-            <Card
-              title="Custom Medicines"
-              style={{ background: "transparent" }}
-            >
-              {formData?.CustomMedicines}
-            </Card>
+          <Col
+            span={12}
+            style={{
+              padding: "10px",
+            }}
+          >
+            <DisplayMedicine formData={formData} medicines={medicines} />
           </Col>
         </Row>
 
@@ -234,6 +200,7 @@ const PrescriptionForm = () => {
             type="primary"
             onClick={() => setPrint(true)}
             className="print__button"
+            ref={PrintButtonRef}
           >
             Print Prescription
           </Button>
@@ -246,6 +213,20 @@ const PrescriptionForm = () => {
             Refer Patient to another doctor
           </Button>
         </div>
+
+        {/* Alert on Submit Modal */}
+        <Modal
+          visible={CreatePrescriptionModalVisible}
+          onOk={() => {
+            setCreatePrescriptionModalVisible(false);
+            form.submit();
+          }}
+          onCancel={() => setCreatePrescriptionModalVisible(false)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DisplayMedicine formData={formData} medicines={medicines} />
+        </Modal>
 
         <Collapse bordered={false} style={{ padding: 0, margin: 0 }}>
           <Collapse.Panel header="Show print preview" key="1">

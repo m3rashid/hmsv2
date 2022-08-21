@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
-import { Button, Input, Select, Space, Typography } from "antd";
+import { Alert, Button, Input, Select, Space, Typography } from "antd";
+import { useDebounce } from "use-debounce";
 
 import styles from "./medicineinput.module.css";
 import { inventoryState } from "../../atoms/inventory";
+import { instance } from "../../api/instance";
 
 function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
   const dosages = [
@@ -16,22 +18,61 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
     { value: "BW", label: "Twice a week" },
     { value: "TW", label: "Three times a week" },
   ];
-
   const medicineDB = useRecoilValue(inventoryState);
-  console.log(medicine);
+  const [medicineInfo, setMedicineInfo] = useState({
+    available: true,
+    quantityRequired: 0,
+    medicine: {},
+  });
+  const [value] = useDebounce(medicine, 500);
 
-  const handleChange = (value, type) => {
-    console.log(`${type}: ${value}`);
-
-    setMedicines((prevState) => {
-      return prevState.map((medicine, i) => {
-        if (i === index) {
-          return { ...medicine, [type]: value };
-        }
-        return medicine;
+  const handleChange = useCallback(
+    (value, type) => {
+      setMedicines((prevState) => {
+        return prevState.map((medicine, i) => {
+          if (i === index) {
+            return { ...medicine, [type]: value };
+          }
+          return medicine;
+        });
       });
-    });
-  };
+    },
+    [index, setMedicines]
+  );
+
+  const ValidateMedicine = useCallback(async () => {
+    console.log("value", value);
+    if (value) {
+      const data = {
+        dosage: value.dosage.value,
+        medicineId: value.medicine.id,
+        duration: parseInt(value.duration),
+      };
+
+      if (data.dosage === "" || data.duration === 0 || data.medicineId === "")
+        return;
+
+      const { data: availabilityInfo } = await instance.post(
+        "/doctor/med/check-availability",
+        data
+      );
+
+      console.log("availabilityInfo", availabilityInfo);
+      setMedicineInfo(availabilityInfo);
+      handleChange(
+        {
+          ...availabilityInfo.medicine,
+          quantityRequired: availabilityInfo.quantityRequired,
+        },
+        "medicine"
+      );
+      handleChange(availabilityInfo.available, "available");
+    }
+  }, [handleChange, value]);
+
+  useEffect(() => {
+    ValidateMedicine();
+  }, [ValidateMedicine]);
 
   return (
     <Space
@@ -151,6 +192,16 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
             onChange={(e) => handleChange(e.target.value, "description")}
           />
         </div>
+        <Space>
+          <Alert
+            style={{
+              display: medicineInfo?.available ? "none" : "block",
+            }}
+            message="Required quantity is not available"
+            description="Required Quantity is More than Available Quantity in Stock!"
+            type="error"
+          ></Alert>
+        </Space>
       </div>
     </Space>
   );

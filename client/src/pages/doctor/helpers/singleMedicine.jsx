@@ -1,5 +1,5 @@
-import { Space, Typography } from "antd";
-import React from "react";
+import { Alert, Space, Typography } from "antd";
+import React, { useEffect } from "react";
 
 import { quantityCalculator } from "../../../components/Doctor/quantityCalculator";
 
@@ -30,11 +30,16 @@ const SingleMedicine = ({ index, medicine }) => {
           Dosage : <strong>{medicine?.dosage?.label}</strong>
         </Typography.Text>
         <Typography.Text>
-          Quantity Required :{" "}
-          <strong>
-            {quantityCalculator(medicine?.duration, medicine?.dosage?.value)}
-          </strong>
+          Quantity Required :
+          <strong>{medicine?.medicine?.quantityRequired}</strong>
         </Typography.Text>
+        <Alert
+          message="Required Quantity Not Available"
+          type="error"
+          style={{
+            display: medicine?.available ? "none" : "block",
+          }}
+        />
         <Typography.Text>{medicine?.description}</Typography.Text>
       </Space>
     </Space>

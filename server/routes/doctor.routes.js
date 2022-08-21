@@ -8,6 +8,7 @@ const {
   getAppointmentById,
   getDoctorAppointments,
   createPrescriptionByDoctor,
+  checkMedAvailability,
 } = require("../controllers/doctor.js");
 const { checkAuth } = require("../middlewares/auth.js");
 
@@ -26,6 +27,8 @@ router.post("/create-prescription", checkAuth, createPrescriptionByDoctor);
 router.get("/get-patients", checkAuth, getDoctorPatients);
 
 router.post("/refer", checkAuth, referAnotherDoctor);
+
+router.post("/med/check-availability", checkMedAvailability);
 
 module.exports = {
   router,

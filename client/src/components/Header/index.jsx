@@ -25,9 +25,6 @@ const Header = ({ online, setOnline }) => {
 
   const avatar = findAvatar(auth.user.role);
   const Avatar = `/images/${avatar}`;
-
-  console.log(auth);
-
   return (
     <div
       className="site-page-header-ghost-wrapper"
