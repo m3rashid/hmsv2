@@ -11,7 +11,7 @@ import {
   Space,
   Card,
 } from "antd";
-import dayjs from "dayjs";
+import moment from "moment";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -39,8 +39,11 @@ const CreateAppointmentForm = () => {
 
   useEffect(() => {
     socket.on("new-appointment-created", (data) => {
+      console.log(data);
       setLoading(false);
-      message.success(`Appointment for ${data.id} created successfully!`);
+      message.success(
+        `Appointment for ${data?.patient?.name} created successfully!`
+      );
     });
 
     return () => {
@@ -116,7 +119,7 @@ const CreateAppointmentForm = () => {
         ...patients,
         data: data.patients.map((patient) => {
           return {
-            value: `${patient.id}. ${patient.name} - ${patient.email}`,
+            value: `${patient.name}, ${patient.jamiaId || patient.email || ""}`,
             data: patient,
             label: (
               <Col direction="vertical" size={"small"} style={{ fontSize: 12 }}>
@@ -168,7 +171,7 @@ const CreateAppointmentForm = () => {
         ...doctors,
         data: data.doctors.map((doctor) => {
           return {
-            value: `${doctor.id}. ${doctor.name} - ${doctor?.profile?.designation}`,
+            value: `${doctor.name} - ${doctor?.profile?.designation || ""}`,
             data: doctor,
             label: (
               <Col direction="vertical" size={"small"} style={{ fontSize: 12 }}>
@@ -328,7 +331,8 @@ const CreateAppointmentForm = () => {
               <DatePicker
                 showTime
                 allowClear
-                defaultValue={dayjs("2015-01-01", "YYYY-MM-DD")}
+                // defaultValue={moment()}
+                disabledDate={(current) => current && current < moment()}
                 onChange={(value) => {
                   form.setFieldsValue({ datetime: value });
                   setFormSelected({

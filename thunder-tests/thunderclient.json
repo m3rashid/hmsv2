@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-08-24T10:33:50.532Z",
-    "modified": "2022-08-24T10:44:04.414Z",
+    "modified": "2022-08-24T12:31:21.830Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"inventory@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Inventoy Manager\",\n  \"role\": \"INVENTORY_MANAGER\",\n  \"sex\": \"f\"\n}",
+      "raw": "{\n  \"email\": \"coadmin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Co Admin\",\n  \"role\": \"CO_ADMIN\",\n  \"sex\": \"f\"\n}",
       "form": []
     },
     "tests": []

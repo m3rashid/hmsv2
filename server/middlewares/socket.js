@@ -14,7 +14,8 @@ const checkSocketAuth = (socket, next) => {
     const payload = JWT.verify(token, keys.ACCESS_SECRET);
 
     socket.user = payload.sub;
-
+    console.log("========== Socket User ==========");
+    console.log(socket.user);
     return next();
   } catch (err) {
     console.log({ socketErr: err });
@@ -28,7 +29,7 @@ const safeSocket =
   (...args) => {
     console.log("========== Socket Args ==========");
     console.log(...args);
-    Promise.resolve(handler(...args)).catch((err) => {
+    Promise.resolve(handler(io, socket)(...args)).catch((err) => {
       console.log("========== Socket Err ==========");
       console.log(err);
       io.emit("error", {
