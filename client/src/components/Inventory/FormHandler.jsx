@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { instance } from "../../api/instance";
 import { inventoryState } from "../../atoms/inventory";
 import { Category, InventoryTypes, MedType } from "../../utils/inventoryTypes";
+import StatefullFormRenderer from "../common/StatefullFormRenderer";
 
 function InventoryFormHandler(props) {
   const [itemlist, setItemlist] = useState({
@@ -35,7 +36,7 @@ function InventoryFormHandler(props) {
   const [form] = Form.useForm();
 
   const formSubmitHandler = async (values) => {
-    console.log(values, FormSelected);
+    console.log("formSubmitHandler", values);
     try {
       props.formSubmit({ values, FormSelected, form });
     } catch (err) {
@@ -106,7 +107,7 @@ function InventoryFormHandler(props) {
     });
   };
 
-  console.log(FormSelected);
+  console.log(props.defaultValues);
 
   return (
     <React.Fragment>
@@ -118,7 +119,7 @@ function InventoryFormHandler(props) {
         wrapperCol={{ span: props?.Col?.wrapper || 8 }}
         initialValues={{
           ...props?.defaultValues,
-          expiry_date: props?.defaultValues?.expiryDate
+          expiryDate: props?.defaultValues?.expiryDate
             ? moment(props?.defaultValues?.expiryDate, "YYYY-MM-DD")
             : undefined,
         }}
@@ -142,11 +143,7 @@ function InventoryFormHandler(props) {
             ))}
           </Select>
         </Form.Item>
-        <div
-          style={{
-            display: FormSelected.type ? "block" : "none",
-          }}
-        >
+        <StatefullFormRenderer render={FormSelected.type}>
           <Form.Item
             label="Name"
             name="name"
@@ -175,58 +172,57 @@ function InventoryFormHandler(props) {
           >
             <Input placeholder="Enter Quantity" type={"number"} />
           </Form.Item>
-        </div>
-        <div
-          style={{
-            display:
-              FormSelected.type === InventoryTypes.Medicine ||
-              FormSelected.type === InventoryTypes.NonMedicine
-                ? "block"
-                : "none",
-          }}
-        >
-          <Form.Item
-            label="Batch Number"
-            name="batchNumber"
-            rules={[
-              {
-                required:
-                  FormSelected.type === InventoryTypes.Medicine ||
-                  FormSelected.type === InventoryTypes.NonMedicine,
-                message: "Please input the batch number!",
-              },
-            ]}
-          >
-            <Input placeholder="Enter Batch Number" />
-          </Form.Item>
-          <Form.Item
-            label="Expiry Date"
-            name="expiryDate"
-            rules={[
-              {
-                required:
-                  FormSelected.type === InventoryTypes.Medicine ||
-                  FormSelected.type === InventoryTypes.NonMedicine,
-                message: "Please input the expiry date!",
-              },
-            ]}
-          >
-            <DatePicker placeholder="Enter Expiry Date" type="date" />
-          </Form.Item>
-        </div>
+        </StatefullFormRenderer>
 
-        <div
-          style={{
-            display:
-              FormSelected.type === InventoryTypes.Medicine ? "block" : "none",
-          }}
+        <StatefullFormRenderer
+          render={[
+            InventoryTypes.Medicine,
+            InventoryTypes.NonMedicine,
+          ].includes(FormSelected.type)}
+        >
+          <React.Fragment>
+            <Form.Item
+              label="Batch Number"
+              name="batchNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the batch number!",
+                },
+              ]}
+            >
+              <Input placeholder="Enter Batch Number" />
+            </Form.Item>
+            <Form.Item
+              label="Expiry Date"
+              name="expiryDate"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the expiry date!",
+                },
+              ]}
+            >
+              <DatePicker
+                placeholder="Enter Expiry Date"
+                type="date"
+                disabledDate={(current) =>
+                  current && current < moment().endOf("day")
+                }
+              />
+            </Form.Item>
+          </React.Fragment>
+        </StatefullFormRenderer>
+
+        <StatefullFormRenderer
+          render={FormSelected.type === InventoryTypes.Medicine}
         >
           <Form.Item
             label="Category"
             name="category"
             rules={[
               {
-                required: FormSelected.type === InventoryTypes.Medicine,
+                required: true,
                 message: "Please input the category!",
               },
             ]}
@@ -239,12 +235,15 @@ function InventoryFormHandler(props) {
               }))}
             />
           </Form.Item>
+          <Form.Item label="Manufacturer" name="manufacturer">
+            <Input placeholder="Enter Manufacturer" />
+          </Form.Item>
           <Form.Item
             label="Medicine Type"
             name="medType"
             rules={[
               {
-                required: FormSelected.type === InventoryTypes.Medicine,
+                required: true,
                 message: "Please input the medicine type!",
               },
             ]}
@@ -257,7 +256,7 @@ function InventoryFormHandler(props) {
               }))}
             />
           </Form.Item>
-        </div>
+        </StatefullFormRenderer>
 
         <Form.Item wrapperCol={{ offset: 2 }}>
           <Button

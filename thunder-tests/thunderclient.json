@@ -1,1 +1,59 @@
-[]
+[
+  {
+    "_id": "8c4b7728-272e-4c19-add2-4a103383f324",
+    "colId": "26fc88d3-a4ce-4a6d-9360-c43c34901629",
+    "containerId": "",
+    "name": "Create",
+    "url": "{{host}}/auth/signup",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-08-24T10:33:50.532Z",
+    "modified": "2022-08-24T10:44:04.414Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"inventory@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Inventoy Manager\",\n  \"role\": \"INVENTORY_MANAGER\",\n  \"sex\": \"f\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "59c1b0ce-d2fc-4fa5-918e-96a996f05d82",
+    "colId": "7b01b751-3f9f-4d5c-9b60-4ea40bfb1a96",
+    "containerId": "",
+    "name": "Create Medicine",
+    "url": "{{host}}/inventory/add",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-08-24T11:09:48.853Z",
+    "modified": "2022-08-24T11:11:18.198Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"type\" : \"Medicine\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "8e1247b1-2928-43aa-a169-ddcfe4c3bf69",
+    "colId": "7b01b751-3f9f-4d5c-9b60-4ea40bfb1a96",
+    "containerId": "",
+    "name": "Dummy",
+    "url": "{{host}}/inventory/dummy",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-08-24T11:12:02.894Z",
+    "modified": "2022-08-24T11:12:27.825Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"count\" : 100\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

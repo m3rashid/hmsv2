@@ -4,6 +4,7 @@ import InventoryFormHandler from "../../../../components/Inventory/FormHandler";
 import { instance } from "../../../../api/instance";
 import { useRecoilState } from "recoil";
 import { inventoryState } from "../../../../atoms/inventory";
+import { message } from "antd";
 
 function EditMedicine(props) {
   const [inventoryData, setInventoryData] = useRecoilState(inventoryState);
@@ -32,6 +33,11 @@ function EditMedicine(props) {
         },
       };
     });
+    props.setIsModalVisible({
+      open: false,
+      data: props.data,
+    });
+    message.success("Medicine updated successfully");
   };
 
   return (
@@ -53,6 +59,7 @@ EditMedicine.propTypes = {
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
+  setIsModalVisible: PropTypes.func.isRequired,
 };
 
 export default EditMedicine;

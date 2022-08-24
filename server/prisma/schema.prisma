@@ -161,6 +161,7 @@ model Medicine {
   name               String
   quantity           Int
   batchNumber        String
+  TabletsPerStrips   Int?
   expiryDate         String
   category           Category
   medType            MedType

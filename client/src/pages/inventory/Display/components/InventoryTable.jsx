@@ -55,11 +55,48 @@ function InventoryTable(prop) {
 
   const navigate = useNavigate();
 
-  const modalData = [
-    { title: "Batch Number", key: "batchNumber" },
-    { title: "Category", key: "category" },
-    { title: "Med Type", key: "medType" },
-  ];
+  const modalData = useMemo(
+    () => [
+      {
+        title: "Quantity",
+        key: "quantity",
+        renderer: (item) => (
+          <Typography.Text type="danger">{item} Left</Typography.Text>
+        ),
+      },
+      {
+        title: "Added On",
+        key: "createdAt",
+        renderer: (item) => (
+          <Typography.Text>{dayjs(item).format("DD-MM-YYYY")}</Typography.Text>
+        ),
+      },
+      {
+        title: "Expiry Date",
+        key: "expiryDate",
+        renderer: (item) => (
+          <Typography.Text>{dayjs(item).format("DD-MM-YYYY")}</Typography.Text>
+        ),
+      },
+      {
+        title: "Batch Number",
+        key: "batchNumber",
+      },
+      {
+        title: "Category",
+        key: "category",
+      },
+      {
+        title: "Med Type",
+        key: "medType",
+      },
+      {
+        title: "Menufacturer",
+        key: "manufacturer",
+      },
+    ],
+    []
+  );
 
   const columns = [
     {
@@ -180,26 +217,15 @@ function InventoryTable(prop) {
                   <Typography.Text>
                     {isModalVisible?.data?.description}
                   </Typography.Text>
-                  <Typography.Text type="danger">
-                    {isModalVisible?.data?.quantity} Left
-                  </Typography.Text>
-                  <Typography.Text>
-                    Added on:{" "}
-                    {dayjs(isModalVisible?.data?.createdAt).format(
-                      "DD MMM YYYY hh:mm A"
-                    )}
-                  </Typography.Text>
-                  <Typography.Text>
-                    Expiry Date :{" "}
-                    {dayjs(isModalVisible.data.expiryDate).format(
-                      "DD MMM YYYY"
-                    )}
-                  </Typography.Text>
+
                   {modalData.map((item) => {
                     if (!isModalVisible?.data?.[item.key]) return null;
                     return (
                       <Typography.Text key={item.key}>
-                        {item.title} : {isModalVisible?.data?.[item.key]}
+                        <strong>{item.title} : </strong>
+                        {item.renderer
+                          ? item?.renderer(isModalVisible?.data?.[item.key])
+                          : isModalVisible?.data?.[item.key]}
                       </Typography.Text>
                     );
                   })}
@@ -264,7 +290,11 @@ function InventoryTable(prop) {
               />
             </Space>
           ) : (
-            <EditMedicine type={prop.type} data={isModalVisible.data} />
+            <EditMedicine
+              type={prop.type}
+              data={isModalVisible.data}
+              setIsModalVisible={setIsModalVisible}
+            />
           )}
         </Modal>
       )}

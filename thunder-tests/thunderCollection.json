@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "26fc88d3-a4ce-4a6d-9360-c43c34901629",
+    "colName": "Auth",
+    "created": "2022-08-24T10:33:34.264Z",
+    "sortNum": 10000,
+    "folders": []
+  },
+  {
+    "_id": "7b01b751-3f9f-4d5c-9b60-4ea40bfb1a96",
+    "colName": "Inventory",
+    "created": "2022-08-24T11:09:40.584Z",
+    "sortNum": 20000,
+    "folders": []
+  }
+]

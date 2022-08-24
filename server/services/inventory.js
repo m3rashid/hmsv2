@@ -341,6 +341,7 @@ const addDummy = async () => {
         expiryDate: faker.date.future(),
         medType: faker.helpers.arrayElement(Object.values(MedType)),
         quantity: faker.datatype.number({ min: 1, max: 100 }),
+        manufacturer: faker.company.companyName(),
       },
     });
   } else if (type === InventoryTypes.NonMedicine) {

@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "910677b8-225c-42d9-9036-15e6142d3233",
+    "name": "Development",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-08-24T10:34:12.001Z",
+    "modified": "2022-08-24T10:37:20.947Z",
+    "data": [
+      {
+        "name": "host",
+        "value": "http://localhost:5000/api"
+      }
+    ]
+  }
+]

@@ -36,5 +36,77 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "1ff4ddb3-694b-4aad-bf96-b533f8b91c0f",
+    "colId": "history",
+    "containerId": "",
+    "name": "{host}",
+    "url": "{host}",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-24T10:35:43.641Z",
+    "modified": "2022-08-24T10:35:44.632Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "host",
+        "value": "",
+        "isPath": true
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "19e79983-45d0-491b-b1b0-757266042ca8",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}",
+    "url": "{{host}}",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-24T10:37:05.740Z",
+    "modified": "2022-08-24T10:37:05.890Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "9883c58f-c7f7-4a01-a49e-a331860c247b",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}/auth/signup",
+    "url": "{{host}}/auth/signup",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-08-24T10:44:05.379Z",
+    "modified": "2022-08-24T10:48:33.529Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"inventory@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Inventoy Manager\",\n  \"role\": \"INVENTORY_MANAGER\",\n  \"sex\": \"f\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "3d9cbbc0-f18e-42d6-870c-3add6499c310",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}/inventory/dummy",
+    "url": "{{host}}/inventory/dummy",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-08-24T11:12:19.941Z",
+    "modified": "2022-08-24T11:14:04.145Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"count\" : 100\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
