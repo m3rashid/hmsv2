@@ -86,7 +86,7 @@ const otherFormFields = [
   { key: "origin", label: "Origin", inputType: "text" },
 ];
 
-const RenderFormFields = ({ formFields, required }) => {
+const RenderFormFields = ({ formFields, isEdit, required, data }) => {
   return (
     <React.Fragment>
       {formFields.map((f) => (
@@ -94,22 +94,23 @@ const RenderFormFields = ({ formFields, required }) => {
           key={f.key}
           name={f.key}
           label={f.label}
-          {...(required
-            ? {
-                rules: [
-                  {
-                    required: true,
-                    message: `Please ${
-                      f.inputType === "select" ? "Select" : "Enter"
-                    } a ${f.label}`,
-                  },
-                  ...f.otherRules,
-                ],
-              }
-            : {})}
+          {...(required && {
+            rules: [
+              {
+                required: true,
+                message: `Please ${
+                  f.inputType === "select" ? "Select" : "Enter"
+                } a ${f.label}`,
+              },
+              ...f.otherRules,
+            ],
+          })}
         >
           {f.inputType === "select" ? (
-            <Select placeholder={`Select ${f.label}`}>
+            <Select
+              {...(isEdit && { defaultValue: data[f.key] })}
+              placeholder={`Select ${f.label}`}
+            >
               {f.options.map((o) => (
                 <Select.Option key={o.key} value={o.key}>
                   {o.label}
@@ -117,9 +118,17 @@ const RenderFormFields = ({ formFields, required }) => {
               ))}
             </Select>
           ) : f.inputType === "textarea" ? (
-            <Input.TextArea placeholder={f.label} rows={3} />
+            <Input.TextArea
+              {...(isEdit && { defaultValue: data[f.key] })}
+              placeholder={f.label}
+              rows={3}
+            />
           ) : (
-            <Input placeholder={f.label} type={f.inputType ?? "text"} />
+            <Input
+              {...(isEdit && { defaultValue: data[f.key] })}
+              placeholder={f.label}
+              type={f.inputType ?? "text"}
+            />
           )}
         </Form.Item>
       ))}
@@ -149,13 +158,13 @@ const CreateUserModal = ({ isEdit, data }) => {
         console.log({ userCreated: res.data });
       }
       message.success({
-        content: "User created Successfully",
+        content: `User ${isEdit ? "edited" : "created"} Successfully`,
         key: "auth/createUser",
       });
       handleCancel();
     } catch (error) {
       message.error({
-        content: "User creation Failed",
+        content: `User ${isEdit ? "updation" : "creation"} failed`,
         key: "auth/createUser",
       });
     }

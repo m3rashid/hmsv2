@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const prisma = require("../utils/prisma");
 const { supportedUserRoles } = require("../utils/constants");
 
