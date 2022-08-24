@@ -117,8 +117,10 @@ export default function useFetchSockets() {
       //   }),
       // }));
       loadPharmacyPrescriptions();
-      message.success(`Prescription ${data.prescription.id} has been dispensed!`);
-    })
+      message.success(
+        `Prescription ${data.prescription.id} has been dispensed!`
+      );
+    });
 
     return () => {
       socket.off("new-prescription-by-doctor-created");
@@ -153,7 +155,7 @@ export default function useFetchSockets() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
-  const loadMedicine = useCallback(async () => { }, []);
+  const loadMedicine = useCallback(async () => {}, []);
 
   /**
    * Add Appointment in Doctor Appointments
@@ -193,10 +195,9 @@ export default function useFetchSockets() {
       return;
 
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
-      console.log(data);
       setAppointmentPendingStatus(data.prescription.appointment.id, false);
       message.success(
-        `New Prescription for ${data.prescription.id} created successfully!`
+        `New Prescription for ${data.prescription.appointment.patient.name} created successfully!`
       );
     });
 

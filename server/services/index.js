@@ -12,6 +12,9 @@ const {
   getDoctorPatientsService,
   createPrescriptionService,
   searchDoctorsService,
+  checkMedAvailabilityService,
+  referAnotherDoctorAppointmentService,
+  updateAppointmentService,
 } = require("./doctor.js");
 
 const {
@@ -89,4 +92,7 @@ module.exports = {
 
   createAppointmentService,
   getAppointmentByIdService,
+  checkMedAvailabilityService,
+  referAnotherDoctorAppointmentService,
+  updateAppointmentService,
 };

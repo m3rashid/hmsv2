@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Space, Typography } from "antd";
 
-const SingleMedicine = ({ index, medicine }) => {
+const SingleMedicine = ({ index, medicine, isExtra }) => {
   return (
     <Space direction="vertical" key={index} style={{ marginLeft: 20 }}>
       <Space>
@@ -15,6 +15,7 @@ const SingleMedicine = ({ index, medicine }) => {
             fontSize: "12px",
             backgroundColor: "#ff4d4f",
             color: "#fff",
+            display: isExtra ? "none" : "block",
           }}
         >
           # {medicine?.medicine?.id}
@@ -28,14 +29,13 @@ const SingleMedicine = ({ index, medicine }) => {
           Dosage : <strong>{medicine?.dosage?.label}</strong>
         </Typography.Text>
         <Typography.Text>
-          Quantity Required :
-          <strong>{medicine?.medicine?.quantityRequired}</strong>
+          Quantity Required :<strong>{medicine?.quantityRequired}</strong>
         </Typography.Text>
         <Alert
           message="Required Quantity Not Available"
           type="error"
           style={{
-            display: medicine?.available ? "none" : "block",
+            display: medicine?.available || isExtra ? "none" : "block",
           }}
         />
         <Typography.Text>{medicine?.description}</Typography.Text>

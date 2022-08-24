@@ -39,13 +39,22 @@ function DisplayMedicine({ formData, medicines }) {
 
       <Card title="Medicines" style={{ background: "transparent" }}>
         <Space direction="vertical" size={"large"}>
-          {medicines.map((medicine, index) => (
+          {medicines.medicines.map((medicine, index) => (
             <SingleMedicine key={index} index={index} medicine={medicine} />
           ))}
         </Space>
       </Card>
       <Card title="Custom Medicines" style={{ background: "transparent" }}>
-        {formData?.CustomMedicines}
+        <Space direction="vertical" size={"large"}>
+          {medicines.extramedicines.map((medicine, index) => (
+            <SingleMedicine
+              key={index}
+              index={index}
+              medicine={medicine}
+              isExtra={true}
+            />
+          ))}
+        </Space>
       </Card>
     </React.Fragment>
   );

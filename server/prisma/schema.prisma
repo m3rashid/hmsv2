@@ -133,7 +133,7 @@ model Prescription {
   id              Int                  @id @default(autoincrement())
   symptoms        String
   diagnosis       String? // prescription
-  CustomMedicines String?
+  CustomMedicines Json?
   datePrescribed  DateTime             @default(now())
   appointmentId   Int
   appointment     Appointment          @relation(fields: [appointmentId], references: [id])

@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Modal,
+  message,
 } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -47,6 +48,7 @@ const PrescriptionForm = () => {
       handleReferPatientModalShow,
       handleAppointmentSelect,
       setCreatePrescriptionModalVisible,
+      UpdateMedicine,
     },
   } = usePrescribeMedicines(socket);
 
@@ -55,7 +57,8 @@ const PrescriptionForm = () => {
       setLoading({
         PrescribeMedicines: false,
       });
-      PrintButtonRef.current.click();
+      console.log(data);
+      navigate("/doctor/appointments");
     });
     return () => {
       socket.off("new-prescription-by-doctor-created");
@@ -68,6 +71,8 @@ const PrescriptionForm = () => {
       handleAppointmentSelect(appointmentId);
     }
   }, [appointmentId, doctorData.appointments.length, handleAppointmentSelect]);
+
+  console.log({ medicines });
 
   return (
     <React.Fragment>
@@ -119,7 +124,16 @@ const PrescriptionForm = () => {
                     ))}
                 </Select>
               </Form.Item>
-              <Form.Item label="Symptoms" name="symptoms">
+              <Form.Item
+                label="Symptoms"
+                name="symptoms"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please Enter Symptoms!",
+                  },
+                ]}
+              >
                 <Input.TextArea
                   required
                   type="text"
@@ -132,39 +146,51 @@ const PrescriptionForm = () => {
               </Form.Item>
 
               <Space direction="vertical" style={{ width: "100%" }}>
-                {medicines.map((medicine, index) => (
+                {medicines.medicines.map((medicine, index) => (
                   <MedicineInput
                     key={index}
                     index={index}
+                    type="medicines"
                     medicine={medicine}
                     deleteMedicine={deleteMedicine}
                     setMedicines={setMedicines}
+                    UpdateMedicine={UpdateMedicine}
                   />
                 ))}
 
                 <Button
                   type="primary"
                   htmlType="button"
-                  onClick={addEmptyMedicine}
+                  onClick={() => addEmptyMedicine("medicines")}
                   style={{ marginTop: 10, marginBottom: 10 }}
                 >
                   + Add New Medicines
                 </Button>
               </Space>
 
-              <Form.Item label="Custom Medicines" name="CustomMedicines">
-                <Input.TextArea
-                  type="text"
-                  placeholder="Enter custom medicines"
-                  allowClear
-                  onChange={(e) => {
-                    setFormData({
-                      ...formData,
-                      CustomMedicines: e.target.value,
-                    });
-                  }}
-                />
-              </Form.Item>
+              <Space direction="vertical" style={{ width: "100%" }}>
+                <strong>Custom Medicines</strong>
+                {medicines.extramedicines.map((medicine, index) => (
+                  <MedicineInput
+                    key={index}
+                    index={index}
+                    isExtra={true}
+                    type="extramedicines"
+                    medicine={medicine}
+                    deleteMedicine={deleteMedicine}
+                    setMedicines={setMedicines}
+                    UpdateMedicine={UpdateMedicine}
+                  />
+                ))}
+                <Button
+                  type="primary"
+                  htmlType="button"
+                  onClick={() => addEmptyMedicine("extramedicines")}
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  + Add New Extra Medicine
+                </Button>
+              </Space>
 
               <Form.Item
                 style={{ display: "flex", justifyContent: "flex-end" }}
@@ -230,7 +256,7 @@ const PrescriptionForm = () => {
           <DisplayMedicine formData={formData} medicines={medicines} />
         </Modal>
 
-        {formData.appointmentInfo && (
+        {/* {formData.appointmentInfo && (
           <GeneratePdf
             printContainerRef={printContainerRef}
             data={[
@@ -241,7 +267,7 @@ const PrescriptionForm = () => {
               },
             ]}
           />
-        )}
+        )} */}
       </div>
     </React.Fragment>
   );

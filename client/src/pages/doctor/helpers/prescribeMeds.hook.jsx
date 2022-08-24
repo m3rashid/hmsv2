@@ -17,7 +17,10 @@ const usePrescribeMedicines = (socket) => {
   const [loading, setLoading] = useRecoilState(Loadingatom);
   const doctorData = useRecoilValue(doctorState);
   const [formData, setFormData] = useState({});
-  const [medicines, setMedicines] = useState([]);
+  const [medicines, setMedicines] = useState({
+    medicines: [],
+    extramedicines: [],
+  });
   const [referToAnotherDoctor, setReferToAnotherDoctor] = useState(false);
   const [CreatePrescriptionModalVisible, setCreatePrescriptionModalVisible] =
     useState(false);
@@ -28,9 +31,14 @@ const usePrescribeMedicines = (socket) => {
       appointment: formData.appointmentInfo.id,
       symptoms: values.symptoms,
       diagnosis: values.diagnosis,
-      CustomMedicines: values.CustomMedicines,
+      CustomMedicines: medicines.extramedicines.map((item) => ({
+        name: item.medicine.name,
+        quantity: item.medicine.quantityRequired,
+        dosage: item.dosage.value,
+        duration: item.duration,
+      })),
       datetime: new Date(),
-      medicines: medicines.map((item) => {
+      medicines: medicines.medicines.map((item) => {
         return {
           ...item,
           MedicineId: item.id,
@@ -45,16 +53,34 @@ const usePrescribeMedicines = (socket) => {
     socket.emit("create-prescription-by-doctor", data);
   };
 
-  const addEmptyMedicine = () => {
-    setMedicines([
+  const addEmptyMedicine = (type) => {
+    setMedicines({
       ...medicines,
-      { dosage: "", duration: 0, description: "", medicineId: "" },
-    ]);
+      [type]: [
+        ...medicines[type],
+        { dosage: "", duration: 0, description: "", medicineId: "" },
+      ],
+    });
   };
 
-  const deleteMedicine = (index) => {
-    setMedicines([...medicines.slice(0, index), ...medicines.slice(index + 1)]);
+  const deleteMedicine = (index, type) => {
+    setMedicines((prevState) => {
+      prevState[type].splice(index, 1);
+
+      return prevState;
+    });
   };
+
+  const UpdateMedicine = useCallback(
+    (type, item, index) => {
+      console.log(item);
+      setMedicines((prevState) => ({
+        ...prevState,
+        [type]: prevState[type].map((data, i) => (i === index ? item : data)),
+      }));
+    },
+    [setMedicines]
+  );
 
   const appointmentId = searchParams.get("appointmentId");
 
@@ -124,6 +150,7 @@ const usePrescribeMedicines = (socket) => {
       deleteMedicine,
       handleReferPatientModalShow,
       handleAppointmentSelect,
+      UpdateMedicine,
     },
   };
 };

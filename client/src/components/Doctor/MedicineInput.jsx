@@ -8,7 +8,19 @@ import styles from "./medicineinput.module.css";
 import { inventoryState } from "../../atoms/inventory";
 import { instance } from "../../api/instance";
 
-function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
+/**
+ *
+ * Used to Generate Medicine Inputs, Checks Item Availability
+ * @returns
+ */
+function MedicineInput({
+  index,
+  medicine,
+  deleteMedicine,
+  type: medicineType,
+  UpdateMedicine,
+  isExtra,
+}) {
   const dosages = [
     { value: "OD", label: "Once a day" },
     { value: "BD", label: "Twice a day" },
@@ -20,61 +32,60 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
   ];
 
   const medicineDB = useRecoilValue(inventoryState);
-  const [medicineInfo, setMedicineInfo] = useState({
+  const [MedicineData, setMedicineData] = useState(medicine);
+  const [Info, setInfo] = useState({
     available: true,
     quantityRequired: 0,
     medicine: {},
   });
 
-  const [value] = useDebounce(medicine, 500);
+  const [value] = useDebounce(MedicineData, 500);
 
   const handleChange = useCallback(
     (value, type) => {
-      setMedicines((prevState) => {
-        return prevState.map((medicine, i) => {
-          if (i === index) {
-            return { ...medicine, [type]: value };
-          }
-          return medicine;
-        });
+      setMedicineData({
+        ...MedicineData,
+        [type]: value,
       });
     },
-    [index, setMedicines]
+    [MedicineData]
   );
 
   const ValidateMedicine = useCallback(async () => {
-    // console.log("value", value);
     if (value) {
       const data = {
         dosage: value.dosage.value,
-        medicineId: value.medicine.id,
+        medicineId: value?.medicine?.id,
         duration: parseInt(value.duration),
       };
 
-      if (data.dosage === "" || data.duration === 0 || data.medicineId === "")
+      if (data.dosage === "" || data.duration === 0 || !data?.medicineId)
         return;
 
       const { data: availabilityInfo } = await instance.post(
         "/doctor/med/check-availability",
         data
       );
-
-      // console.log("availabilityInfo", availabilityInfo);
-      setMedicineInfo(availabilityInfo);
-      handleChange(
-        {
-          ...availabilityInfo.medicine,
-          quantityRequired: availabilityInfo.quantityRequired,
-        },
-        "medicine"
-      );
-      handleChange(availabilityInfo.available, "available");
+      console.log(availabilityInfo);
+      setInfo(availabilityInfo);
     }
-  }, [handleChange, value]);
+  }, [value]);
 
   useEffect(() => {
+    console.log("Validating");
     ValidateMedicine();
   }, [ValidateMedicine]);
+
+  useEffect(() => {
+    UpdateMedicine(
+      medicineType,
+      {
+        ...value,
+        ...Info,
+      },
+      index
+    );
+  }, [value, Info, UpdateMedicine, medicineType, index]);
 
   return (
     <Space
@@ -89,7 +100,11 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
         <Typography>
           <span>Medicine {index + 1}</span>
         </Typography>
-        <Button type="dashed" danger onClick={() => deleteMedicine(index)}>
+        <Button
+          type="dashed"
+          danger
+          onClick={() => deleteMedicine(index, medicineType)}
+        >
           Delete
         </Button>
       </div>
@@ -140,9 +155,11 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
             </Select.OptGroup>
           </Select>
 
-          <Typography.Text type="danger">
-            {medicine?.medicine?.quantity} left!
-          </Typography.Text>
+          {!isExtra && (
+            <Typography.Text type="danger">
+              {medicine?.medicine?.quantity} left!
+            </Typography.Text>
+          )}
         </Space>
 
         <Space style={{ width: "100%", display: "flex" }}>
@@ -204,7 +221,7 @@ function MedicineInput({ index, medicine, deleteMedicine, setMedicines }) {
         <Space>
           <Alert
             style={{
-              display: medicineInfo?.available ? "none" : "block",
+              display: Info?.available || isExtra ? "none" : "block",
             }}
             message="Required quantity is not available"
             description="Required Quantity is More than Available Quantity in Stock!"

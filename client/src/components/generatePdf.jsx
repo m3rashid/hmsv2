@@ -32,12 +32,7 @@ const GeneratePdf = (props) => {
 
   return (
     <>
-      <Collapse
-        activeKey={activeKey}
-        ghost
-        bordered={false}
-        style={{ padding: 0, margin: 0 }}
-      >
+      <Collapse ghost bordered={false} style={{ padding: 0, margin: 0 }}>
         <Collapse.Panel header="Show Print Preview" key="1">
           <div className="print__section" style={{ marginTop: "20px" }}>
             <div className="container">
@@ -183,7 +178,7 @@ const GeneratePdf = (props) => {
                             title: "Dosage",
                             dataIndex: "dosage",
                             render: (text, record) => (
-                              <span>{record?.dosage?.value}</span>
+                              <span>{text?.value}</span>
                             ),
                           },
                           {
@@ -200,7 +195,7 @@ const GeneratePdf = (props) => {
                           },
                           { title: "Description", dataIndex: "description" },
                         ]}
-                        dataSource={parchiData?.medicines}
+                        dataSource={parchiData?.medicines?.medicines}
                         pagination={false}
                       />
                     </div>
