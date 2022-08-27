@@ -32,9 +32,18 @@ const GeneratePdf = (props) => {
 
   return (
     <>
-      <Collapse ghost bordered={false} style={{ padding: 0, margin: 0 }}>
-        <Collapse.Panel header="Show Print Preview" key="1">
-          <div className="print__section" style={{ marginTop: "20px" }}>
+      <Collapse
+        ghost
+        bordered={false}
+        style={{ padding: 0, margin: 0 }}
+        activeKey={activeKey}
+        onChange={(key) => setActiveKey(key)}
+      >
+        <Collapse.Panel header="Show Print Preview" key={"1"}>
+          <div
+            className="print__section"
+            style={{ margin: "0px", padding: "0px" }}
+          >
             <div className="container">
               <div className="row">
                 <div className="col-md-12">
@@ -47,7 +56,7 @@ const GeneratePdf = (props) => {
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        marginTop: "20px",
+                        marginTop: "10px",
                         alignItems: "center",
                       }}
                     >
@@ -114,7 +123,7 @@ const GeneratePdf = (props) => {
                     </div>
                     <div
                       style={{
-                        marginTop: "50px",
+                        marginTop: "20px",
                         textAlign: "right",
                         marginRight: "50px",
                         fontSize: "15px",
