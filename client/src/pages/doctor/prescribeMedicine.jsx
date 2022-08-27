@@ -166,12 +166,12 @@ const PrescriptionForm = () => {
 
               <Space direction="vertical" style={{ width: "100%" }}>
                 <strong>Custom Medicines</strong>
-                {medicines.extramedicines?.map((medicine, index) => (
+                {medicines.extraMedicines?.map((medicine, index) => (
                   <MedicineInput
                     key={index}
                     index={index}
                     isExtra={true}
-                    type="extramedicines"
+                    type="extraMedicines"
                     medicine={medicine}
                     deleteMedicine={deleteMedicine}
                     setMedicines={setMedicines}
@@ -181,7 +181,7 @@ const PrescriptionForm = () => {
                 <Button
                   type="primary"
                   htmlType="button"
-                  onClick={() => addEmptyMedicine("extramedicines")}
+                  onClick={() => addEmptyMedicine("extraMedicines")}
                   style={{ marginTop: 10, marginBottom: 10 }}
                 >
                   + Add New Extra Medicine
