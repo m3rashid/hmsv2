@@ -16,15 +16,16 @@ function AuthModal({ handleCancel, isModalVisible, handleOk }) {
       });
       const { data } = await instance.post("/auth/login", values);
 
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data.token}`;
+
       setAuth({
         isLoggedIn: true,
         user: data.user,
         token: data.token,
       });
 
-      instance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${data.token}`;
       localStorage.setItem("refresh_token", data.refreshToken);
       socket.io.opts.auth.token = data.token;
       socket.disconnect().connect();

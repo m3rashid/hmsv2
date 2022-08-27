@@ -12,28 +12,38 @@ import Loading from "./components/Loading/Loading";
 import AppLayout from "./components/Layout/AppLayout";
 import { revalidateJWT } from "./api/auth/revalidateJWT";
 import useFetchSockets from "./components/Sockets/useFetchSockets";
+import { instance } from "./api/instance";
 
 export const SocketContext = React.createContext();
 
 function App() {
   useFetchSockets();
   const [Auth, setAuth] = useRecoilState(authState);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const revalidate = useCallback(() => {
-    revalidateJWT(setAuth)
-      .then((res) => {
-        if (!res) return;
-        socket.io.opts.auth.token = res.token;
-        socket.disconnect().connect();
-      })
-      .finally(() => setisLoading(false));
+  const revalidate = useCallback(async () => {
+    try {
+      const res = await revalidateJWT(setAuth);
+      socket.io.opts.auth.token = res.token;
+      socket.disconnect().connect();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   }, [setAuth]);
 
   useEffect(() => {
     revalidate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [revalidate]);
+
+  useEffect(() => {
+    if (Auth.isLoggedIn) {
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${Auth.token}`;
+    }
+  }, [Auth]);
 
   if (isLoading) {
     return <Loading text="App is Loading.." />;
