@@ -144,10 +144,16 @@ function DoctorAppointments() {
               setModalVisible({ visible: true, id: record.id, data: record });
             }}
           >
-            {" "}
-            View Form{" "}
+            View Form
           </Button>
           <Button> View Prescription </Button>
+          <Button
+            onClick={() => {
+              navigate(`/patient/${record.patient.id}`);
+            }}
+          >
+            View Patient
+          </Button>
         </Space>
       ),
     },
