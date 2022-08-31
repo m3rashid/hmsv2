@@ -47,8 +47,23 @@ const deletePatientService = async ({ patientId, createdBy }) => {
 };
 
 const getPatientByIdService = async (patientId) => {
-  const patient = await prisma.Patient.findUnique({
-    where: { id: patientId },
+  const patient = await prisma.patient.findUnique({
+    where: {
+      id: parseInt(patientId),
+    },
+    include: {
+      Appointment: {
+        include: {
+          doctor: true,
+          Prescription: {
+            include: {
+              medicines: true,
+              Test: true,
+            },
+          },
+        },
+      },
+    },
   });
   if (!patient) throw new Error("Patient not found");
 

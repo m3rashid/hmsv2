@@ -1,0 +1,9 @@
+.patient__info__header{
+    border-right: 1px solid green;
+    margin-right: 1rem;
+}
+
+.info__schema__container{
+    margin: 0.5rem;
+    justify-content: center;
+}

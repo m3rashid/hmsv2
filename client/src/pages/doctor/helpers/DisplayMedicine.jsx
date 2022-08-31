@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import { Space, Typography, Card } from "antd";
-
+import PropTypes from "prop-types";
 import SingleMedicine from "./singleMedicine";
 
 function DisplayMedicine({ formData, medicines }) {
@@ -60,5 +60,20 @@ function DisplayMedicine({ formData, medicines }) {
     </React.Fragment>
   );
 }
+
+DisplayMedicine.propTypes = {
+  formData: PropTypes.shape({
+    appointmentInfo: PropTypes.shape({
+      id: PropTypes.string,
+      date: PropTypes.string,
+      patient: PropTypes.object,
+    }),
+    symptoms: PropTypes.string,
+    medicines: PropTypes.shape({
+      medicines: PropTypes.array,
+      extramedicines: PropTypes.array,
+    }),
+  }),
+};
 
 export default DisplayMedicine;

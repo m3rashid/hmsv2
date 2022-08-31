@@ -1,4 +1,4 @@
-import Patient from "./pages/patient";
+import Patient from "./pages/Patient";
 // import Appointments from "./pages/appointments";
 import Admin from "./pages/admin";
 import DoctorAppointments from "./pages/doctor/Appointments";
@@ -94,6 +94,13 @@ const routes = [
     component: AddNewInventory,
     text: "Add Medicine",
     role: [permissions.INVENTORY_ADD_MEDICINE],
+    showInNav: false,
+  },
+  {
+    path: "/patient/:id",
+    component: Patient,
+    text: "Patient",
+    role: [permissions.DOCTOR_APPOINTMENTS],
     showInNav: false,
   },
 ];
