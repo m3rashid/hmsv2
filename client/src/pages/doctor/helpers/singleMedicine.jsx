@@ -6,7 +6,7 @@ const SingleMedicine = ({ index, medicine, isExtra }) => {
     <Space direction="vertical" key={index} style={{ marginLeft: 20 }}>
       <Space>
         <Typography.Text style={{ fontWeight: "bold" }}>
-          {medicine?.medicine?.name}
+          {medicine?.Medicine?.name}
         </Typography.Text>
         <Typography.Text
           style={{
@@ -18,7 +18,7 @@ const SingleMedicine = ({ index, medicine, isExtra }) => {
             display: isExtra ? "none" : "block",
           }}
         >
-          # {medicine?.medicine?.id}
+          # {medicine?.Medicine?.id}
         </Typography.Text>
       </Space>
       <Space direction="vertical" style={{ padding: "10px" }}>
@@ -28,16 +28,20 @@ const SingleMedicine = ({ index, medicine, isExtra }) => {
         <Typography.Text>
           Dosage : <strong>{medicine?.dosage?.label}</strong>
         </Typography.Text>
-        <Typography.Text>
-          Quantity Required :<strong>{medicine?.quantityRequired}</strong>
-        </Typography.Text>
-        <Alert
-          message="Required Quantity Not Available"
-          type="error"
-          style={{
-            display: medicine?.available || isExtra ? "none" : "block",
-          }}
-        />
+        {medicine?.quantityRequired && (
+          <React.Fragment>
+            <Typography.Text>
+              Quantity Required :<strong>{medicine?.quantityRequired}</strong>
+            </Typography.Text>
+            <Alert
+              message="Required Quantity Not Available"
+              type="error"
+              style={{
+                display: medicine?.available || isExtra ? "none" : "block",
+              }}
+            />
+          </React.Fragment>
+        )}
         <Typography.Text>{medicine?.description}</Typography.Text>
       </Space>
     </Space>

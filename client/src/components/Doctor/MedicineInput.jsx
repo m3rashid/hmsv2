@@ -27,6 +27,7 @@ const MedicineInput = ({
   isExtra,
 }) => {
   const medicineDB = useRecoilValue(inventoryState);
+  console.log(medicineDB);
   const [MedicineData, setMedicineData] = useState(medicine);
   const [Info, setInfo] = useState({
     available: true,
@@ -50,7 +51,7 @@ const MedicineInput = ({
     if (value) {
       const data = {
         dosage: value.dosage.value,
-        medicineId: value?.medicine?.id,
+        medicineId: value?.Medicine?.id,
         duration: parseInt(value.duration),
       };
 
@@ -110,7 +111,7 @@ const MedicineInput = ({
               const Item = medicineDB?.Medicine?.inventory.find(
                 (item) => item.id === value
               );
-              handleChange(Item, "medicine");
+              handleChange(Item, "Medicine");
             }}
           >
             <Select.OptGroup label="Tablets">

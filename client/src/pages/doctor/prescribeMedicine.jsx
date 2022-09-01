@@ -14,7 +14,7 @@ import React, { useEffect } from "react";
 
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
-import DisplayMedicine from "./helpers/DisplayMedicine";
+import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
 import usePrescribeMedicines from "./helpers/prescribeMeds.hook";
 import MedicineInput from "../../components/Doctor/MedicineInput";
 import ReferPatientModal from "./helpers/referPatientModal";
@@ -47,6 +47,8 @@ const PrescriptionForm = () => {
     },
   } = usePrescribeMedicines(socket);
 
+  console.log(doctorData);
+
   useEffect(() => {
     socket.on("new-prescription-by-doctor-created", (data) => {
       setLoading({
@@ -65,6 +67,8 @@ const PrescriptionForm = () => {
       handleAppointmentSelect(appointmentId);
     }
   }, [appointmentId, doctorData.appointments.length, handleAppointmentSelect]);
+
+  console.log(formData);
 
   return (
     <React.Fragment>
@@ -102,7 +106,9 @@ const PrescriptionForm = () => {
                     .filter(
                       (apt) =>
                         apt.pending &&
-                        dayjs(apt.date).isBefore(dayjs().add(6, "hours"))
+                        {
+                          /* dayjs(apt.date).isBefore(dayjs().add(6, "hours")) */
+                        }
                     )
                     .map((appointment) => (
                       <Select.Option
@@ -202,7 +208,14 @@ const PrescriptionForm = () => {
             </Form>
           </Col>
           <Col span={12} style={{ padding: "10px" }}>
-            <DisplayMedicine formData={formData} medicines={medicines} />
+            <DisplayMedicine
+              id={formData?.appointmentInfo?.id}
+              symptoms={formData?.symptoms}
+              date={formData?.appointmentInfo?.date}
+              patient={formData?.appointmentInfo?.patient}
+              Medicines={medicines.medicines}
+              ExtraMedicines={medicines.extraMedicines}
+            />
           </Col>
         </Row>
 
@@ -244,7 +257,14 @@ const PrescriptionForm = () => {
           okText="Yes"
           cancelText="No"
         >
-          <DisplayMedicine formData={formData} medicines={medicines} />
+          <DisplayMedicine
+            id={formData?.appointmentInfo?.id}
+            symptoms={formData?.symptoms}
+            date={formData?.appointmentInfo?.date}
+            patient={formData?.appointmentInfo?.patient}
+            Medicines={medicines.medicines}
+            ExtraMedicines={medicines.extraMedicines}
+          />
         </Modal>
       </div>
     </React.Fragment>

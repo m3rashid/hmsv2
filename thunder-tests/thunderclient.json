@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-08-24T10:33:50.532Z",
-    "modified": "2022-09-01T15:01:11.397Z",
+    "modified": "2022-09-01T15:22:56.111Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"coadmin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Co Admin\",\n  \"role\": \"CO_ADMIN\",\n  \"sex\": \"f\",\n  \"isDummy\" : true\n}",
+      "raw": "{\n  \"email\": \"coadmin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Co Admin\",\n  \"role\": \"RECEPTIONIST\",\n  \"sex\": \"f\",\n  \"isDummy\" : true\n}",
       "form": []
     },
     "tests": []

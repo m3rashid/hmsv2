@@ -1,10 +1,20 @@
-import { Row, Col, Typography, Divider, Collapse, Space, Button } from "antd";
-import React, { useMemo, useState } from "react";
+import {
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Collapse,
+  Space,
+  Button,
+  Modal,
+} from "antd";
+import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.css";
 import { useQuery } from "react-query";
 import { instance } from "../../api/instance";
 import dayjs from "dayjs";
+import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
 
 /**
  * @description Displays Patient Info and Appointments
@@ -15,7 +25,25 @@ const Patient = () => {
 
   const { data, isLoading, isError } = useQuery(["patient", id], async () => {
     const { data } = await instance.get(`/patient/${id}`);
-    return data.patient;
+    const patient = data.patient;
+
+    patient.Appointment = patient.Appointment.sort((a, b) =>
+      dayjs(b.date).diff(a.date)
+    );
+    return patient;
+
+    // if (!data) return;
+    // return data?.patient?.map((patient) => ({
+    //   ...patient,
+    //   Appointment: patient.Appointment.sort((a, b) =>
+    //     dayjs(b.date).diff(a.date)
+    //   ),
+    // }));
+  });
+
+  const [PrescriptionModal, setPrescriptionModal] = useState({
+    visible: false,
+    data: {},
   });
 
   // Data Schema for Patient Info
@@ -80,6 +108,47 @@ const Patient = () => {
     []
   );
 
+  // Schema For Appointment Info
+  const AppointmentSchema = useMemo(
+    () => [
+      {
+        name: "Appointment ID.",
+        dataIndex: "id",
+      },
+      {
+        name: "Appointment Date",
+        dataIndex: "datePrescribed",
+        render: (date) => dayjs(date).format("MMMM Do YYYY"), // Format date to "MMMM Do YYYY"
+      },
+      {
+        name: "Remarks",
+        dataIndex: "remarks",
+      },
+    ],
+    []
+  );
+
+  const PrescriptionModalHandler = useCallback(
+    (item) => () => {
+      setPrescriptionModal(() => {
+        const state = {
+          visible: true,
+          data: item,
+        };
+
+        state.data.medicines = state.data.medicines.map((medicine) => ({
+          ...medicine,
+          ...medicine?.Medicine,
+        }));
+
+        return state;
+      });
+    },
+    [setPrescriptionModal]
+  );
+
+  console.log(data);
+
   if (isLoading || isError) {
     return <>Loading...</>;
   }
@@ -117,14 +186,23 @@ const Patient = () => {
               header={dayjs(item.date).format("MMMM DD YYYY")}
             >
               <Col>
-                <Row>
-                  <Col span={5}>
-                    <Typography.Text>Appointment ID.</Typography.Text>
-                  </Col>
-                  <Col span={6}>
-                    <Typography.Text>{item.id}</Typography.Text>
-                  </Col>
-                </Row>
+                {AppointmentSchema.map((_item, index) => {
+                  if (!item[_item.dataIndex]) return null;
+                  return (
+                    <Row>
+                      <Col span={5}>
+                        <Typography.Text>{_item.name}</Typography.Text>
+                      </Col>
+                      <Col span={6}>
+                        <Typography.Text>
+                          {_item.render
+                            ? _item?.render(item[_item.dataIndex])
+                            : item[_item.dataIndex]}
+                        </Typography.Text>
+                      </Col>
+                    </Row>
+                  );
+                })}
                 <Row
                   style={{
                     paddingTop: "10px",
@@ -161,6 +239,18 @@ const Patient = () => {
                         {item.Prescription[0]?.symptoms}
                       </Typography.Text>
                     </Space>
+                    {item.Prescription.length >= 1 ? (
+                      <Button
+                        type="primary"
+                        onClick={PrescriptionModalHandler(item.Prescription[0])}
+                      >
+                        View Prescription
+                      </Button>
+                    ) : (
+                      <Typography.Text type="danger">
+                        Not Prescribed Yet
+                      </Typography.Text>
+                    )}
                   </Space>
                 </Row>
               </Col>
@@ -168,6 +258,25 @@ const Patient = () => {
           );
         })}
       </Collapse>
+      <Modal
+        visible={PrescriptionModal.visible}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        onOk={() => setPrescriptionModal({ visible: false })}
+        onCancel={() => setPrescriptionModal({ visible: false })}
+      >
+        <DisplayMedicine
+          ExtraMedicines={PrescriptionModal?.data?.CustomMedicines}
+          Medicines={PrescriptionModal?.data?.medicines}
+          date={PrescriptionModal?.data?.date}
+          symptoms={PrescriptionModal?.data?.symptoms}
+          id={PrescriptionModal?.data?.appointmentId}
+          patient={data}
+        />
+      </Modal>
     </div>
   );
 };

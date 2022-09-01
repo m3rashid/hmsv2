@@ -33,9 +33,9 @@ const usePrescribeMedicines = (socket) => {
       symptoms: values.symptoms,
       diagnosis: values.diagnosis,
       CustomMedicines: medicines.extraMedicines.map((item) => ({
-        name: item.medicine.name,
+        Medicine: item.Medicine,
         quantity: item.medicine.quantityRequired,
-        dosage: item.dosage.value,
+        dosage: item.dosage,
         duration: item.duration,
       })),
       datetime: new Date(),

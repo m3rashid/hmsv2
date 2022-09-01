@@ -57,7 +57,11 @@ const getPatientByIdService = async (patientId) => {
           doctor: true,
           Prescription: {
             include: {
-              medicines: true,
+              medicines: {
+                include: {
+                  Medicine: true,
+                },
+              },
               Test: true,
             },
           },

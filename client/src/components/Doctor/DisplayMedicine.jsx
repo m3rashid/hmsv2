@@ -2,25 +2,25 @@ import React from "react";
 import dayjs from "dayjs";
 import { Space, Typography, Card } from "antd";
 import PropTypes from "prop-types";
-import SingleMedicine from "./singleMedicine";
+import SingleMedicine from "../../pages/doctor/helpers/singleMedicine";
 
-function DisplayMedicine({ formData, medicines }) {
+function DisplayMedicine({
+  patient,
+  date,
+  id,
+  symptoms,
+  Medicines,
+  ExtraMedicines,
+}) {
   return (
     <React.Fragment>
       <Typography.Title level={4}>Prescription Preview</Typography.Title>
       <Card title="Appointment Details" style={{ background: "transparent" }}>
         <Space direction="vertical">
+          <Typography.Text>Appointment ID: {id}</Typography.Text>
+          <Typography.Text>Patient Name: {patient?.name}</Typography.Text>
           <Typography.Text>
-            Appointment ID: {formData?.appointmentInfo?.id}
-          </Typography.Text>
-          <Typography.Text>
-            Patient Name: {formData?.appointmentInfo?.patient.name}
-          </Typography.Text>
-          <Typography.Text>
-            Date:{" "}
-            {dayjs(formData?.appointmentInfo?.date).format(
-              "MMMM DD YYYY HH:mm A"
-            )}
+            Date: {dayjs(date).format("MMMM DD YYYY HH:mm A")}
           </Typography.Text>
         </Space>
       </Card>
@@ -35,19 +35,19 @@ function DisplayMedicine({ formData, medicines }) {
         }}
       >
         <Typography.Text type="success">Symptoms:</Typography.Text>
-        <Typography.Text>{formData?.symptoms}</Typography.Text>
+        <Typography.Text>{symptoms}</Typography.Text>
       </Space>
 
       <Card title="Medicines" style={{ background: "transparent" }}>
         <Space direction="vertical" size={"large"}>
-          {medicines.medicines?.map((medicine, index) => (
+          {Medicines?.map((medicine, index) => (
             <SingleMedicine key={index} index={index} medicine={medicine} />
           ))}
         </Space>
       </Card>
       <Card title="Custom Medicines" style={{ background: "transparent" }}>
         <Space direction="vertical" size={"large"}>
-          {medicines.extramedicines?.map((medicine, index) => (
+          {ExtraMedicines?.map((medicine, index) => (
             <SingleMedicine
               key={index}
               index={index}
@@ -62,18 +62,12 @@ function DisplayMedicine({ formData, medicines }) {
 }
 
 DisplayMedicine.propTypes = {
-  formData: PropTypes.shape({
-    appointmentInfo: PropTypes.shape({
-      id: PropTypes.string,
-      date: PropTypes.string,
-      patient: PropTypes.object,
-    }),
-    symptoms: PropTypes.string,
-    medicines: PropTypes.shape({
-      medicines: PropTypes.array,
-      extramedicines: PropTypes.array,
-    }),
-  }),
+  patient: PropTypes.object,
+  date: PropTypes.string,
+  id: PropTypes.any,
+  symptoms: PropTypes.string,
+  Medicines: PropTypes.array,
+  ExtraMedicines: PropTypes.array,
 };
 
 export default DisplayMedicine;
