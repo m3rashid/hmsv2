@@ -80,12 +80,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-24T10:44:05.379Z",
-    "modified": "2022-08-24T17:38:02.604Z",
+    "modified": "2022-09-01T15:06:56.134Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"inventory@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Inventory Manager\",\n  \"role\": \"INVENTORY_MANAGER\",\n  \"sex\": \"f\"\n}",
+      "raw": "{\n  \"email\": \"coadmin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Co Admin\",\n  \"role\": \"CO_ADMIN\",\n  \"sex\": \"f\",\n  \"isDummy\" : true\n}",
       "form": []
     },
     "tests": []
