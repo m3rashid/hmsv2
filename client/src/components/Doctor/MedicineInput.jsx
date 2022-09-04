@@ -7,16 +7,7 @@ import { useDebounce } from "use-debounce";
 import styles from "./medicineinput.module.css";
 import { inventoryState } from "../../atoms/inventory";
 import { instance } from "../../api/instance";
-
-const dosages = [
-  { value: "OD", label: "Once a day" },
-  { value: "BD", label: "Twice a day" },
-  { value: "TD", label: "Three times a day" },
-  { value: "QD", label: "Four times a day" },
-  { value: "OW", label: "Once a week" },
-  { value: "BW", label: "Twice a week" },
-  { value: "TW", label: "Three times a week" },
-];
+import { dosages } from "../../utils/constants";
 
 const MedicineInput = ({
   index,
@@ -50,7 +41,7 @@ const MedicineInput = ({
   const ValidateMedicine = useCallback(async () => {
     if (value) {
       const data = {
-        dosage: value.dosage.value,
+        dosage: value.dosage,
         medicineId: value?.Medicine?.id,
         duration: parseInt(value.duration),
       };
@@ -154,8 +145,7 @@ const MedicineInput = ({
             defaultValue={medicine.dosage}
             className={styles.select}
             onChange={(value) => {
-              const Item = dosages.find((item) => item.value === value);
-              handleChange(Item, "dosage");
+              handleChange(value, "dosage");
             }}
           >
             {dosages.map((dosage) => (

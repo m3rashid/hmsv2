@@ -9,14 +9,16 @@ import {
   Tabs,
 } from "antd";
 import dayjs from "dayjs";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
 import { authState } from "../../atoms/auth";
 import { doctorState } from "../../atoms/doctor";
+import { functionState } from "../../atoms/functions";
+import { LoadingAtom } from "../../atoms/loading";
 
 const { TabPane } = Tabs;
 
@@ -24,11 +26,13 @@ function DoctorAppointments() {
   const navigate = useNavigate();
   const { user } = useRecoilValue(authState);
   const doctorData = useRecoilValue(doctorState);
+  const functionData = useRecoilValue(functionState);
   const [ModalVisible, setModalVisible] = useState({
     visible: false,
     id: null,
     data: {},
   });
+  const [loadingData, setLoadingData] = useRecoilState(LoadingAtom);
 
   const ToggleModal = () => {
     setModalVisible({
@@ -159,6 +163,19 @@ function DoctorAppointments() {
     },
   ];
 
+  const refreshAppointments = useCallback(() => {
+    setLoadingData({
+      ...loadingData,
+      refetchAppointments: true,
+    });
+    functionData.loadDoctorAppointment().then(() => {
+      setLoadingData({
+        ...loadingData,
+        refetchAppointments: false,
+      });
+    });
+  }, [functionData]);
+
   return (
     <div style={{ marginTop: "20px" }}>
       <Header />
@@ -169,8 +186,28 @@ function DoctorAppointments() {
       >
         Appointments
       </Typography.Title>
+      <Button
+        style={{
+          zIndex: 100,
+          marginTop: 10,
+        }}
+        onClick={refreshAppointments}
+        loading={loadingData.refetchAppointments}
+      >
+        <Typography.Text>
+          {loadingData.refetchAppointments
+            ? "Refreshing Appointments"
+            : "Refresh Appointments"}
+        </Typography.Text>
+      </Button>
 
-      <Tabs defaultActiveKey="1" centered>
+      <Tabs
+        defaultActiveKey="1"
+        centered
+        style={{
+          marginTop: -5,
+        }}
+      >
         <TabPane tab="Active" key="1">
           <Table
             loading={doctorData.loading}

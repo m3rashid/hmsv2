@@ -18,7 +18,7 @@ import React, { useState } from "react";
 // import { instance } from "../../api/instance";
 import { inventoryState } from "../../atoms/inventory";
 import StatefullFormRenderer from "../common/StatefullFormRenderer";
-import { Category, InventoryTypes, MedType } from "../../utils/inventoryTypes";
+import { Category, InventoryTypes, MedType } from "../../utils/constants";
 
 function InventoryFormHandler(props) {
   // const [itemlist, setItemlist] = useState({
@@ -43,41 +43,6 @@ function InventoryFormHandler(props) {
       message.error("Error");
     }
   };
-
-  // const UpdateMedicine = async (value) => {
-  //   if (itemlist.cancelToken) {
-  //     itemlist.cancelToken.cancel();
-  //   }
-
-  //   try {
-  //     const CancelToken = axios.CancelToken.source();
-
-  //     setItemlist({
-  //       data: [{ value: "", label: "Loading.." }],
-  //       cancelToken: CancelToken,
-  //     });
-
-  //     const { data } = await instance.get("/inventory/search", {
-  //       params: { name: value },
-  //     });
-
-  //     setItemlist({
-  //       ...itemlist,
-  //       data: data.inventory.map((item) => {
-  //         return {
-  //           value: item.id,
-  //           data: item,
-  //           label: (
-  //             <Col direction="vertical" size={"small"} style={{ fontSize: 12 }}>
-  //               <Typography.Text>{item.name}</Typography.Text>
-  //             </Col>
-  //           ),
-  //         };
-  //       }),
-  //       cancelToken: itemlist.cancelToken || CancelToken,
-  //     });
-  //   } catch (err) {}
-  // };
 
   const onSearchMedicineName = (value) => {
     const searchData = inventory[`${FormSelected.type}`].inventory

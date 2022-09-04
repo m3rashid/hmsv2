@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { InventoryTypes } from "../utils/inventoryTypes";
+import { InventoryTypes } from "../utils/constants";
 
 const inventoryDefaultState = {
   [InventoryTypes.Medicine]: [],

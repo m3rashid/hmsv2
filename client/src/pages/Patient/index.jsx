@@ -7,6 +7,7 @@ import {
   Space,
   Button,
   Modal,
+  Table,
 } from "antd";
 import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,6 +16,7 @@ import { useQuery } from "react-query";
 import { instance } from "../../api/instance";
 import dayjs from "dayjs";
 import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
+import Loading from "../../components/Loading/Loading";
 
 /**
  * @description Displays Patient Info and Appointments
@@ -31,17 +33,14 @@ const Patient = () => {
       dayjs(b.date).diff(a.date)
     );
     return patient;
-
-    // if (!data) return;
-    // return data?.patient?.map((patient) => ({
-    //   ...patient,
-    //   Appointment: patient.Appointment.sort((a, b) =>
-    //     dayjs(b.date).diff(a.date)
-    //   ),
-    // }));
   });
 
   const [PrescriptionModal, setPrescriptionModal] = useState({
+    visible: false,
+    data: {},
+  });
+
+  const [DoctorModal, setDoctorModal] = useState({
     visible: false,
     data: {},
   });
@@ -112,17 +111,54 @@ const Patient = () => {
   const AppointmentSchema = useMemo(
     () => [
       {
-        name: "Appointment ID.",
+        title: "Appointment ID.",
         dataIndex: "id",
+        key: "id",
       },
       {
-        name: "Appointment Date",
+        title: "Appointment Date",
         dataIndex: "datePrescribed",
-        render: (date) => dayjs(date).format("MMMM Do YYYY"), // Format date to "MMMM Do YYYY"
+        key: "datePrescribed",
+        render: (date) => dayjs(date).format("MMMM DD YYYY"), // Format date to "MMMM Do YYYY"
       },
       {
-        name: "Remarks",
+        title: "Remarks",
         dataIndex: "remarks",
+        key: "remarks",
+        render: (remarks) => remarks || "No Remarks", // If no remarks, display "No Remarks"
+      },
+      {
+        title: "Doctor's Name",
+        dataIndex: "doctor",
+        key: "doctor",
+        render: (doctor) => (
+          <Button
+            type="link"
+            onClick={() =>
+              setDoctorModal({
+                visible: true,
+                data: doctor,
+              })
+            }
+          >
+            {doctor.authorityName}
+          </Button>
+        ),
+      },
+      {
+        title: "Actions",
+        dataIndex: "actions",
+        key: "actions",
+        render: (_, record) => (
+          <React.Fragment>
+            <Button
+              onClick={PrescriptionModalHandler(record.Prescription[0])}
+              disabled={!record.Prescription[0]}
+            >
+              {record.Prescription[0] ? "View Prescription" : "No Prescription"}
+            </Button>
+          </React.Fragment>
+        ),
       },
     ],
     []
@@ -150,7 +186,7 @@ const Patient = () => {
   console.log(data);
 
   if (isLoading || isError) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   return (
@@ -178,86 +214,7 @@ const Patient = () => {
           })}
       </Col>
       <Divider>Patient's History</Divider>
-      <Collapse>
-        {data?.Appointment?.map((item, index) => {
-          return (
-            <Collapse.Panel
-              key={index}
-              header={dayjs(item.date).format("MMMM DD YYYY")}
-            >
-              <Col>
-                {AppointmentSchema.map((_item, index) => {
-                  if (!item[_item.dataIndex]) return null;
-                  return (
-                    <Row>
-                      <Col span={5}>
-                        <Typography.Text>{_item.name}</Typography.Text>
-                      </Col>
-                      <Col span={6}>
-                        <Typography.Text>
-                          {_item.render
-                            ? _item?.render(item[_item.dataIndex])
-                            : item[_item.dataIndex]}
-                        </Typography.Text>
-                      </Col>
-                    </Row>
-                  );
-                })}
-                <Row
-                  style={{
-                    paddingTop: "10px",
-                  }}
-                >
-                  <Space
-                    direction="vertical"
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    <Typography.Text strong>Doctor Details</Typography.Text>
-                    {DoctorInfo.map((_info, index) => {
-                      if (!item.doctor[_info.dataIndex]) return null;
-
-                      return (
-                        <Row key={index}>
-                          <Col span={5}>
-                            <Typography.Text>{_info.title}</Typography.Text>
-                          </Col>
-                          <Col span={6}>
-                            <Typography.Text>
-                              {item.doctor[_info.dataIndex]}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                      );
-                    })}
-                    <Space>
-                      <Typography.Text strong type="danger">
-                        Symptoms
-                      </Typography.Text>
-                      <Typography.Text>
-                        {item.Prescription[0]?.symptoms}
-                      </Typography.Text>
-                    </Space>
-                    {item.Prescription.length >= 1 ? (
-                      <Button
-                        type="primary"
-                        onClick={PrescriptionModalHandler(item.Prescription[0])}
-                      >
-                        View Prescription
-                      </Button>
-                    ) : (
-                      <Typography.Text type="danger">
-                        Not Prescribed Yet
-                      </Typography.Text>
-                    )}
-                  </Space>
-                </Row>
-              </Col>
-            </Collapse.Panel>
-          );
-        })}
-      </Collapse>
+      <Table columns={AppointmentSchema} dataSource={data.Appointment} />
       <Modal
         visible={PrescriptionModal.visible}
         cancelButtonProps={{
@@ -276,6 +233,41 @@ const Patient = () => {
           id={PrescriptionModal?.data?.appointmentId}
           patient={data}
         />
+      </Modal>
+      <Modal
+        visible={DoctorModal.visible}
+        okButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        cancelText="Close"
+        onCancel={() => setDoctorModal({ visible: false, data: {} })}
+        title="Doctor's Info"
+      >
+        <Space
+          direction="vertical"
+          style={{
+            width: "100%",
+          }}
+        >
+          {DoctorInfo.map((_info, index) => {
+            if (!DoctorModal.data[_info.dataIndex]) return null;
+
+            return (
+              <Row key={index}>
+                <Col span={5}>
+                  <Typography.Text strong>{_info.title}</Typography.Text>
+                </Col>
+                <Col span={19}>
+                  <Typography.Text>
+                    {DoctorModal.data[_info.dataIndex]}
+                  </Typography.Text>
+                </Col>
+              </Row>
+            );
+          })}
+        </Space>
       </Modal>
     </div>
   );
