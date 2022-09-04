@@ -3,14 +3,14 @@ import { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import { socket } from "../../api/socket";
-import { permissions } from "../../routes";
+
 import { authState } from "../../atoms/auth";
 import { instance } from "../../api/instance";
 import { doctorState } from "../../atoms/doctor";
 import { LoadingAtom } from "../../atoms/loading";
 import { pharmacyState } from "../../atoms/pharmacy";
 import { inventoryState } from "../../atoms/inventory";
-import { InventoryTypes } from "../../utils/constants";
+import { InventoryTypes, permissions } from "../../utils/constants";
 import useNotifications from "../../Hooks/useNotifications";
 import { functionState } from "../../atoms/functions";
 

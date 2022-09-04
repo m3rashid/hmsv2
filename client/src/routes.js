@@ -9,6 +9,7 @@ import CreateAppointmentForm from "./pages/reception/CreateAppointmentForm";
 import InventoryDisplay from "./pages/inventory/Display";
 import AddNewInventory from "./pages/inventory/New";
 import CreatePatientForm from "./pages/reception/CreatePatientForm";
+import { permissions } from "./utils/constants";
 
 export const checkAccess = (Auth, route) => {
   if (!Auth.isLoggedIn) {
@@ -19,19 +20,6 @@ export const checkAccess = (Auth, route) => {
   if (userType === "ADMIN") return true;
   const contains = route.role.some((role) => userType.includes(role));
   return contains;
-};
-
-export const permissions = {
-  // all access to this special role admin
-  ADMIN: "ADMIN",
-  DOCTOR_APPOINTMENTS: "DOCTOR_APPOINTMENTS",
-  DOCTOR_PRESCRIBE_MEDICINE: "DOCTOR_PRESCRIBE_MEDICINE",
-  PHARMACY_PRESCRIPTIONS: "PHARMACY_PRESCRIPTIONS",
-  PHARMACY_RECEIPT: "PHARMACY_RECEIPT",
-  RECEPTION_ADD_APPOINTMENT: "RECEPTION_ADD_APPOINTMENT",
-  RECEPTION_CREATE_PATIENT: "RECEPTION_CREATE_PATIENT",
-  INVENTORY_VIEW: "INVENTORY_VIEW",
-  INVENTORY_ADD_MEDICINE: "INVENTORY_ADD_MEDICINE",
 };
 
 const routes = [

@@ -1,9 +1,6 @@
 import React from "react";
 
-import {
-  showGender,
-  toSentenceCase,
-} from "../../../../components/utils/strings";
+import { showGender, toSentenceCase } from "../../../../utils/strings";
 import CreateUserModal from "./createUserModal";
 import UserDetailsModal from "./userDetailsModal";
 

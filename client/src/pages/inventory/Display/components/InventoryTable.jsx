@@ -17,10 +17,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import React, { useEffect, useMemo, useState } from "react";
 
 import EditMedicine from "./EditMedicine";
-import { permissions } from "../../../../routes";
+
 import { authState } from "../../../../atoms/auth";
 import { instance } from "../../../../api/instance";
 import { inventoryState } from "../../../../atoms/inventory";
+import { permissions } from "../../../../utils/constants";
 
 function InventoryTable(prop) {
   const auth = useRecoilValue(authState);

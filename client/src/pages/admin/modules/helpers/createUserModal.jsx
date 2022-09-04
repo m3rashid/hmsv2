@@ -10,12 +10,9 @@ import {
 } from "antd";
 import React from "react";
 
-import {
-  showGender,
-  toSentenceCase,
-} from "../../../../components/utils/strings";
+import { showGender, toSentenceCase } from "../../../../utils/strings";
 import { instance } from "../../../../api/instance";
-import { supportedUserRoles } from "../../../../components/utils/constants";
+import { supportedUserRoles } from "../../../../utils/constants";
 
 const requiredFormFields = [
   { key: "name", label: "Name", inputType: "text", otherRules: [{}] },

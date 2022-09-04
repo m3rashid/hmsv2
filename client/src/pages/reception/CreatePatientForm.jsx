@@ -11,14 +11,14 @@ import {
 } from "antd";
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
-import { showGender } from "../../components/utils/strings";
+import { showGender } from "../../utils/strings";
 import { useRecoilState } from "recoil";
 import { LoadingAtom } from "../../atoms/loading";
 const { TextArea } = Input;
 
 const CreatePatientForm = () => {
   const [LoadingData, setLoadingData] = useRecoilState(LoadingAtom);
-  const [from] = Form.useForm()
+  const [from] = Form.useForm();
   const formSubmitHandler = (values) => {
     if (LoadingData?.CreatePatientForm) return;
     setLoadingData({
