@@ -10,8 +10,9 @@ import { doctorState } from "../../atoms/doctor";
 import { LoadingAtom } from "../../atoms/loading";
 import { pharmacyState } from "../../atoms/pharmacy";
 import { inventoryState } from "../../atoms/inventory";
-import { InventoryTypes } from "../../utils/inventoryTypes";
+import { InventoryTypes } from "../../utils/constants";
 import useNotifications from "../../Hooks/useNotifications";
+import { functionState } from "../../atoms/functions";
 
 // Used for all on socket events
 export default function useFetchSockets() {
@@ -20,6 +21,7 @@ export default function useFetchSockets() {
   const [, setInventoryData] = useRecoilState(inventoryState);
   const [, setPharmacyData] = useRecoilState(pharmacyState);
   const [, setLoadingData] = useRecoilState(LoadingAtom);
+  const [, setFunctionData] = useRecoilState(functionState);
   const { addNotification } = useNotifications();
 
   useEffect(() => {
@@ -222,4 +224,23 @@ export default function useFetchSockets() {
       socket.off("new-appointment-created");
     };
   }, [addAppointment, addNotification, auth]);
+
+  useEffect(() => {
+    setFunctionData({
+      addAppointment,
+      addNotification,
+      loadDoctorAppointment,
+      setAppointmentPendingStatus,
+      loadPharmacyPrescriptions,
+      loadInventoryItems,
+    });
+  }, [
+    addAppointment,
+    addNotification,
+    loadDoctorAppointment,
+    loadInventoryItems,
+    loadPharmacyPrescriptions,
+    setAppointmentPendingStatus,
+    setFunctionData,
+  ]);
 }

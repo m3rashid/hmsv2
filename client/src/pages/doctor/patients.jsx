@@ -61,7 +61,7 @@ const DoctorPatients = () => {
       key: "action",
       render: (text, record) => (
         <Space>
-          <Button> Consult </Button>
+          <Button>Consult</Button>
         </Space>
       ),
     },

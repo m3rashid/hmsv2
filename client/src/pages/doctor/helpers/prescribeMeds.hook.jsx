@@ -43,7 +43,6 @@ const usePrescribeMedicines = (socket) => {
         return {
           ...item,
           MedicineId: item.id,
-          dosage: item.dosage.value,
         };
       }),
     };
