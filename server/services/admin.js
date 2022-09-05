@@ -89,7 +89,7 @@ const updateUserProfileService = async (
       ...(contact && contact.trim() && { contact }),
       ...(address && address.trim() && { address }),
       ...(bio && bio.trim() && { bio }),
-      ...(availability && availability.trim() && { availability }),
+      ...(availability && { availability }),
       ...(availableDays && availableDays.trim() && { availableDays }),
       ...(roomNumber && roomNumber.trim() && { roomNumber }),
       ...(authorityName && authorityName.trim() && { authorityName }),

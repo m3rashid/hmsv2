@@ -5,6 +5,20 @@ import { instance } from "../../../../api/instance";
 import { permissions } from "../../../../utils/constants";
 import { toSentenceCase } from "../../../../utils/strings";
 
+const ShowEntry = ({ label, value }) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      gap: "1rem",
+    }}
+  >
+    <p style={{ fontWeight: 800, padding: 0, margin: 0 }}>{label}: </p>
+    <p style={{ padding: 0, margin: 0 }}>{value}</p>
+  </div>
+);
+
 const UserDetailsModal = ({ data }) => {
   const [editPermissions, setEditPermissions] = React.useState(false);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
@@ -40,20 +54,6 @@ const UserDetailsModal = ({ data }) => {
       key: "edit-permissions",
     });
   };
-
-  const ShowEntry = ({ label, value }) => (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        gap: "1rem",
-      }}
-    >
-      <p style={{ fontWeight: 800, padding: 0, margin: 0 }}>{label}: </p>
-      <p style={{ padding: 0, margin: 0 }}>{value}</p>
-    </div>
-  );
 
   return (
     <React.Fragment>

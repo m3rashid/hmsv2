@@ -69,14 +69,14 @@ const CreateAppointmentForm = () => {
   };
 
   useEffect(() => {
-    instance.get("/reception/doctors").then((res) => {
-      setDoctors(
-        res.data?.map((doctor) => ({
-          value: doctor.email,
-          label: `${doctor.name}`,
-        }))
-      );
-    });
+    // instance.get("/reception/doctors").then((res) => {
+    //   setDoctors(
+    //     res.data?.map((doctor) => ({
+    //       value: doctor.email,
+    //       label: `${doctor.name}`,
+    //     }))
+    //   );
+    // });
     socket.on("created-appointment", (data) => {
       message.success(`Appointment ${data.title} created successfully!`);
     });
@@ -158,6 +158,11 @@ const CreateAppointmentForm = () => {
           email: value,
           designation: value,
           contact: value,
+          time: {
+            hour: moment(FormSelected.datetime).hour(),
+            minute: moment(FormSelected.datetime).minute(),
+            day: moment(FormSelected.datetime).day(),
+          },
         },
       });
 
@@ -214,6 +219,28 @@ const CreateAppointmentForm = () => {
               Create Appointment
             </Typography.Title>
             <Form.Item
+              label="Date"
+              name="datetime"
+              rules={[
+                { required: true, message: "Please enter date and time !" },
+              ]}
+            >
+              <DatePicker
+                showTime
+                allowClear
+                // defaultValue={moment()}
+                disabledDate={(current) => current && current < moment()}
+                onChange={(value) => {
+                  form.setFieldsValue({ datetime: value });
+                  setFormSelected({
+                    ...FormSelected,
+                    datetime: value,
+                  });
+                }}
+              />
+            </Form.Item>
+
+            <Form.Item
               label="Patient"
               name="patient"
               rules={[{ required: true, message: "Please select a patient!" }]}
@@ -268,6 +295,7 @@ const CreateAppointmentForm = () => {
               rules={[{ required: true, message: "Please select a doctor!" }]}
             >
               <AutoComplete
+                disabled={!FormSelected.datetime}
                 options={doctors.data}
                 id="doctor"
                 placeholder="Doctor Name"
@@ -311,27 +339,6 @@ const CreateAppointmentForm = () => {
               <Typography.Text disabled style={{ fontSize: 10 }}>
                 *Search by (name or designation)
               </Typography.Text>
-            </Form.Item>
-            <Form.Item
-              label="Date"
-              name="datetime"
-              rules={[
-                { required: true, message: "Please enter date and time !" },
-              ]}
-            >
-              <DatePicker
-                showTime
-                allowClear
-                // defaultValue={moment()}
-                disabledDate={(current) => current && current < moment()}
-                onChange={(value) => {
-                  form.setFieldsValue({ datetime: value });
-                  setFormSelected({
-                    ...FormSelected,
-                    datetime: value,
-                  });
-                }}
-              />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 2 }}>
               <Button type="primary" htmlType="submit" loading={loading}>

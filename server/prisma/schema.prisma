@@ -30,13 +30,13 @@ enum Sex {
 }
 
 enum Days {
+  SUN
   MON
   TUE
   WED
   THU
   FRI
   SAT
-  SUN
 }
 
 enum Category {
@@ -87,7 +87,7 @@ model Profile {
   bio           String?
   roomNumber    String
   sex           Sex
-  availability  String[] // time range
+  availability  Json?        // time range
   availableDays Days[]
   authorityName String?
   category      Category?

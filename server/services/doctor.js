@@ -1,9 +1,9 @@
 const dayjs = require("dayjs");
-
 const prisma = require("../utils/prisma");
 const { permissions, serverActions } = require("../utils/constants");
 const { quantityCalculator } = require("../utils/medecine.helpers");
 const { addEventLog } = require("../utils/logs");
+const { Days } = require("@prisma/client");
 
 const getDoctorAppointmentsService = async (
   userId,
@@ -39,6 +39,7 @@ const searchDoctorsService = async ({
   email,
   address,
   availability,
+  time,
 }) => {
   const doctors = await prisma.auth.findMany({
     where: {
@@ -47,7 +48,31 @@ const searchDoctorsService = async ({
     },
     include: { profile: true },
   });
-  return { count: doctors.length, doctors };
+
+  const { hour, minute, day } = JSON.parse(time);
+  const DayjsArr = Object.values(Days);
+  console.log(doctors);
+  const curr = parseFloat(`${hour}.${minute}`);
+  const filteredDoctors = doctors.filter((doctor) => {
+    console.log(hour, minute, DayjsArr[day], time);
+
+    const availableDay = doctor.profile.availability.find(
+      (avail) => avail.day === DayjsArr[day]
+    );
+
+    if (!availableDay) return false;
+
+    const availableTime = availableDay.range.some((range) => {
+      const start = parseFloat(`${range.from.hour}.${range.from.minute}`);
+      const end = parseFloat(`${range.to.hour}.${range.to.minute}`);
+      console.log(start, end);
+      return curr >= start && curr <= end;
+    });
+
+    return availableTime;
+  });
+
+  return { count: filteredDoctors.length, doctors: filteredDoctors };
 };
 
 const createPrescriptionService = async ({
