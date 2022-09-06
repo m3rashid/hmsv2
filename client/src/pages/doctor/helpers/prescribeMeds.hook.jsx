@@ -13,7 +13,10 @@ const usePrescribeMedicines = (socket) => {
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
+  const [PatientData, setPatientData] = useState({
+    open: false,
+    data: null,
+  });
   const [loading, setLoading] = useRecoilState(LoadingAtom);
   const doctorData = useRecoilValue(doctorState);
   const [formData, setFormData] = useState({});
@@ -134,6 +137,7 @@ const usePrescribeMedicines = (socket) => {
       form,
       printContainerRef,
       CreatePrescriptionModalVisible,
+      PatientData,
     },
     actions: {
       printPdf,
@@ -148,6 +152,7 @@ const usePrescribeMedicines = (socket) => {
       handleReferPatientModalShow,
       handleAppointmentSelect,
       UpdateMedicine,
+      setPatientData,
     },
   };
 };

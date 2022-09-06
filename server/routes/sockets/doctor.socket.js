@@ -61,6 +61,8 @@ const createPrescriptionByDoctor =
       doneBy: socket.user,
     });
 
+    console.log(data);
+
     io.emit("new-prescription-by-doctor-created", { data });
   };
 

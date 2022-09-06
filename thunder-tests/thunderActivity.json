@@ -80,12 +80,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-24T10:44:05.379Z",
-    "modified": "2022-09-06T10:34:57.665Z",
+    "modified": "2022-09-06T15:39:58.625Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"admin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Admin Bro\",\n  \"role\": \"ADMIN\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
+      "raw": "{\n  \"email\": \"admin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Admin Bro\",\n  \"role\": \"ADMIN\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\"\n}",
       "form": []
     },
     "tests": []
@@ -99,7 +99,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-24T11:12:19.941Z",
-    "modified": "2022-09-01T15:31:54.359Z",
+    "modified": "2022-09-06T16:09:57.410Z",
     "headers": [],
     "params": [],
     "body": {

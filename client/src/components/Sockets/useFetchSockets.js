@@ -13,6 +13,7 @@ import { inventoryState } from "../../atoms/inventory";
 import { InventoryTypes, permissions } from "../../utils/constants";
 import useNotifications from "../../Hooks/useNotifications";
 import { functionState } from "../../atoms/functions";
+import { useNavigate } from "react-router-dom";
 
 // Used for all on socket events
 export default function useFetchSockets() {
@@ -23,6 +24,7 @@ export default function useFetchSockets() {
   const [, setLoadingData] = useRecoilState(LoadingAtom);
   const [, setFunctionData] = useRecoilState(functionState);
   const { addNotification } = useNotifications();
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("error", (data) => {
@@ -113,7 +115,13 @@ export default function useFetchSockets() {
       socket.off("new-prescription-by-doctor-created");
       socket.off("prescription-dispensed");
     };
-  }, [auth, loadPharmacyPrescriptions, setPharmacyData]);
+  }, [
+    auth,
+    loadPharmacyPrescriptions,
+    navigate,
+    setLoadingData,
+    setPharmacyData,
+  ]);
 
   /** Socket events for Doctor Roles */
 
@@ -184,6 +192,8 @@ export default function useFetchSockets() {
 
     socket.on("new-prescription-by-doctor-created", ({ data }) => {
       loadDoctorAppointment();
+      setLoadingData({});
+      navigate("/doctor/appointments");
 
       message.success(
         `New Prescription for ${data.prescription.appointment.patient.name} created successfully!`
@@ -193,7 +203,13 @@ export default function useFetchSockets() {
     return () => {
       socket.off("new-prescription-by-doctor-created");
     };
-  }, [auth, loadDoctorAppointment, setAppointmentPendingStatus]);
+  }, [
+    auth,
+    loadDoctorAppointment,
+    navigate,
+    setAppointmentPendingStatus,
+    setLoadingData,
+  ]);
 
   /**
    * Notify Doctor on New Appointment Created

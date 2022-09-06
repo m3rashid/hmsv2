@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   Table,
+  Drawer,
 } from "antd";
 import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -22,18 +23,20 @@ import Loading from "../../components/Loading/Loading";
  * @description Displays Patient Info and Appointments
  * @returns {JSX.Element}
  */
-const Patient = () => {
+const PatientInfo = (props) => {
   const { id } = useParams();
+  const { data, isLoading, isError } = useQuery(
+    ["patient", id, props],
+    async () => {
+      const { data } = await instance.get(`/patient/${id || props.id}`);
+      const patient = data.patient;
 
-  const { data, isLoading, isError } = useQuery(["patient", id], async () => {
-    const { data } = await instance.get(`/patient/${id}`);
-    const patient = data.patient;
-
-    patient.Appointment = patient.Appointment.sort((a, b) =>
-      dayjs(b.date).diff(a.date)
-    );
-    return patient;
-  });
+      patient.Appointment = patient.Appointment.sort((a, b) =>
+        dayjs(b.date).diff(a.date)
+      );
+      return patient;
+    }
+  );
 
   const [PrescriptionModal, setPrescriptionModal] = useState({
     visible: false,
@@ -107,6 +110,26 @@ const Patient = () => {
     []
   );
 
+  // Handle Modal
+  const PrescriptionModalHandler = useCallback(
+    (item) => () => {
+      setPrescriptionModal(() => {
+        const state = {
+          visible: true,
+          data: item,
+        };
+
+        state.data.medicines = state.data.medicines.map((medicine) => ({
+          ...medicine,
+          ...medicine?.Medicine,
+        }));
+
+        return state;
+      });
+    },
+    [setPrescriptionModal]
+  );
+
   // Schema For Appointment Info
   const AppointmentSchema = useMemo(
     () => [
@@ -161,29 +184,8 @@ const Patient = () => {
         ),
       },
     ],
-    []
+    [PrescriptionModalHandler]
   );
-
-  const PrescriptionModalHandler = useCallback(
-    (item) => () => {
-      setPrescriptionModal(() => {
-        const state = {
-          visible: true,
-          data: item,
-        };
-
-        state.data.medicines = state.data.medicines.map((medicine) => ({
-          ...medicine,
-          ...medicine?.Medicine,
-        }));
-
-        return state;
-      });
-    },
-    [setPrescriptionModal]
-  );
-
-  console.log(data);
 
   if (isLoading || isError) {
     return <Loading />;
@@ -215,15 +217,9 @@ const Patient = () => {
       </Col>
       <Divider>Patient's History</Divider>
       <Table columns={AppointmentSchema} dataSource={data.Appointment} />
-      <Modal
+      <Drawer
         visible={PrescriptionModal.visible}
-        cancelButtonProps={{
-          style: {
-            display: "none",
-          },
-        }}
-        onOk={() => setPrescriptionModal({ visible: false })}
-        onCancel={() => setPrescriptionModal({ visible: false })}
+        onClose={() => setPrescriptionModal({ visible: false })}
       >
         <DisplayMedicine
           ExtraMedicines={PrescriptionModal?.data?.CustomMedicines}
@@ -233,16 +229,15 @@ const Patient = () => {
           id={PrescriptionModal?.data?.appointmentId}
           patient={data}
         />
-      </Modal>
-      <Modal
+      </Drawer>
+      <Drawer
         visible={DoctorModal.visible}
         okButtonProps={{
           style: {
             display: "none",
           },
         }}
-        cancelText="Close"
-        onCancel={() => setDoctorModal({ visible: false, data: {} })}
+        onClose={() => setDoctorModal({ visible: false, data: {} })}
         title="Doctor's Info"
       >
         <Space
@@ -268,9 +263,9 @@ const Patient = () => {
             );
           })}
         </Space>
-      </Modal>
+      </Drawer>
     </div>
   );
 };
 
-export default Patient;
+export default PatientInfo;
