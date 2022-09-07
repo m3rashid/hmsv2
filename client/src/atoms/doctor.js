@@ -2,6 +2,7 @@ import { atom } from "recoil";
 
 export const doctorDefaultState = {
   appointments: [],
+  list: [],
   loading: false,
 };
 

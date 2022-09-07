@@ -13,17 +13,15 @@ import {
 } from "antd";
 import moment from "moment";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
 import { instance } from "../../api/instance";
+import DoctorSelector from "../../components/Doctor/DoctorSelector";
+import { Days } from "../../utils/constants";
 
 const CreateAppointmentForm = () => {
-  const [doctors, setDoctors] = useState({
-    data: [],
-    cancelToken: undefined,
-  });
   const [patients, setPatients] = useState({
     data: [],
     cancelToken: undefined,
@@ -69,14 +67,6 @@ const CreateAppointmentForm = () => {
   };
 
   useEffect(() => {
-    // instance.get("/reception/doctors").then((res) => {
-    //   setDoctors(
-    //     res.data?.map((doctor) => ({
-    //       value: doctor.email,
-    //       label: `${doctor.name}`,
-    //     }))
-    //   );
-    // });
     socket.on("created-appointment", (data) => {
       message.success(`Appointment ${data.title} created successfully!`);
     });
@@ -85,6 +75,65 @@ const CreateAppointmentForm = () => {
       socket.off("created-appointment");
     };
   }, [form]);
+
+  const createRange = useCallback((acc, last) => {
+    const result = [];
+    for (let i = 0; i < last; i++) {
+      const canAdd = acc.every((item) => {
+        return i > item[1] && i < item[0];
+      });
+
+      if (canAdd) {
+        result.push(i);
+      }
+    }
+    return result;
+  }, []);
+
+  const isAllowedDate = useCallback(
+    (current, isDate) => {
+      const day = current?.day();
+      const hour = current?.hour();
+      const minute = current?.minute();
+      const DayArr = Object.values(Days);
+      const DayChosen = DayArr[day];
+
+      const doctor = FormSelected.doctor;
+
+      if (!doctor) return true;
+
+      const availableDay = doctor.profile.availability.find(
+        (avail) => avail.day === DayChosen
+      );
+      if (!availableDay) {
+        if (isDate) return true;
+        return {};
+      }
+      if (isDate === true) return false;
+
+      const availableTime = availableDay.range.reduce(
+        (acc, range) => {
+          acc.minute.push([range?.from?.minute, range?.to?.minute]);
+          acc.hour.push([range?.from?.hour, range?.to?.hour]);
+
+          return acc;
+        },
+        {
+          minute: [],
+          hour: [],
+        }
+      );
+
+      const res = {
+        disabledMinutes: () => createRange(availableTime.minute, 60),
+        disabledHours: () => createRange(availableTime.hour, 24),
+      };
+
+      console.log(res);
+      return res;
+    },
+    [FormSelected.doctor, createRange]
+  );
 
   const UpdatePatients = async (value) => {
     if (patients.cancelToken) {
@@ -139,63 +188,6 @@ const CreateAppointmentForm = () => {
     } catch (err) {}
   };
 
-  const UpdateDoctors = async (value) => {
-    if (doctors.cancelToken) {
-      doctors.cancelToken.cancel();
-    }
-
-    try {
-      const CancelToken = axios.CancelToken.source();
-
-      setDoctors({
-        data: [{ value: "", label: "Loading.." }],
-        cancelToken: CancelToken,
-      });
-
-      const { data } = await instance.get("/doctor/search", {
-        params: {
-          name: value,
-          email: value,
-          designation: value,
-          contact: value,
-          time: {
-            hour: moment(FormSelected.datetime).hour(),
-            minute: moment(FormSelected.datetime).minute(),
-            day: moment(FormSelected.datetime).day(),
-          },
-        },
-      });
-
-      setDoctors({
-        ...doctors,
-        data: data.doctors.map((doctor) => {
-          return {
-            value: `${doctor.name} - ${doctor?.profile?.designation || ""}`,
-            data: doctor,
-            label: (
-              <Col direction="vertical" size={"small"} style={{ fontSize: 12 }}>
-                <Row>
-                  <Space>
-                    <Typography.Text>{doctor.name}</Typography.Text>
-                    {doctor.profile.designation && (
-                      <Typography.Text type="danger">
-                        {`${"("}${doctor.profile.designation}${")"}`}
-                      </Typography.Text>
-                    )}
-                  </Space>
-                </Row>
-                <Row>
-                  <Typography.Text disabled>{doctor.email}</Typography.Text>
-                </Row>
-              </Col>
-            ),
-          };
-        }),
-        cancelToken: doctors.cancelToken ? doctors.cancelToken : CancelToken,
-      });
-    } catch (err) {}
-  };
-
   return (
     <React.Fragment>
       <Header />
@@ -219,6 +211,20 @@ const CreateAppointmentForm = () => {
               Create Appointment
             </Typography.Title>
             <Form.Item
+              label="Doctor Name"
+              name="doctor"
+              rules={[{ required: true, message: "Please select a doctor!" }]}
+            >
+              <DoctorSelector
+                onChange={(value) => {
+                  setFormSelected({
+                    ...FormSelected,
+                    doctor: value,
+                  });
+                }}
+              />
+            </Form.Item>
+            <Form.Item
               label="Date"
               name="datetime"
               rules={[
@@ -228,8 +234,11 @@ const CreateAppointmentForm = () => {
               <DatePicker
                 showTime
                 allowClear
-                // defaultValue={moment()}
-                disabledDate={(current) => current && current < moment()}
+                disabled={!FormSelected?.doctor}
+                disabledDate={(current) => isAllowedDate(current, true)}
+                disabledTime={(current) => {
+                  return isAllowedDate(moment(current), false);
+                }}
                 onChange={(value) => {
                   form.setFieldsValue({ datetime: value });
                   setFormSelected({
@@ -289,57 +298,6 @@ const CreateAppointmentForm = () => {
               </Typography.Text>
             </Form.Item>
 
-            <Form.Item
-              label="Doctor Name"
-              name="doctor"
-              rules={[{ required: true, message: "Please select a doctor!" }]}
-            >
-              <AutoComplete
-                disabled={!FormSelected.datetime}
-                options={doctors.data}
-                id="doctor"
-                placeholder="Doctor Name"
-                onSearch={(value) => UpdateDoctors(value)}
-                onSelect={(value) => {
-                  form.setFieldsValue({ doctor: value });
-                  setFormSelected({
-                    ...FormSelected,
-                    doctor: doctors.data.find(
-                      (doctor) => doctor.value === value
-                    ),
-                  });
-                }}
-                allowClear
-                onClear={() => {
-                  setFormSelected({
-                    ...FormSelected,
-                    doctor: null,
-                  });
-                }}
-                onChange={(value) => {
-                  const doctorData = doctors.data.find(
-                    (doctor) => doctor.value === value
-                  );
-
-                  if (!doctorData) {
-                    setFormSelected({
-                      ...FormSelected,
-                      doctor: null,
-                    });
-                    form.setFieldsValue({ doctor: "" });
-                  } else {
-                    setFormSelected({
-                      ...FormSelected,
-                      doctor: doctorData,
-                    });
-                    form.setFieldsValue({ doctor: doctorData.value });
-                  }
-                }}
-              />
-              <Typography.Text disabled style={{ fontSize: 10 }}>
-                *Search by (name or designation)
-              </Typography.Text>
-            </Form.Item>
             <Form.Item wrapperCol={{ offset: 2 }}>
               <Button type="primary" htmlType="submit" loading={loading}>
                 Create Appointment
