@@ -314,6 +314,7 @@ const PrescriptionForm = () => {
           onCancel={() => setCreatePrescriptionModalVisible(false)}
           okText="Yes"
           cancelText="No"
+          width={1000}
         >
           <DisplayMedicine
             id={formData?.appointmentInfo?.id}

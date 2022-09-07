@@ -36,7 +36,7 @@ const MedicineInputTable = ({ medicines, setMedicines }) => {
         medicines: [
           ...prev.medicines,
           {
-            medicine: {},
+            Medicine: {},
             dosage: "",
             duration: 0,
             key: prev.medicines.length || 0,
@@ -53,7 +53,7 @@ const MedicineInputTable = ({ medicines, setMedicines }) => {
         ...prev,
         medicines: prev.medicines.map((m, idx) => {
           if (idx === index) {
-            return { ...m, medicine: med };
+            return { ...m, Medicine: med };
           }
           return m;
         }),

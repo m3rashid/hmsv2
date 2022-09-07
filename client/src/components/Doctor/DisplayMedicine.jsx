@@ -17,47 +17,49 @@ function DisplayMedicine({
 }) {
   return (
     <React.Fragment>
-      <Typography.Title level={4}>Prescription Preview</Typography.Title>
-      <Card title="Appointment Details" style={{ background: "transparent" }}>
-        <Space direction="vertical">
-          <Typography.Text>Appointment ID: {id}</Typography.Text>
-          <Typography.Text>Patient Name: {patient?.name}</Typography.Text>
-          <Typography.Text>
-            Date: {dayjs(date).format("MMMM DD YYYY HH:mm A")}
-          </Typography.Text>
-        </Space>
-      </Card>
       <Space
         direction="vertical"
         style={{
-          marginLeft: 20,
-          padding: 20,
-          width: "75%",
-          borderRadius: 15,
-          backgroundColor: "#fff",
+          width: "100%",
         }}
       >
-        <Typography.Text type="success">Symptoms:</Typography.Text>
-        <Typography.Text>{symptoms}</Typography.Text>
-      </Space>
+        <Typography.Title level={4}>Prescription Preview</Typography.Title>
+        <Card title="Appointment Details" style={{ background: "transparent" }}>
+          <Space direction="vertical">
+            <Typography.Text>Appointment ID: {id}</Typography.Text>
+            <Typography.Text>Patient Name: {patient?.name}</Typography.Text>
+            <Typography.Text>
+              Date: {dayjs(date).format("MMMM DD YYYY HH:mm A")}
+            </Typography.Text>
+          </Space>
+        </Card>
 
-      <ViewPrescriptionTable
-        prescriptionData={Medicines}
-        showAvailability={showAvailability}
-      />
-
-      <Card title="Custom Medicines" style={{ background: "transparent" }}>
-        <Space direction="vertical" size={"large"}>
-          {ExtraMedicines?.map((medicine, index) => (
-            <SingleMedicine
-              key={index}
-              index={index}
-              medicine={medicine}
-              isExtra={true}
-            />
-          ))}
+        <Space
+          direction="vertical"
+          style={{
+            marginLeft: 20,
+            padding: 20,
+            width: "75%",
+            borderRadius: 15,
+            backgroundColor: "#fff",
+          }}
+        >
+          <Typography.Text type="success">Symptoms:</Typography.Text>
+          <Typography.Text>{symptoms}</Typography.Text>
         </Space>
-      </Card>
+
+        <Typography.Text strong>Medicines</Typography.Text>
+        <ViewPrescriptionTable
+          prescriptionData={Medicines}
+          showAvailability={showAvailability}
+        />
+
+        <Typography.Text strong>Custom Medicines</Typography.Text>
+        <ViewPrescriptionTable
+          prescriptionData={ExtraMedicines}
+          showAvailability={false}
+        />
+      </Space>
     </React.Fragment>
   );
 }
@@ -143,7 +145,14 @@ const ViewPrescriptionTable = ({ prescriptionData, showAvailability }) => {
   ];
 
   return (
-    <Space direction="vertical" size={3} style={{ padding: "10px" }}>
+    <Space
+      direction="vertical"
+      size={3}
+      style={{
+        padding: "10px",
+        width: "100%",
+      }}
+    >
       {prescriptionData && (
         <Table
           size="small"
@@ -151,7 +160,6 @@ const ViewPrescriptionTable = ({ prescriptionData, showAvailability }) => {
           columns={medicineTableColumns}
           dataSource={prescriptionData}
           scroll={{ x: 500 }}
-          wi
         />
       )}
     </Space>

@@ -51,3 +51,13 @@ export const permissions = {
   INVENTORY_VIEW: "INVENTORY_VIEW",
   INVENTORY_ADD_MEDICINE: "INVENTORY_ADD_MEDICINE",
 };
+
+export const Days = {
+  SUN: "SUN",
+  MON: "MON",
+  TUE: "TUE",
+  WED: "WED",
+  THU: "THU",
+  FRI: "FRI",
+  SAT: "SAT",
+};

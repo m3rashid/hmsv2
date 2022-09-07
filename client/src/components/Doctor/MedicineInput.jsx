@@ -70,6 +70,8 @@ const MedicineInput = ({
     UpdateMedicine(medicineType, { ...value, ...availabilityInfo }, index);
   }, [value, availabilityInfo, UpdateMedicine, medicineType, index]);
 
+  console.log(MedicineData);
+
   return (
     <Row
       style={{
