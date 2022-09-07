@@ -3,7 +3,7 @@ import { instance } from "../../../../api/instance";
 
 import { formatForTable } from "./table";
 import { adminState } from "../../../../atoms/admin";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 const useGetUserDetail = ({ userType, userRole }) => {
   const [adminData, setAdminData] = useRecoilState(adminState);
@@ -18,6 +18,7 @@ const useGetUserDetail = ({ userType, userRole }) => {
       const res = await instance.post("/admin/all", { userRole });
 
       const users = formatForTable(res.data.users);
+      message.success("Users fetched successfully");
       setAdminData((prev) => ({ ...prev, [userType]: users }));
     } catch (err) {}
   };
@@ -28,6 +29,7 @@ const useGetUserDetail = ({ userType, userRole }) => {
 
   return {
     getAllUsers,
+    getUsers,
     RefreshUserButton,
     users: adminData[userType],
   };

@@ -17,7 +17,7 @@ function Availability({ isEdit, defaultValue, form }) {
 
   useEffect(() => {
     if (Data == null) setData(defaultValue || []);
-  }, [Data, defaultValue]);
+  }, [Data, defaultValue, setData]);
 
   const DATA_REMOVE = useCallback(
     (payload) => {
@@ -176,7 +176,6 @@ function Availability({ isEdit, defaultValue, form }) {
             >
               +
             </Button>
-            ;
             <Divider />
           </div>
         ))}
@@ -195,7 +194,6 @@ function Availability({ isEdit, defaultValue, form }) {
       >
         + Add New Availability
       </Button>
-      ;
     </div>
   );
 }

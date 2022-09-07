@@ -16,6 +16,7 @@ import { supportedUserRoles } from "../../../../utils/constants";
 import Availability from "./InputTypes/Availablity";
 import { useRecoilState } from "recoil";
 import { UserSlotManagerAtom } from "../../../../atoms/UserSlotManager";
+import useGetUserDetail from "./getUserDetail";
 
 const requiredFormFields = [
   { key: "name", label: "Name", inputType: "text", otherRules: [{}] },
@@ -161,6 +162,10 @@ const CreateUserModal = ({ isEdit, data }) => {
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [UserAtom, setUserAtom] = useRecoilState(UserSlotManagerAtom);
+  const { getUsers } = useGetUserDetail({
+    userType: "doctors",
+    userRole: "DOCTOR",
+  });
 
   const handleOk = () => setIsModalVisible(true);
   const handleCancel = () => {
@@ -190,7 +195,8 @@ const CreateUserModal = ({ isEdit, data }) => {
         key: "auth/createUser",
       });
     } finally {
-      form.resetFields();
+      await getUsers();
+      handleCancel();
     }
   };
 
