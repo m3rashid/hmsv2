@@ -18,6 +18,7 @@ import { instance } from "../../api/instance";
 import dayjs from "dayjs";
 import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
 import Loading from "../../components/Loading/Loading";
+import DoctorDisplay from "../../components/Doctor/Display/DoctorDisplay";
 
 /**
  * @description Displays Patient Info and Appointments
@@ -241,29 +242,7 @@ const PatientInfo = (props) => {
         onClose={() => setDoctorModal({ visible: false, data: {} })}
         title="Doctor's Info"
       >
-        <Space
-          direction="vertical"
-          style={{
-            width: "100%",
-          }}
-        >
-          {DoctorInfo.map((_info, index) => {
-            if (!DoctorModal.data[_info.dataIndex]) return null;
-
-            return (
-              <Row key={index}>
-                <Col span={5}>
-                  <Typography.Text strong>{_info.title}</Typography.Text>
-                </Col>
-                <Col span={19}>
-                  <Typography.Text>
-                    {DoctorModal.data[_info.dataIndex]}
-                  </Typography.Text>
-                </Col>
-              </Row>
-            );
-          })}
-        </Space>
+        <DoctorDisplay doctor={DoctorModal.data} />
       </Drawer>
     </div>
   );

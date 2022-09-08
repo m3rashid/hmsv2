@@ -18,8 +18,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { socket } from "../../api/socket";
 import Header from "../../components/Header";
 import { instance } from "../../api/instance";
-import DoctorSelector from "../../components/Doctor/DoctorSelector";
+import DoctorSelector from "../../components/Doctor/Selector";
 import { Days } from "../../utils/constants";
+import DoctorTimeSelector from "../../components/Doctor/TimeSelector";
+import DoctorDisplay from "../../components/Doctor/Display/DoctorDisplay";
 
 const CreateAppointmentForm = () => {
   const [patients, setPatients] = useState({
@@ -75,65 +77,6 @@ const CreateAppointmentForm = () => {
       socket.off("created-appointment");
     };
   }, [form]);
-
-  const createRange = useCallback((acc, last) => {
-    const result = [];
-    for (let i = 0; i < last; i++) {
-      const canAdd = acc.every((item) => {
-        return i > item[1] && i < item[0];
-      });
-
-      if (canAdd) {
-        result.push(i);
-      }
-    }
-    return result;
-  }, []);
-
-  const isAllowedDate = useCallback(
-    (current, isDate) => {
-      const day = current?.day();
-      const hour = current?.hour();
-      const minute = current?.minute();
-      const DayArr = Object.values(Days);
-      const DayChosen = DayArr[day];
-
-      const doctor = FormSelected.doctor;
-
-      if (!doctor) return true;
-
-      const availableDay = doctor.profile.availability.find(
-        (avail) => avail.day === DayChosen
-      );
-      if (!availableDay) {
-        if (isDate) return true;
-        return {};
-      }
-      if (isDate === true) return false;
-
-      const availableTime = availableDay.range.reduce(
-        (acc, range) => {
-          acc.minute.push([range?.from?.minute, range?.to?.minute]);
-          acc.hour.push([range?.from?.hour, range?.to?.hour]);
-
-          return acc;
-        },
-        {
-          minute: [],
-          hour: [],
-        }
-      );
-
-      const res = {
-        disabledMinutes: () => createRange(availableTime.minute, 60),
-        disabledHours: () => createRange(availableTime.hour, 24),
-      };
-
-      console.log(res);
-      return res;
-    },
-    [FormSelected.doctor, createRange]
-  );
 
   const UpdatePatients = async (value) => {
     if (patients.cancelToken) {
@@ -231,14 +174,7 @@ const CreateAppointmentForm = () => {
                 { required: true, message: "Please enter date and time !" },
               ]}
             >
-              <DatePicker
-                showTime
-                allowClear
-                disabled={!FormSelected?.doctor}
-                disabledDate={(current) => isAllowedDate(current, true)}
-                disabledTime={(current) => {
-                  return isAllowedDate(moment(current), false);
-                }}
+              <DoctorTimeSelector
                 onChange={(value) => {
                   form.setFieldsValue({ datetime: value });
                   setFormSelected({
@@ -246,6 +182,7 @@ const CreateAppointmentForm = () => {
                     datetime: value,
                   });
                 }}
+                doctor={FormSelected?.doctor}
               />
             </Form.Item>
 
@@ -351,17 +288,7 @@ const CreateAppointmentForm = () => {
 
             <Card title="Doctor Details" style={{ background: "transparent" }}>
               {FormSelected.doctor ? (
-                <Space direction="vertical">
-                  <Typography.Text type="danger">
-                    ID : {FormSelected.doctor?.data?.id}
-                  </Typography.Text>
-                  <Typography.Text>
-                    {FormSelected.doctor?.data?.name}
-                  </Typography.Text>
-                  <Typography.Text disabled>
-                    {FormSelected.doctor?.data?.email}
-                  </Typography.Text>
-                </Space>
+                <DoctorDisplay doctor={FormSelected.doctor?.profile} />
               ) : (
                 <Typography.Text>No Doctor Selected</Typography.Text>
               )}
