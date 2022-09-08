@@ -78,6 +78,65 @@ const CreateAppointmentForm = () => {
     };
   }, [form]);
 
+  const createRange = useCallback((acc, last) => {
+    const result = [];
+    for (let i = 0; i < last; i++) {
+      const canAdd = acc.every((item) => {
+        return i > item[1] && i < item[0];
+      });
+
+      if (canAdd) {
+        result.push(i);
+      }
+    }
+    return result;
+  }, []);
+
+  const isAllowedDate = useCallback(
+    (current, isDate) => {
+      const day = current?.day();
+      const hour = current?.hour();
+      const minute = current?.minute();
+      const DayArr = Object.values(Days);
+      const DayChosen = DayArr[day];
+
+      const doctor = FormSelected.doctor;
+
+      if (!doctor) return true;
+
+      const availableDay = doctor.profile.availability.find(
+        (avail) => avail.day === DayChosen
+      );
+      if (!availableDay) {
+        if (isDate) return true;
+        return {};
+      }
+      if (isDate === true) return false;
+
+      const availableTime = availableDay.range.reduce(
+        (acc, range) => {
+          acc.minute.push([range?.from?.minute, range?.to?.minute]);
+          acc.hour.push([range?.from?.hour, range?.to?.hour]);
+
+          return acc;
+        },
+        {
+          minute: [],
+          hour: [],
+        }
+      );
+
+      const res = {
+        disabledMinutes: () => createRange(availableTime.minute, 60),
+        disabledHours: () => createRange(availableTime.hour, 24),
+      };
+
+      console.log(res);
+      return res;
+    },
+    [FormSelected.doctor, createRange]
+  );
+
   const UpdatePatients = async (value) => {
     if (patients.cancelToken) {
       patients.cancelToken.cancel();
