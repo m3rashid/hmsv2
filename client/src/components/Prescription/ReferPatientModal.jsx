@@ -10,10 +10,10 @@ import {
   Typography,
 } from "antd";
 
-import { instance } from "../../../api/instance";
-import DoctorSelector from "../../../components/Doctor/DoctorSelector";
-import DoctorTimeSelector from "../../../components/Doctor/TimeSelector";
-import DoctorDisplay from "../../../components/Doctor/Display/DoctorDisplay";
+import { instance } from "../../api/instance";
+import DoctorSelector from "../Doctor/DoctorSelector";
+import DoctorDisplay from "../Doctor/DoctorDisplay";
+import DoctorTimeSelector from "../Reception/TimeSelector";
 
 const ReferPatientModal = ({
   patientId,

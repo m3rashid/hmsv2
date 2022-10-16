@@ -15,14 +15,14 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 
 import { socket } from "../../api/socket";
-import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
-import usePrescribeMedicines from "./helpers/prescribeMeds.hook";
-import MedicineInput from "../../components/Doctor/MedicineInput";
-import ReferPatientModal from "./helpers/referPatientModal";
-import styles from "./prescribeMedicine.module.css";
+import usePrescribeMedicines from '../../components/Doctor/hooks/prescribeMeds.hook';
+import MedicineInput from "../../components/Medicine/MedicineInput";
+import ReferPatientModal from "../../components/Prescription/ReferPatientModal";
+import styles from "./css/PrescribeMedicine.module.css";
 import PatientInfo from "../Patient";
 
-import MedicineInputTable from "../../components/Doctor/MedicineInputTabular";
+import MedicineInputTable from "../../components/Medicine/MedicineInputTabular";
+import PrescriptionDisplay from "../../components/Prescription/PrescriptionDisplay";
 
 const PrescriptionForm = () => {
   const {
@@ -220,7 +220,7 @@ const PrescriptionForm = () => {
           </Form.Item>
         </Form>
 
-        <DisplayMedicine
+        <PrescriptionDisplay
           id={formData?.appointmentInfo?.id}
           symptoms={formData?.symptoms}
           date={formData?.appointmentInfo?.date}
@@ -260,7 +260,7 @@ const PrescriptionForm = () => {
           cancelText="No"
           width={1000}
         >
-          <DisplayMedicine
+          <PrescriptionDisplay
             id={formData?.appointmentInfo?.id}
             symptoms={formData?.symptoms}
             date={formData?.appointmentInfo?.date}

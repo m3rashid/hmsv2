@@ -5,11 +5,15 @@
     "default": true,
     "sortNum": 10000,
     "created": "2022-08-24T10:34:12.001Z",
-    "modified": "2022-08-24T10:37:20.947Z",
+    "modified": "2022-10-16T18:32:30.404Z",
     "data": [
       {
         "name": "host",
         "value": "http://localhost:5000/api"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOjEsInBlcm1pc3Npb25zIjpbIkFETUlOIl0sIm5hbWUiOiJBZG1pbiBCcm8iLCJlbWFpbCI6ImFkbWluQGptaS5hYy5pbiJ9LCJpYXQiOjE2NjU5NDUxMzU0MzAsImV4cCI6MTY2NTk0NTIyMTgzMH0.tXy9JY99aX-oP5YCFAhga3IbORbZBvOzxHDWyGqoLsg"
       }
     ]
   }

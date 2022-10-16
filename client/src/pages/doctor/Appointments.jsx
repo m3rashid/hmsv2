@@ -21,7 +21,7 @@ import { doctorState } from "../../atoms/doctor";
 import { LoadingAtom } from "../../atoms/loading";
 import { functionState } from "../../atoms/functions";
 import ShowEntry from "../../components/common/showEntry";
-import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
+import PrescriptionDisplay from "../../components/Prescription/PrescriptionDisplay";
 
 const { TabPane } = Tabs;
 
@@ -277,7 +277,7 @@ function DoctorAppointments() {
           setPrescriptionDrawer({ visible: false });
         }}
       >
-        <DisplayMedicine
+        <PrescriptionDisplay
           id={PrescriptionDrawer?.data?.appointmentId}
           ExtraMedicines={PrescriptionDrawer?.data?.CustomMedicines}
           Medicines={PrescriptionDrawer?.data?.medicines}

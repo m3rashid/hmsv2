@@ -7,8 +7,8 @@ import { Row, Col, Typography, Divider, Button, Table, Drawer } from "antd";
 import styles from "./styles.module.css";
 import { instance } from "../../api/instance";
 import Loading from "../../components/Loading/Loading";
-import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
-import DoctorDisplay from "../../components/Doctor/Display/DoctorDisplay";
+import DoctorDisplay from "../../components/Doctor/DoctorDisplay";
+import PrescriptionDisplay from "../../components/Prescription/PrescriptionDisplay";
 
 /**
  * @description Displays Patient Info and Appointments
@@ -177,7 +177,7 @@ const PatientInfo = (props) => {
         width={"40%"}
         onClose={() => setPrescriptionModal({ visible: false })}
       >
-        <DisplayMedicine
+        <PrescriptionDisplay
           ExtraMedicines={PrescriptionModal?.data?.CustomMedicines}
           Medicines={PrescriptionModal?.data?.medicines}
           date={PrescriptionModal?.data?.date}

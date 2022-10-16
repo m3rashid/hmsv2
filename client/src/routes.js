@@ -20,7 +20,7 @@ import AddNewInventory from "./pages/inventory/New";
 import Prescriptions from "./pages/pharmacy/Prescriptions";
 import DoctorAppointments from "./pages/doctor/Appointments";
 import CreateReceipts from "./pages/pharmacy/CreateReceipts";
-import PrescriptionForm from "./pages/doctor/prescribeMedicine";
+import PrescriptionForm from "./pages/doctor/PrescribeMedicine";
 import CreatePatientForm from "./pages/reception/CreatePatientForm";
 import CreateAppointmentForm from "./pages/reception/CreateAppointmentForm";
 

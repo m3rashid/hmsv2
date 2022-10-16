@@ -15,9 +15,9 @@ import React, { useEffect, useState } from "react";
 import { socket } from "../../api/socket";
 // import { Days } from "../../utils/constants";
 import { instance } from "../../api/instance";
-import DoctorSelector from "../../components/Doctor/Selector";
-import DoctorTimeSelector from "../../components/Doctor/TimeSelector";
-import DoctorDisplay from "../../components/Doctor/Display/DoctorDisplay";
+import DoctorSelector from "../../components/Doctor/DoctorSelector";
+import DoctorDisplay from "../../components/Doctor/DoctorDisplay";
+import DoctorTimeSelector from "../../components/Reception/TimeSelector";
 
 const CreateAppointmentForm = () => {
   const [patients, setPatients] = useState({

@@ -73,7 +73,7 @@ CREATE TABLE "Patient" (
 CREATE TABLE "Appointment" (
     "id" SERIAL NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "referedBy" TEXT,
+    "referedBy" INTEGER,
     "patientId" INTEGER NOT NULL,
     "doctorId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -188,6 +188,9 @@ CREATE UNIQUE INDEX "Patient_contact_key" ON "Patient"("contact");
 
 -- AddForeignKey
 ALTER TABLE "Auth" ADD CONSTRAINT "Auth_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Appointment" ADD CONSTRAINT "Appointment_referedBy_fkey" FOREIGN KEY ("referedBy") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Appointment" ADD CONSTRAINT "Appointment_patientId_fkey" FOREIGN KEY ("patientId") REFERENCES "Patient"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

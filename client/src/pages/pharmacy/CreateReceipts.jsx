@@ -9,7 +9,7 @@ import { instance } from "../../api/instance";
 import { pharmacyState } from "../../atoms/pharmacy";
 // import GeneratePdf from "../../components/generatePdf";
 import MedicineTable from "../../components/Pharmacy/MedicineTable";
-import usePrescribeMedicines from "../doctor/helpers/prescribeMeds.hook";
+import usePrescribeMedicines from "../../components/Doctor/hooks/prescribeMeds.hook";
 import ShowReceipt from "./ShowReciept";
 
 function CreateReceipts() {

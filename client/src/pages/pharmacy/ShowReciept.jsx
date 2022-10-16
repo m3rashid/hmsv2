@@ -1,5 +1,5 @@
 import React from "react";
-import GeneratePdf from "../../components/generatePdf";
+import GeneratePdf from "../../components/PDF/generatePdf";
 import PropTypes from "prop-types";
 
 function ShowReceipt({ printContainerRef, data }) {

@@ -12,6 +12,7 @@ import { dosages } from "../../utils/constants";
 import { inventoryState } from "../../atoms/inventory";
 // import usePrescribeMedicines from "../../pages/doctor/helpers/prescribeMeds.hook";
 
+
 const MedicineInputTable = ({ medicines, setMedicines }) => {
   // console.log(medicines);
 

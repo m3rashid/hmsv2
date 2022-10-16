@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Col, Collapse, Row, Space, Table, Typography } from "antd";
 
-import { quantityCalculator } from "./Doctor/quantityCalculator";
+import { quantityCalculator } from "../../utils/quantityCalculator"; 
 
 const normalTextStyles = {
   fontWeight: "normal",

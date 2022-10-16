@@ -7,7 +7,8 @@ import { message, Button, Space, Table, Tabs, Drawer } from "antd";
 import ShowReceipt from "./ShowReciept";
 import { instance } from "../../api/instance";
 import { pharmacyState } from "../../atoms/pharmacy";
-import DisplayMedicine from "../../components/Doctor/DisplayMedicine";
+import PrescriptionDisplay from "../../components/Prescription/PrescriptionDisplay";
+
 
 function Prescriptions() {
   const pharmacyData = useRecoilValue(pharmacyState);
@@ -186,7 +187,7 @@ function Prescriptions() {
         width={1000}
       >
         {ModalVisible?.type === "prescription" ? (
-          <DisplayMedicine
+          <PrescriptionDisplay
             id={ModalVisible?.data?.appointmentId}
             ExtraMedicines={ModalVisible?.data?.CustomMedicines}
             Medicines={ModalVisible?.data?.medicines}

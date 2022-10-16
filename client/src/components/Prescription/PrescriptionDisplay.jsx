@@ -6,7 +6,11 @@ import { AiOutlineCheck, AiOutlineWarning } from "react-icons/ai";
 // import SingleMedicine from "../../pages/doctor/helpers/singleMedicine";
 // import { getEstimatedMedRequirement } from "../../pages/pharmacy/helpers/functions";
 
-function DisplayMedicine({
+/**
+ * Display Prescription of a patient
+ * @returns 
+ */
+function PrescriptionDisplay({
   patient,
   date,
   id,
@@ -59,7 +63,7 @@ function DisplayMedicine({
   );
 }
 
-DisplayMedicine.propTypes = {
+PrescriptionDisplay.propTypes = {
   patient: PropTypes.object,
   date: PropTypes.string,
   id: PropTypes.any,
@@ -69,7 +73,7 @@ DisplayMedicine.propTypes = {
   showAvailability: PropTypes.bool,
 };
 
-export default DisplayMedicine;
+export default PrescriptionDisplay;
 
 const ViewPrescriptionTable = ({ prescriptionData, showAvailability }) => {
   // console.log(prescriptionData);

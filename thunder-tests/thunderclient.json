@@ -8,13 +8,17 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-08-24T10:33:50.532Z",
-    "modified": "2022-09-06T10:34:57.660Z",
+    "modified": "2022-10-16T18:32:52.860Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"admin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Admin Bro\",\n  \"role\": \"ADMIN\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
+      "raw": "{\n  \"email\": \"admin8@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Admin Bro\",\n  \"role\": \"ADMIN\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
       "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
     },
     "tests": []
   },
@@ -65,9 +69,83 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-09-01T14:45:53.093Z",
-    "modified": "2022-09-01T14:45:58.678Z",
+    "modified": "2022-10-16T18:33:05.928Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"doctor@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Doctor\",\n  \"role\": \"DOCTOR\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "6184adfd-9557-4eea-ad18-974cfde68e97",
+    "colId": "26fc88d3-a4ce-4a6d-9360-c43c34901629",
+    "containerId": "f67b2bd9-c683-409a-9bca-40e90696220a",
+    "name": "Login",
+    "url": "{{host}}/auth/login",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-10-16T18:31:07.729Z",
+    "modified": "2022-10-16T18:32:45.050Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\" : \"admin@jmi.ac.in\",\n  \"password\" : \"admin123\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "a7cba5ab-8f89-4b35-a753-98cdf4732a6d",
+    "colId": "26fc88d3-a4ce-4a6d-9360-c43c34901629",
+    "containerId": "",
+    "name": "Create Reception",
+    "url": "{{host}}/auth/signup",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-10-16T18:33:10.834Z",
+    "modified": "2022-10-16T18:33:49.038Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"receptionist@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"RECEPTIONIST\",\n  \"role\": \"RECEPTIONIST\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "8c899b90-e229-4b51-a10a-f0687284a5bd",
+    "colId": "26fc88d3-a4ce-4a6d-9360-c43c34901629",
+    "containerId": "",
+    "name": "Create Pharmacy",
+    "url": "{{host}}/auth/signup",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-10-16T18:34:12.385Z",
+    "modified": "2022-10-16T18:34:32.873Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"pharmacist@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"PHARMACIST\",\n  \"role\": \"PHARMACIST\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
     "tests": []
   }
 ]

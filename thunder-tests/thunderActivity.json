@@ -80,13 +80,17 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-24T10:44:05.379Z",
-    "modified": "2022-09-06T15:39:58.625Z",
+    "modified": "2022-10-16T18:34:34.044Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"admin@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"Admin Bro\",\n  \"role\": \"ADMIN\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\"\n}",
+      "raw": "{\n  \"email\": \"pharmacist@jmi.ac.in\",\n  \"password\": \"admin123\",\n  \"name\": \"PHARMACIST\",\n  \"role\": \"PHARMACIST\",\n  \"sex\": \"f\",\n  \"roomNumber\":\"0\",\n  \"isDummy\" : true\n}",
       "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
     },
     "tests": []
   },
@@ -105,6 +109,44 @@
     "body": {
       "type": "json",
       "raw": "{\n  \"count\" : 100\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "0ecb2988-bcd1-46d2-9dbc-2e11f619d9b9",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}/auth/login",
+    "url": "{{host}}/auth/login",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-10-16T18:32:11.662Z",
+    "modified": "2022-10-16T18:32:11.976Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\" : \"admin@jmi.ac.in\",\n  \"password\" : \"admin123\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "302cd94e-893f-433b-beb2-2ddb7c562853",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}/auth/login",
+    "url": "{{host}}/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-10-16T18:32:15.019Z",
+    "modified": "2022-10-16T18:32:15.434Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\" : \"admin@jmi.ac.in\",\n  \"password\" : \"admin123\"\n}",
       "form": []
     },
     "tests": []

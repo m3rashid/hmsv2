@@ -127,7 +127,6 @@ const signupService = async ({
   const allowedActions = addActions(role);
 
   const hashedPassword = await bcrypt.hash(password.trim(), 10);
-
   const profile = await prisma.profile.create({ data: { ...profileData } });
 
   const user = await prisma.auth.create({
@@ -143,10 +142,10 @@ const signupService = async ({
 
   await addEventLog({
     action: serverActions.SIGNUP,
-    fromId: doneBy.id ?? "DEV",
-    actionId: profile.id,
+    fromId: doneBy?.id ?? -1,
+    actionId: profile?.id,
     actionTable: "profile",
-    message: `${doneBy.name} <(${doneBy.email})> created user ${user.name} <(${user.email})> as ${role}`,
+    message: `${doneBy?.name} <(${doneBy?.email})> created user ${user?.name} <(${user?.email})> as ${role}`,
   });
 
   return user;
