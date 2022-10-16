@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 
 import { instance } from "../../../api/instance";
 import { inventoryState } from "../../../atoms/inventory";
-import InventoryFormHandler from "../../../components/Inventory/FormHandler";
+import InventoryFormHandler from "../FormHandler";
 
 const AddNewInventory = () => {
   const setInventoryData = useSetRecoilState(inventoryState);

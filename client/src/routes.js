@@ -1,4 +1,4 @@
-import Patient from "./pages/Patient";
+import Patient from "./pages/patient";
 
 import {
   Home as AdminHome,
@@ -15,14 +15,14 @@ import {
   Medicines,
   NonMedicines,
   OtherAssets,
-} from "./pages/inventory/Display";
-import AddNewInventory from "./pages/inventory/New";
+} from "./components/Inventory/Display";
+import AddNewInventory from "./components/Inventory/AddNew";
 import Prescriptions from "./pages/pharmacy/Prescriptions";
 import DoctorAppointments from "./pages/doctor/Appointments";
 import CreateReceipts from "./pages/pharmacy/CreateReceipts";
 import PrescriptionForm from "./pages/doctor/PrescribeMedicine";
-import CreatePatientForm from "./pages/reception/CreatePatientForm";
-import CreateAppointmentForm from "./pages/reception/CreateAppointmentForm";
+import CreatePatientForm from "./pages/reception/CreatePatient";
+import CreateAppointmentForm from "./pages/reception/CreateAppointment";
 
 import { allPermissions } from "./utils/constants";
 import ProfilePage from "./pages/profile";

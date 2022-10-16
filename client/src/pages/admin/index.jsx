@@ -1,12 +1,12 @@
-import Home from "./modules/home";
-import Receptionists from "./modules/receptionists";
-import Doctors from "./modules/doctors";
-import Patients from "./modules/patients";
-import Pharmacists from "./modules/pharmacists";
-import InventoryManagers from "./modules/inventoryManager";
-import CoAdmins from "./modules/coAdmin";
-import Others from "./modules/others";
-import LogReports from "./modules/logReports";
+import Home from "../../components/Admin/modules/home";
+import Receptionists from "../../components/Admin/modules/receptionists";
+import Doctors from "../../components/Admin/modules/doctors";
+import Patients from "../../components/Admin/modules/patients";
+import Pharmacists from "../../components/Admin/modules/pharmacists";
+import InventoryManagers from "../../components/Admin/modules/inventoryManager";
+import CoAdmins from "../../components/Admin/modules/coAdmin";
+import Others from "../../components/Admin/modules/others";
+import LogReports from "../../components/Admin/modules/logReports";
 
 export {
   Home,

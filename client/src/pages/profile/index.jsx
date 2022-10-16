@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
 
-import ProfileWrapper from "./profileWrapper";
+import ProfileWrapper from "../../components/Profile/ProfileWrapper";
 
 const ProfilePage = () => {
   const [form] = Form.useForm();

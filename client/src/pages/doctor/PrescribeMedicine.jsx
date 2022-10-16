@@ -19,7 +19,7 @@ import usePrescribeMedicines from '../../components/Doctor/hooks/prescribeMeds.h
 import MedicineInput from "../../components/Medicine/MedicineInput";
 import ReferPatientModal from "../../components/Prescription/ReferPatientModal";
 import styles from "./css/PrescribeMedicine.module.css";
-import PatientInfo from "../Patient";
+import PatientInfo from "../patient";
 
 import MedicineInputTable from "../../components/Medicine/MedicineInputTabular";
 import PrescriptionDisplay from "../../components/Prescription/PrescriptionDisplay";

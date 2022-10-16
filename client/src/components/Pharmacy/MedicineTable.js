@@ -1,7 +1,7 @@
 import { Table, Input } from "antd";
 import React, { useEffect, useState } from "react";
 
-import { getEstimatedMedRequirement } from "../../pages/pharmacy/helpers/functions";
+import { getEstimatedMedRequirement } from "./getEstimatedMedRequirement";
 
 const MedicineTable = ({
   medicines = [],
