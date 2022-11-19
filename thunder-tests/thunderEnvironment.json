@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "cf0a06c2-11ee-4b53-a8a7-2329c304eeb6",
+    "name": "(Global Env)",
+    "default": false,
+    "global": true,
+    "sortNum": -2,
+    "created": "2022-11-19T06:53:10.477Z",
+    "modified": "2022-11-19T06:53:59.219Z",
+    "data": [
+      {
+        "name": "host",
+        "value": "http://localhost:5000"
+      }
+    ]
+  }
+]

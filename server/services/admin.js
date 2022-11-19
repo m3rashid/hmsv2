@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const prisma = require("../utils/prisma");
+const { prisma } = require("../utils/prisma");
 const { addEventLog } = require("../utils/logs");
 const { supportedUserRoles, serverActions } = require("../utils/constants");
 

@@ -1,7 +1,7 @@
 const { faker } = require("@faker-js/faker");
 const { Category, MedType } = require("@prisma/client");
 
-const prisma = require("../utils/prisma");
+const { prisma } = require("../utils/prisma");
 const { addEventLog } = require("../utils/logs");
 const { InventoryTypes, serverActions } = require("../utils/constants");
 

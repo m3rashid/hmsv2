@@ -1,4 +1,4 @@
-const prisma = require("../utils/prisma");
+const { prisma } = require("../utils/prisma");
 const { addEventLog } = require("../utils/logs");
 const { checkAccess } = require("../utils/auth.helpers");
 const { permissions, serverActions } = require("../utils/constants");

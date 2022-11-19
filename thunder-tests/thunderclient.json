@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "bde9a3de-2ea5-4a99-ae22-e981b5a37ad6",
+    "colId": "7713ab23-0a5a-4c42-a3ac-ba9f8033fe2f",
+    "containerId": "",
+    "name": "Register",
+    "url": "{{host}}/api/auth/signup",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-11-19T06:52:53.162Z",
+    "modified": "2022-11-19T07:01:35.089Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\" : \"admin@jmi.ac.in\",\n  \"password\" : \"admin123\",\n  \"name\" : \"Admin\",\n  \"role\" : \"ADMIN\",\n  \"sex\" : \"m\",\n  \"roomNumber\" : \"123\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

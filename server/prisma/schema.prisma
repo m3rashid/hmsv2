@@ -69,6 +69,14 @@ enum TestType {
   // add more test types here
 }
 
+enum PatientType {
+  EMPLOYEE
+  STUDENT
+  PENSIONER
+  FAMILY_PENSIONER
+  DEPENDANT
+}
+
 model Auth {
   id          Int      @id @default(autoincrement())
   name        String
@@ -102,14 +110,20 @@ model Profile {
 
 model Patient {
   id          Int           @id @default(autoincrement())
+  empId       String        @unique
   name        String
-  age         Int
+  dob         DateTime
+  dor         DateTime
+  type        PatientType
+  isDeleted   Boolean
+  designation String?
+  for         String?
   sex         Sex
   lastVisit   String?
   contact     String        @unique
   address     String?
-  email       String?
   jamiaId     String?
+  userData    Json?
   Appointment Appointment[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now())
