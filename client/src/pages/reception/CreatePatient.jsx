@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
   Form,
   Button,
@@ -7,25 +7,28 @@ import {
   InputNumber,
   message,
   Typography,
+  Select,
 } from "antd";
 import { useRecoilState } from "recoil";
 
 import { socket } from "api/socket";
 import { showGender } from "utils/strings";
 import { LoadingAtom } from "atoms/loading";
+import { PatientTypeEnum } from "utils/constants";
 
 const { TextArea } = Input;
 
 const CreatePatientForm = () => {
   const [LoadingData, setLoadingData] = useRecoilState(LoadingAtom);
-  const [from] = Form.useForm();
+  const [form] = Form.useForm();
+  const [PatientType, setPatientType] = useState("");
   const formSubmitHandler = (values) => {
     if (LoadingData?.CreatePatientForm) return;
     setLoadingData({
       CreatePatientForm: true,
     });
     socket.emit("create-patient", { ...values });
-    from.resetFields();
+    form.resetFields();
   };
 
   React.useEffect(() => {
@@ -42,14 +45,45 @@ const CreatePatientForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const PatientFormField = useMemo(() => {
+    return [
+      {
+        formFields : [{
+        key: "empId",
+        label: "Employee ID",
+        inputType: "text",
+          otherRules: [{}],
+        }],
+        isEdit: false,
+        required: true,
+        data: {},
+        form: form,
+      }
+    ]
+  },[PatientType,form]);
+
   return (
     <React.Fragment>
       <Typography.Title level={2} style={{ paddingLeft: 45 }}>
         Create Patient
       </Typography.Title>
+
+      <Select
+        options={Object.keys(PatientTypeEnum).map((key) => ({
+          value: key,
+          label: PatientTypeEnum[key],
+        }))}
+        placeholder="Select Patient Type"
+        style={{ width: 200 }}
+        onChange={(value) => setPatientType(value)}
+        value={PatientType}
+  
+      />
+      
+      
       <Form
         onFinish={formSubmitHandler}
-        form={from}
+        form={form}
         labelAlign="left"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 12 }}

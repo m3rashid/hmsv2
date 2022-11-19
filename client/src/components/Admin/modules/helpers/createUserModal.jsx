@@ -17,6 +17,7 @@ import { UserSlotManagerAtom } from "atoms/UserSlotManager";
 import { supportedUserRoles, Category } from "utils/constants";
 import useGetUserDetail from "components/Admin/modules/helpers/getUserDetail";
 import Availability from "components/Admin/modules/helpers/InputTypes/Availablity";
+import RenderFormFields from "components/FormRender/RenderFormFields";
 
 const requiredFormFields = [
   { key: "name", label: "Name", inputType: "text", otherRules: [{}] },
@@ -94,63 +95,6 @@ const otherFormFields = [
   { key: "origin", label: "Origin", inputType: "text" },
 ];
 
-const RenderFormFields = ({ formFields, isEdit, required, data, form }) => {
-  return (
-    <React.Fragment>
-      {formFields.map((f) => (
-        <Form.Item
-          key={f.key}
-          name={f.key}
-          label={f.label}
-          {...(required && {
-            rules: [
-              {
-                required: true,
-                message: `Please ${
-                  f.inputType === "select" ? "Select" : "Enter"
-                } a ${f.label}`,
-              },
-              ...f.otherRules,
-            ],
-          })}
-        >
-          {f.inputType === "select" ? (
-            <Select
-              {...(isEdit && { defaultValue: data[f.key] })}
-              {...(f.multiple && { mode: "multiple" })}
-              placeholder={`Select ${f.label}`}
-            >
-              {f.options.map((o) => (
-                <Select.Option key={o.key} value={o.key}>
-                  {o.label}
-                </Select.Option>
-              ))}
-            </Select>
-          ) : f.inputType === "textarea" ? (
-            <Input.TextArea
-              {...(isEdit && { defaultValue: data[f.key] })}
-              placeholder={f.label}
-              rows={3}
-            />
-          ) : f.inputType === "custom" ? (
-            <React.Fragment>
-              <f.component
-                {...(isEdit && { defaultValue: data[f.key] })}
-                form={form}
-              />
-            </React.Fragment>
-          ) : (
-            <Input
-              {...(isEdit && { defaultValue: data[f.key] })}
-              placeholder={f.label}
-              type={f.inputType ?? "text"}
-            />
-          )}
-        </Form.Item>
-      ))}
-    </React.Fragment>
-  );
-};
 
 const CreateUserModal = ({ isEdit, data }) => {
   const [form] = Form.useForm();

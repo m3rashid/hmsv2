@@ -73,3 +73,11 @@ export const backToRealDays = {
   FRI: "FRIDAY",
   SAT: "SATURDAY",
 };
+
+export const PatientTypeEnum = {
+  EMPLOYEE: "EMPLOYEE",
+  STUDENT: "STUDENT",
+  PENSIONER: "PENSIONER",
+  FAMILY_PENSIONER: "FAMILY_PENSIONER",
+  DEPENDANT: "DEPENDANT"
+}
