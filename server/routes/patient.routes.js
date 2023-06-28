@@ -1,23 +1,26 @@
-const express = require("express");
+const express = require('express');
 
 const {
   createPatient,
   deletePatient,
   getPatientById,
   searchPatients,
-} = require("../controllers");
-const { useRoute } = require("../utils/errors");
-const { checkAuth } = require("../middlewares/auth");
+  createDummyPatients,
+} = require('../controllers');
+const { useRoute } = require('../utils/errors');
+const { checkAuth } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.post("/create", checkAuth, useRoute(createPatient));
+router.post('/dummy', useRoute(createDummyPatients));
 
-router.get("/search", checkAuth, useRoute(searchPatients));
+router.post('/create', checkAuth, useRoute(createPatient));
 
-router.get("/:id", checkAuth, useRoute(getPatientById));
+router.get('/search', checkAuth, useRoute(searchPatients));
 
-router.delete("/:id", checkAuth, useRoute(deletePatient));
+router.get('/:id', checkAuth, useRoute(getPatientById));
+
+router.delete('/:id', checkAuth, useRoute(deletePatient));
 
 module.exports = {
   router,

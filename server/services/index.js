@@ -5,14 +5,14 @@ const {
   updateUserProfileService,
   getReportDetailsService,
   getSinglePatientDetailsService,
-} = require("../services/admin");
+} = require('../services/admin');
 
 const {
   loginService,
   logoutService,
   revalidateService,
   signupService,
-} = require("../services/auth");
+} = require('../services/auth');
 
 const {
   getDoctorAppointmentsService,
@@ -23,7 +23,7 @@ const {
   referAnotherDoctorAppointmentService,
   updateAppointmentService,
   getPrescriptionByAppointmentService,
-} = require("../services/doctor");
+} = require('../services/doctor');
 
 const {
   DeleteInventoryService,
@@ -32,7 +32,7 @@ const {
   editMedicineService,
   getMedicine,
   searchInventoryService,
-} = require("../services/inventory");
+} = require('../services/inventory');
 
 const {
   addTest,
@@ -41,25 +41,23 @@ const {
   getAllTests,
   getTest,
   getTestsByType,
-} = require("../services/lab");
+} = require('../services/lab');
 
 const {
   createPatientService,
   deletePatientService,
   getPatientByIdService,
   searchPatientsService,
-} = require("../services/patient");
+  addDummyPatientsService,
+} = require('../services/patient');
 
 const {
   dispensePrescriptionService,
   getAllPrescriptionsService,
   getPrescriptionByIdService,
-} = require("../services/pharmacist");
+} = require('../services/pharmacist');
 
-const {
-  createAppointmentService,
-  getAppointmentByIdService,
-} = require("../services/reception");
+const { createAppointmentService, getAppointmentByIdService } = require('../services/reception');
 
 module.exports = {
   editPermissionsService,
@@ -97,6 +95,7 @@ module.exports = {
   deletePatientService,
   getPatientByIdService,
   searchPatientsService,
+  addDummyPatientsService,
 
   dispensePrescriptionService,
   getAllPrescriptionsService,
