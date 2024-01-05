@@ -4,10 +4,6 @@
 
 <br />
 
----
-
-<br />
-
 ## Common Problems
 
 If the API is not working, please check the following:
